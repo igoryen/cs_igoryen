@@ -35,6 +35,8 @@ namespace igoryen.ViewModels {
   //======================================
   public class CourseFull : CourseBase {
     public string CourseName { get; set; }
+    public string RunTime { get; set; }
+    public string RoomNo { get; set; }
     public FacultyFull Faculty { get; set; }
     public List<StudentBase> Students { get; set; }
 
