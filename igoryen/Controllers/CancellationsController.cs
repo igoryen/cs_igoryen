@@ -62,15 +62,18 @@ namespace igoryen.Controllers {
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     // 20. Include = "Id, Message", but not "User"
+    // 40. add operator "await" to make the method run asynchronously
+    //      i.e. to await non-blocking API calls
     //===================================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
+    public async Task<ActionResult> Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (ModelState.IsValid) {
-        //cancellation.User = currentUser; // why not this?
+        cancellation.User = currentUser;
         db.Cancellations.Add(cancellation);
-        db.SaveChanges();
-        //await db.SaveChangesAsync(); // why not this?
+        // db.SaveChanges();
+        await db.SaveChangesAsync(); // 40
         return RedirectToAction("Index");
       }
 
@@ -80,13 +83,17 @@ namespace igoryen.Controllers {
     //===================================================
     // Delete() - GET: /Cancellations/Delete/5
     //===================================================
-    public ActionResult Delete(int? id) {
+    public async Task<ActionResult> Delete(int? id) {
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
       }
-      Cancellation cancellation = db.Cancellations.Find(id);
+      Cancellation cancellation = await db.Cancellations.FindAsync(id);
       if (cancellation == null) {
         return HttpNotFound();
+      }
+      if (cancellation.User.Id != currentUser.Id) {
+        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
       }
       return View(cancellation);
     }
@@ -98,11 +105,30 @@ namespace igoryen.Controllers {
     //===================================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public ActionResult DeleteConfirmed(int id) {
-      Cancellation cancellation = db.Cancellations.Find(id);
+    public async Task<ActionResult> DeleteConfirmed(int id) {
+      Cancellation cancellation = await db.Cancellations.FindAsync(id);
       db.Cancellations.Remove(cancellation);
-      db.SaveChanges();
+      await db.SaveChangesAsync();
       return RedirectToAction("Index");
+    }
+
+    //===================================================
+    // Details() - GET: /Cancellations/Details/5
+    //===================================================
+    public async Task<ActionResult> Details(int? id) {
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+      if (id == null) {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Cancellation cancellation = await db.Cancellations.FindAsync(id);
+
+      if (cancellation == null) {
+        return HttpNotFound();
+      }
+      if (cancellation.User.Id != currentUser.Id) {
+        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+      }
+      return View(cancellation);
     }
 
     //===================================================
@@ -115,33 +141,22 @@ namespace igoryen.Controllers {
       base.Dispose(disposing);
     }
 
-    //===================================================
-    // Details() - GET: /Cancellations/Details/5
-    //===================================================
-    public ActionResult Details(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Cancellation cancellation = db.Cancellations.Find(id);
-      if (cancellation == null) {
-        return HttpNotFound();
-      }
-      return View(cancellation);
-    }
-
-
     // E
 
     //===================================================
     // Edit() - GET: /Cancellations/Edit/5
     //===================================================
-    public ActionResult Edit(int? id) {
+    public async Task<ActionResult> Edit(int? id) {
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
       }
-      Cancellation cancellation = db.Cancellations.Find(id);
+      Cancellation cancellation = await db.Cancellations.FindAsync(id);
       if (cancellation == null) {
         return HttpNotFound();
+      }
+      if (cancellation.User.Id != currentUser.Id) {
+        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
       }
       return View(cancellation);
     }
@@ -153,10 +168,10 @@ namespace igoryen.Controllers {
     //===================================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "Id,Message")] Cancellation cancellation) {
+    public async Task<ActionResult> Edit([Bind(Include = "Id,Message")] Cancellation cancellation) {
       if (ModelState.IsValid) {
         db.Entry(cancellation).State = EntityState.Modified;
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }
       return View(cancellation);
@@ -168,7 +183,8 @@ namespace igoryen.Controllers {
     // Index() - GET: /Cancellations/
     //===================================================
     public ActionResult Index() {
-      return View(db.Cancellations.ToList());
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+      return View(db.Cancellations.ToList().Where(cancellation => cancellation.User.Id == currentUser.Id));
     }
 
   }
