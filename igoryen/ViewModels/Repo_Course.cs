@@ -16,7 +16,7 @@ namespace igoryen.ViewModels {
     // CreateCourse() - with Automapper
     // 50. nulls are like time bombs
     //======================================
-    public CourseFull amCreateCourse(ViewModels.CourseCreate newItem, string d) {
+    public CourseFull createCourseAM(ViewModels.CourseCreate newItem, string d) {
       Models.Course course = Mapper.Map<Models.Course>(newItem);
       int did = Convert.ToInt32(d);
       course.Faculty = dc.Faculties.FirstOrDefault(n => n.Id == did);
@@ -56,7 +56,7 @@ namespace igoryen.ViewModels {
     //======================================
     // EditCourse() - with Automapper
     //======================================
-    public CourseFull amEditCourse(CourseFull editItem) {
+    public CourseFull editCourseAM(CourseFull editItem) {
       var itemToEdit = dc.Courses.Find(editItem.CourseId);
       if (itemToEdit == null) {
         return null;
@@ -74,7 +74,7 @@ namespace igoryen.ViewModels {
     //======================================
     // getCourseFull() - with Automapper
     //====================================== 
-    public CourseFull amGetCourseFull(int? id) {
+    public CourseFull getCourseFullAM(int? id) {
       var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.Id == id);
       if (course == null) return null;
       else return Mapper.Map<CourseFull>(course);
@@ -83,7 +83,7 @@ namespace igoryen.ViewModels {
     //======================================
     // getListOfCourseBase() - with automapper
     //====================================== 
-    public IEnumerable<CourseBase> amGetListOfCourseBase() {
+    public IEnumerable<CourseBase> getListOfCourseBaseAM() {
       var courses = dc.Courses.OrderBy(c => c.CourseCode);
       if (courses == null) return null;
       return Mapper.Map<IEnumerable<CourseBase>>(courses);

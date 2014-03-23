@@ -30,7 +30,7 @@ namespace igoryen.ViewModels {
     //==================================================
     // CreateFaculty() - using Automapper
     //==================================================
-    public FacultyFull amCreateFaculty(ViewModels.FacultyCreate newItem, string d) {
+    public FacultyFull createFacultyAM(ViewModels.FacultyCreate newItem, string d) {
       Models.Faculty faculty = Mapper.Map<Models.Faculty>(newItem);
       //int did = Convert.ToInt32(d);
       //faculty.School = dc.Faculties.FirstOrDefault(n => n.School == d);
@@ -47,7 +47,7 @@ namespace igoryen.ViewModels {
     //==================================================
     // DeleteFaculty()
     //==================================================
-    public void DeleteFaculty(int? id) {
+    public void deleteFaculty(int? id) {
       var itemToDelete = dc.Faculties.Find(id);
       if (itemToDelete == null) {
         return;
@@ -68,7 +68,7 @@ namespace igoryen.ViewModels {
     //==================================================
     // EditFaculty() - with Automapper
     //==================================================
-    public FacultyFull amEditFaculty(FacultyFull editItem) {
+    public FacultyFull editFacultyAM(FacultyFull editItem) {
       var itemToEdit = dc.Faculties.Find(editItem.FacultyId);
       if (itemToEdit == null) {
         return null;
@@ -108,7 +108,7 @@ namespace igoryen.ViewModels {
     //==================================================
     // getFacultyFull() - with Automapper
     //================================================== 
-    public FacultyFull amGetFacultyFull(int? id) {
+    public FacultyFull getFacultyFullAM(int? id) {
       var faculty = dc.Faculties.Include("Courses").SingleOrDefault(n => n.Id == id);
       if (faculty == null) return null;
       else return Mapper.Map<FacultyFull>(faculty);
@@ -119,7 +119,7 @@ namespace igoryen.ViewModels {
     //==============================================================
     // getFacultyNames() - as an IEnumerable
     //==============================================================
-    public IEnumerable<FacultyName> getFacultyNames() { // 95
+    public IEnumerable<FacultyName> getListOfFacultyName() { // 95
 
       var ls = this.Faculties.OrderBy(n => n.LastName);    // 100
       List<FacultyName> rls = new List<FacultyName>();    // 105
@@ -163,7 +163,7 @@ namespace igoryen.ViewModels {
     //==================================================
     // getListOfFacultyBase() - with automapper
     //================================================== 
-    public IEnumerable<FacultyBase> amGetListOfFacultyBase() {
+    public IEnumerable<FacultyBase> getListOfFacultyBaseAM() {
       var faculties = dc.Faculties.OrderBy(f => f.Id);
       if (faculties == null) return null;
       return Mapper.Map<IEnumerable<FacultyBase>>(faculties);

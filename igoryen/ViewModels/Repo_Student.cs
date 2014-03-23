@@ -170,7 +170,7 @@ namespace igoryen.ViewModels {
      * 52. 
      */
     //======================================
-    public IEnumerable<StudentName> getStudentNames() { // 95
+    public IEnumerable<StudentName> getListOfStudentName() { // 95
 
       //var st = this.Students.OrderBy(n => n.LastName);    // 100
       var st = dc.Students.OrderBy(n => n.LastName);    // 100
@@ -192,7 +192,7 @@ namespace igoryen.ViewModels {
     //======================================
     // getStudentNamesAM() -- with Automapper
     //======================================
-    public IEnumerable<StudentName> getStudentNamesAM() { // 95
+    public IEnumerable<StudentName> getListOfStudentNameAM() { // 95
 
       //var st = this.Students.OrderBy(n => n.LastName);    // 100
       var sn = dc.Students.OrderBy(n => n.LastName);    // 100
@@ -214,7 +214,7 @@ namespace igoryen.ViewModels {
      * 50. produce the filled out 4-column table of StudentPublic's 
      */
     //======================================
-    public IEnumerable<StudentPublic> getStudentsPublic() { // 1
+    public IEnumerable<StudentPublic> getListOfStudentPublic() { // 1
       var st = dc.Students.OrderBy(n => n.StudentNumber); // 20
       //var st = this.Students.OrderBy(n => n.StudentNumber); // 20
       List<StudentPublic> rls = new List<StudentPublic>(); // 25
