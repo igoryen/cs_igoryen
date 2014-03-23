@@ -91,14 +91,18 @@ namespace igoryen.Models {
   // M
 
   //===================================================
-  // Message - messages will be Cancellation's attribute
+  // Message
   //===================================================
-  /*
   public class Message {
     public int Id { get; set; }
+    public string Date { get; set; }
+    public string Time { get; set; }
+    public string CourseName { get; set; }
+    public Faculty Faculty { get; set; }
     public string Body { get; set; }
-    public virtual ApplicationUser User { get; set; }
-  }*/
+    public string CustomMsg { get; set; }
+
+  }
 
 
   //===================================================

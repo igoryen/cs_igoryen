@@ -37,9 +37,9 @@ namespace igoryen.Models {
     public DbSet<Cancellation> Cancellations { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
-    //public DbSet<Message> Messages { get; set; }
     public DbSet<MyUserInfo> MyUserInfo { get; set; }
     public DbSet<Student> Students { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
 
 
@@ -48,5 +48,7 @@ namespace igoryen.Models {
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseFull> CourseFulls { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseBase> CourseBases { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.StudentName> StudentNames { get; set; }
+    public System.Data.Entity.DbSet<igoryen.ViewModels.MessageFull> MessageFulls { get; set; }
+
   }
 }
