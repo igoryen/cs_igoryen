@@ -1,21 +1,28 @@
-﻿@model igoryen.ViewModels.CourseFull
+﻿@model igoryen.Models.Course
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "CourseCreate";
 }
 
-<h2>Edit</h2>
+<h2>CourseCreate</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CourseFull</h4>
+        <h4>Course</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.CourseId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseName)
+                @Html.ValidationMessageFor(model => model.CourseName)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CourseCode, new { @class = "control-label col-md-2" })
@@ -26,10 +33,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseName, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RoomNumber, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CourseName)
-                @Html.ValidationMessageFor(model => model.CourseName)
+                @Html.EditorFor(model => model.RoomNumber)
+                @Html.ValidationMessageFor(model => model.RoomNumber)
             </div>
         </div>
 
@@ -42,16 +49,8 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RoomNo, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RoomNo)
-                @Html.ValidationMessageFor(model => model.RoomNo)
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
