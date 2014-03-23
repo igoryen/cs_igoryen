@@ -50,5 +50,7 @@ namespace igoryen.Models {
     public System.Data.Entity.DbSet<igoryen.ViewModels.StudentName> StudentNames { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.MessageFull> MessageFulls { get; set; }
 
+    public System.Data.Entity.DbSet<igoryen.ViewModels.MessageCreate> MessageCreates { get; set; }
+
   }
 }

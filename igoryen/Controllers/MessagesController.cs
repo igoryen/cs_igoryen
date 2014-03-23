@@ -99,7 +99,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Delete() - GET: /Messages/Delete/5
     //===================================================
-    public async Task<ActionResult> Delete(int? id) {
+    public ActionResult Delete(int? id) {
       if (id == null) {
         //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         ViewBag.ExceptionMessage = "That was an invalid record";
@@ -131,7 +131,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Details() - GET: /Messages/Details/5
     //===================================================
-    public async Task<ActionResult> Details(int? id) {
+    public ActionResult Details(int? id) {
       /*if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
       }
@@ -157,7 +157,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Edit() - GET: /Messages/Edit/5
     //===================================================
-    public async Task<ActionResult> Edit(int? id) {
+    public ActionResult Edit(int? id) {
       if (id == null) {
         //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         ViewBag.ExceptionMessage = "That was an invalid record";
@@ -180,7 +180,7 @@ namespace igoryen.Controllers {
     //===================================================
     [HttpPost, ActionName("Edit")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "MessageId,CourseName,Body,CustomMsg,Date,Time")] MessageFull editItem) {
+    public ActionResult Edit([Bind(Include = "MessageId,CourseName,Body,CustomMsg,Date,Time")] MessageFull editItem) {
       if (ModelState.IsValid) {
         var newItem = rm.editMessageAM(editItem);
         if (newItem == null) {
