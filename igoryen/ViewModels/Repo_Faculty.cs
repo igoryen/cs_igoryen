@@ -173,7 +173,7 @@ namespace igoryen.ViewModels {
     // getListOfFacultyBase() - as a List
     //================================================== 
 
-    public static List<FacultyBase> getListOfFacultyBase(List<myAppMemory.Models.Faculty> ls) {
+    public static List<FacultyBase> getListOfFacultyBase(List<igoryen.Models.Faculty> ls) {
       List<FacultyBase> lfb = new List<FacultyBase>();
 
       foreach (var item in ls) {

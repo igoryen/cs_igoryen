@@ -93,7 +93,7 @@ namespace igoryen.ViewModels {
     // getListOfCourseBase() 
     //====================================== 
 
-    public static List<CourseBase> getListOfCourseBase(List<myAppMemory.Models.Course> ls) {
+    public static List<CourseBase> getListOfCourseBase(List<igoryen.Models.Course> ls) {
       List<CourseBase> nls = new List<CourseBase>();
 
       foreach (var item in ls) {

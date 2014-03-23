@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 namespace igoryen.Models {
-  public class Initializer DropCreateDatabaseAlways<DataContext> {
+  public class Initializer : DropCreateDatabaseAlways<DataContext> {
 
     //===================================================
     // InitializeTables()
