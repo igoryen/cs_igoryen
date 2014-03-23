@@ -10,34 +10,24 @@ using igoryen.Models;
 
 namespace igoryen.Controllers {
   public class CourseController : Controller {
-
     private DataContext db = new DataContext();
 
-    // GET: /Course/
-    public ActionResult Index() {
-      return View(db.Courses.ToList());
-    }
+    // Action methods alphabetically
 
-    // GET: /Course/Details/5
-    public ActionResult Details(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Course course = db.Courses.Find(id);
-      if (course == null) {
-        return HttpNotFound();
-      }
-      return View(course);
-    }
+    // C
 
-    // GET: /Course/Create
+    //==================================================
+    // Create() - GET: /Course/Create
+    //==================================================
     public ActionResult Create() {
       return View();
     }
 
-    // POST: /Course/Create
+    //======================================
+    // Create() - POST: /Course/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    //======================================
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Create([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime")] Course course) {
@@ -50,33 +40,12 @@ namespace igoryen.Controllers {
       return View(course);
     }
 
-    // GET: /Course/Edit/5
-    public ActionResult Edit(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Course course = db.Courses.Find(id);
-      if (course == null) {
-        return HttpNotFound();
-      }
-      return View(course);
-    }
+    // D
 
-    // POST: /Course/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime")] Course course) {
-      if (ModelState.IsValid) {
-        db.Entry(course).State = EntityState.Modified;
-        db.SaveChanges();
-        return RedirectToAction("Index");
-      }
-      return View(course);
-    }
-
-    // GET: /Course/Delete/5
+    //==================================================
+    // Delete() - GET: /Course/Delete/5
+    // 10. if id == null, don't delete
+    //==================================================
     public ActionResult Delete(int? id) {
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,7 +57,9 @@ namespace igoryen.Controllers {
       return View(course);
     }
 
-    // POST: /Course/Delete/5
+    //==================================================
+    // Delete() - POST: /Course/Delete/5
+    //==================================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id) {
@@ -98,11 +69,70 @@ namespace igoryen.Controllers {
       return RedirectToAction("Index");
     }
 
+    //==================================================
+    // Details() - GET: /Course/Details/5
+    //==================================================
+    public ActionResult Details(int? id) {
+      if (id == null) {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Course course = db.Courses.Find(id);
+      if (course == null) {
+        return HttpNotFound();
+      }
+      return View(course);
+    }
+
+    //==================================================
+    // Dispose()
+    //==================================================
     protected override void Dispose(bool disposing) {
       if (disposing) {
         db.Dispose();
       }
       base.Dispose(disposing);
     }
+
+    // E
+
+    //==================================================
+    // Edit() - // GET: /Course/Edit/5
+    // 10. if id == null, do not query
+    //==================================================
+    public ActionResult Edit(int? id) {
+      if (id == null) {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Course course = db.Courses.Find(id);
+      if (course == null) {
+        return HttpNotFound();
+      }
+      return View(course);
+    }
+
+    //==================================================
+    // Edit() - //POST: /Course/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    // 10. If no ActionName("Edit"), it defaults to ActionName("Create")
+    //==================================================
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime")] Course course) {
+      if (ModelState.IsValid) {
+        db.Entry(course).State = EntityState.Modified;
+        db.SaveChanges();
+        return RedirectToAction("Index");
+      }
+      return View(course);
+    }
+
+    //==================================================
+    // Index() - GET: /Course/
+    //==================================================
+    public ActionResult Index() {
+      return View(db.Courses.ToList());
+    }
+
   }
 }
