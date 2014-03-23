@@ -10,6 +10,9 @@ using System.Web;
 namespace igoryen.Models {
   public class DataContext : IdentityDbContext<ApplicationUser> {
     public DataContext() : base("DefaultConnection") { }
+    /*
+    // Commented out because transferred into Models/IdentityModels.cs
+     * 
     protected override void OnModelCreating(DbModelBuilder modelBuilder) {
       base.OnModelCreating(modelBuilder);
       // Change the name of the table to be Users instead of AspNetUsers
@@ -35,5 +38,6 @@ namespace igoryen.Models {
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseBase> CourseBases { get; set; }
 
     public System.Data.Entity.DbSet<igoryen.ViewModels.StudentName> StudentNames { get; set; }
+    */
   }
 }
