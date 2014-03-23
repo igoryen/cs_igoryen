@@ -85,7 +85,7 @@ namespace igoryen.Models {
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
     public string FacultyNumber { get; set; }
     public List<Course> Courses { get; set; }
-    public List<Message> Messages { get; set; }
+    //public List<Message> Messages { get; set; }
   }
 
   // M
