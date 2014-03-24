@@ -23,6 +23,9 @@ namespace igoryen
 
             // to ViewModels/classes
 
+            Mapper.CreateMap<Models.Cancellation, ViewModels.CancellationBase>();
+            Mapper.CreateMap<Models.Cancellation, ViewModels.CancellationFull>();
+
             Mapper.CreateMap<Models.Course, ViewModels.CourseBase>();
             Mapper.CreateMap<Models.Course, ViewModels.CourseFull>();
 
@@ -37,6 +40,9 @@ namespace igoryen
 
 
             // from ViewModels/classes
+
+            Mapper.CreateMap<ViewModels.CancellationBase, Models.Cancellation>();
+            Mapper.CreateMap<ViewModels.CancellationFull, Models.Cancellation>();
 
             Mapper.CreateMap<ViewModels.CourseBase, Models.Course>();
             Mapper.CreateMap<ViewModels.CourseFull, Models.Course>();
