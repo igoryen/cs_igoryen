@@ -1,0 +1,80 @@
+[1mdiff --git a/igoryen.v12.suo b/igoryen.v12.suo[m
+[1mindex 0c0adc2..b550de9 100644[m
+Binary files a/igoryen.v12.suo and b/igoryen.v12.suo differ
+[1mdiff --git a/igoryen/Views/Cancellations/All.cshtml b/igoryen/Views/Cancellations/All.cshtml[m
+[1mindex f56e497..5863bcd 100644[m
+[1m--- a/igoryen/Views/Cancellations/All.cshtml[m
+[1m+++ b/igoryen/Views/Cancellations/All.cshtml[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-﻿@model IEnumerable<igoryen.Models.Cancellation>[m
+[32m+[m[32m﻿@model IEnumerable<igoryen.Models.CancellationFull>[m
+ [m
+ @{[m
+     ViewBag.Title = "All";[m
+[1mdiff --git a/igoryen/Views/Cancellations/Index.cshtml b/igoryen/Views/Cancellations/Index.cshtml[m
+[1mindex 3d76e74..12c691c 100644[m
+[1m--- a/igoryen/Views/Cancellations/Index.cshtml[m
+[1m+++ b/igoryen/Views/Cancellations/Index.cshtml[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-﻿@model IEnumerable<igoryen.ViewModels.CancellationFull>[m
+[32m+[m[32m﻿@model IEnumerable<igoryen.Models.CancellationFull>[m
+ [m
+ @{[m
+     ViewBag.Title = "Index";[m
+[36m@@ -12,10 +12,10 @@[m
+ <table class="table">[m
+     <tr>[m
+         <th>[m
+[31m-            @Html.DisplayNameFor(model => model.CourseName)[m
+[32m+[m[32m            @Html.DisplayNameFor(model => model.Date)[m
+         </th>[m
+         <th>[m
+[31m-            @Html.DisplayNameFor(model => model.Date)[m
+[32m+[m[32m            @Html.DisplayNameFor(model => model.Message)[m
+         </th>[m
+         <th></th>[m
+     </tr>[m
+[36m@@ -23,10 +23,10 @@[m
+ @foreach (var item in Model) {[m
+     <tr>[m
+         <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.CourseName)[m
+[32m+[m[32m            @Html.DisplayFor(modelItem => item.Date)[m
+         </td>[m
+         <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.Date)[m
+[32m+[m[32m            @Html.DisplayFor(modelItem => item.Message)[m
+         </td>[m
+         <td>[m
+             @Html.ActionLink("Edit", "Edit", new { id=item.CancellationId }) |[m
+[1mdiff --git a/igoryen/Views/Shared/_Layout.cshtml b/igoryen/Views/Shared/_Layout.cshtml[m
+[1mindex ec482f6..f8943af 100644[m
+[1m--- a/igoryen/Views/Shared/_Layout.cshtml[m
+[1m+++ b/igoryen/Views/Shared/_Layout.cshtml[m
+[36m@@ -24,6 +24,11 @@[m
+                     <li>@Html.ActionLink("Home", "Index", "Home")</li>[m
+                     <li>@Html.ActionLink("About", "About", "Home")</li>[m
+                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("All Cancellations", "All", "Cancellations")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Your Cancellations", "Index", "Cancellations")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Courses", "Index", "Course")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Messages", "Index", "Message")</li>[m
+[32m+[m
+                 </ul>[m
+                 @Html.Partial("_LoginPartial")[m
+             </div>[m
+[1mdiff --git a/igoryen/bin/igoryen.dll b/igoryen/bin/igoryen.dll[m
+[1mindex 3b23538..f0b0e61 100644[m
+Binary files a/igoryen/bin/igoryen.dll and b/igoryen/bin/igoryen.dll differ
+[1mdiff --git a/igoryen/bin/igoryen.pdb b/igoryen/bin/igoryen.pdb[m
+[1mindex 046116a..4f24b54 100644[m
+Binary files a/igoryen/bin/igoryen.pdb and b/igoryen/bin/igoryen.pdb differ
+[1mdiff --git a/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache b/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache[m
+[1mindex 5b72a94..b8679a2 100644[m
+Binary files a/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache and b/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache differ
+[1mdiff --git a/igoryen/obj/Debug/igoryen.dll b/igoryen/obj/Debug/igoryen.dll[m
+[1mindex 3b23538..f0b0e61 100644[m
+Binary files a/igoryen/obj/Debug/igoryen.dll and b/igoryen/obj/Debug/igoryen.dll differ
+[1mdiff --git a/igoryen/obj/Debug/igoryen.pdb b/igoryen/obj/Debug/igoryen.pdb[m
+[1mindex 046116a..4f24b54 100644[m
+Binary files a/igoryen/obj/Debug/igoryen.pdb and b/igoryen/obj/Debug/igoryen.pdb differ

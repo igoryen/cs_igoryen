@@ -1,0 +1,247 @@
+[1mdiff --git a/igoryen.v12.suo b/igoryen.v12.suo[m
+[1mindex 0c0adc2..b550de9 100644[m
+Binary files a/igoryen.v12.suo and b/igoryen.v12.suo differ
+[1mdiff --git a/igoryen/Controllers/CancellationsController.cs b/igoryen/Controllers/CancellationsController.cs[m
+[1mindex bf8e70f..e51165d 100644[m
+[1m--- a/igoryen/Controllers/CancellationsController.cs[m
+[1m+++ b/igoryen/Controllers/CancellationsController.cs[m
+[36m@@ -160,7 +160,6 @@[m [mnamespace igoryen.Controllers {[m
+     // Edit() - GET: /Cancellations/Edit/5[m
+     //===================================================[m
+     public ActionResult Edit(int? id) {[m
+[31m-      //var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());[m
+       if (id == null) {[m
+         // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);[m
+         ViewBag.ExceptionMessage = "That was an invalid record";[m
+[36m@@ -173,9 +172,9 @@[m [mnamespace igoryen.Controllers {[m
+         ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";[m
+         return View("Error");[m
+       }[m
+[31m-      //if (cancellation.User.Id != currentUser.Id) {[m
+[31m-        // return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);[m
+[31m-      //}[m
+[32m+[m[32m      if (cancellation.User.Id != currentUser.Id) {[m
+[32m+[m[32m        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);[m
+[32m+[m[32m      }[m
+       return View(cancellation);[m
+     }[m
+ [m
+[36m@@ -184,11 +183,13 @@[m [mnamespace igoryen.Controllers {[m
+     // To protect from overposting attacks, please enable the specific properties you want to bind to, for [m
+     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.[m
+     //===================================================[m
+[31m-    [HttpPost, ActionName("Edit")][m
+[32m+[m[32m    /*[HttpPost, ActionName("Edit")][m
+     [ValidateAntiForgeryToken][m
+     public ActionResult Edit([Bind(Include = "Id,Message")] CancellationFull editItem) {[m
+       if (ModelState.IsValid) {[m
+         var newItem = rcc.editCancellationAM(editItem);[m
+[32m+[m[32m        db.Entry(editItem).State = EntityState.Modified;[m
+[32m+[m
+         if (newItem == null) {[m
+           ViewBag.ExceptionMessage = "Record " + editItem.CancellationId + " was not found.";[m
+           return View("Error");[m
+[36m@@ -205,6 +206,18 @@[m [mnamespace igoryen.Controllers {[m
+       }[m
+       // return View(cancellation);[m
+     }[m
+[32m+[m[32m    */[m
+[32m+[m
+[32m+[m[32m    [HttpPost][m
+[32m+[m[32m    [ValidateAntiForgeryToken][m
+[32m+[m[32m    public async Task<ActionResult> Edit([Bind(Include = "Id,Message")] Cancellation cancellation) {[m
+[32m+[m[32m      if (ModelState.IsValid) {[m
+[32m+[m[32m        db.Entry(cancellation).State = EntityState.Modified;[m
+[32m+[m[32m        await db.SaveChangesAsync();[m
+[32m+[m[32m        return RedirectToAction("Index");[m
+[32m+[m[32m      }[m
+[32m+[m[32m      return View(cancellation);[m
+[32m+[m[32m    }[m
+ [m
+     // I[m
+ [m
+[36m@@ -212,8 +225,9 @@[m [mnamespace igoryen.Controllers {[m
+     // Index() - GET: /Cancellations/[m
+     //===================================================[m
+     public ActionResult Index() {[m
+[31m-      // var currentUser = manager.FindById(User.Identity.GetUserId());[m
+[31m-      return View(db.CancellationFulls.ToListAsync());[m
+[32m+[m[32m      var currentUser = manager.FindById(User.Identity.GetUserId());[m
+[32m+[m[32m      // return View(db.CancellationFulls.ToListAsync());[m
+[32m+[m[32m      return View(db.Cancellations.ToList().Where(cancellation => cancellation.User.Id == currentUser.Id));[m
+     }[m
+ [m
+   }[m
+[1mdiff --git a/igoryen/Controllers/HomeController.cs b/igoryen/Controllers/HomeController.cs[m
+[1mindex 2990391..8ecb765 100644[m
+[1m--- a/igoryen/Controllers/HomeController.cs[m
+[1m+++ b/igoryen/Controllers/HomeController.cs[m
+[36m@@ -23,8 +23,8 @@[m [mnamespace igoryen.Controllers {[m
+     private Repo_Faculty rf = new Repo_Faculty();[m
+ [m
+     public ActionResult Index() {[m
+[31m-      //return View();[m
+[31m-      return View(rf.getListOfFacultyBase());[m
+[32m+[m[32m      return View();[m
+[32m+[m[32m      //return View(rf.getListOfFacultyBase());[m
+     }[m
+ [m
+     public ActionResult About() {[m
+[1mdiff --git a/igoryen/Models/AppDomainClasses.cs b/igoryen/Models/AppDomainClasses.cs[m
+[1mindex cac9e80..3b2167a 100644[m
+[1m--- a/igoryen/Models/AppDomainClasses.cs[m
+[1m+++ b/igoryen/Models/AppDomainClasses.cs[m
+[36m@@ -37,6 +37,8 @@[m [mnamespace igoryen.Models {[m
+     public Faculty Faculty { get; set; }[m
+     public CourseBase Course { get; set; }[m
+     public string Date { get; set; }[m
+[32m+[m[32m    public string Message { get; set; }[m
+[32m+[m[32m    public virtual ApplicationUser User { get; set; }[m
+   }[m
+ [m
+   //===================================================[m
+[1mdiff --git a/igoryen/Models/IdentityModels.cs b/igoryen/Models/IdentityModels.cs[m
+[1mindex 6d23528..d008815 100644[m
+[1m--- a/igoryen/Models/IdentityModels.cs[m
+[1m+++ b/igoryen/Models/IdentityModels.cs[m
+[36m@@ -23,9 +23,7 @@[m [mnamespace igoryen.Models {[m
+   // ApplicationDbContext[m
+   //===================================================[m
+   public class DataContext : IdentityDbContext<ApplicationUser> {[m
+[31m-    public DataContext()[m
+[31m-      : base("DefaultConnection") {[m
+[31m-    }[m
+[32m+[m[32m    public DataContext() : base("DefaultConnection") { }[m
+ [m
+     protected override void OnModelCreating(DbModelBuilder modelBuilder) {[m
+       base.OnModelCreating(modelBuilder);[m
+[1mdiff --git a/igoryen/ViewModels/Repo_Course.cs b/igoryen/ViewModels/Repo_Course.cs[m
+[1mindex 2afca90..2383f08 100644[m
+[1m--- a/igoryen/ViewModels/Repo_Course.cs[m
+[1m+++ b/igoryen/ViewModels/Repo_Course.cs[m
+[36m@@ -92,7 +92,6 @@[m [mnamespace igoryen.ViewModels {[m
+     //======================================[m
+     // getListOfCourseBase() [m
+     //====================================== [m
+[31m-[m
+     public static List<CourseBase> getListOfCourseBase(List<igoryen.Models.Course> ls) {[m
+       List<CourseBase> nls = new List<CourseBase>();[m
+ [m
+[1mdiff --git a/igoryen/Views/Cancellations/All.cshtml b/igoryen/Views/Cancellations/All.cshtml[m
+[1mindex f56e497..831c248 100644[m
+[1m--- a/igoryen/Views/Cancellations/All.cshtml[m
+[1m+++ b/igoryen/Views/Cancellations/All.cshtml[m
+[36m@@ -12,6 +12,9 @@[m
+ <table class="table">[m
+     <tr>[m
+         <th>[m
+[32m+[m[32m            @Html.DisplayNameFor(model => model.Date)[m
+[32m+[m[32m        </th>[m
+[32m+[m[32m        <th>[m
+             @Html.DisplayNameFor(model => model.Message)[m
+         </th>[m
+         <th></th>[m
+[36m@@ -20,12 +23,15 @@[m
+ @foreach (var item in Model) {[m
+     <tr>[m
+         <td>[m
+[32m+[m[32m            @Html.DisplayFor(modelItem => item.Date)[m
+[32m+[m[32m        </td>[m
+[32m+[m[32m        <td>[m
+             @Html.DisplayFor(modelItem => item.Message)[m
+         </td>[m
+         <td>[m
+[31m-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |[m
+[31m-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |[m
+[31m-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })[m
+[32m+[m[32m            @Html.ActionLink("Edit", "Edit", new { id=item.CancellationId }) |[m
+[32m+[m[32m            @Html.ActionLink("Details", "Details", new { id=item.CancellationId }) |[m
+[32m+[m[32m            @Html.ActionLink("Delete", "Delete", new { id=item.CancellationId })[m
+         </td>[m
+     </tr>[m
+ }[m
+[1mdiff --git a/igoryen/Views/Cancellations/Create.cshtml b/igoryen/Views/Cancellations/Create.cshtml[m
+[1mindex 153d5ba..bece5fe 100644[m
+[1m--- a/igoryen/Views/Cancellations/Create.cshtml[m
+[1m+++ b/igoryen/Views/Cancellations/Create.cshtml[m
+[36m@@ -17,10 +17,10 @@[m
+         @Html.ValidationSummary(true)[m
+ [m
+         <div class="form-group">[m
+[31m-            @Html.LabelFor(model => model.Message, new { @class = "control-label col-md-2" })[m
+[32m+[m[32m            @Html.LabelFor(model => model.Course, new { @class = "control-label col-md-2" })[m
+             <div class="col-md-10">[m
+[31m-                @Html.EditorFor(model => model.Message)[m
+[31m-                @Html.ValidationMessageFor(model => model.Message)[m
+[32m+[m[32m                @Html.EditorFor(model => model.Course)[m
+[32m+[m[32m                @Html.ValidationMessageFor(model => model.Faculty)[m
+             </div>[m
+         </div>[m
+ [m
+[1mdiff --git a/igoryen/Views/Cancellations/Index.cshtml b/igoryen/Views/Cancellations/Index.cshtml[m
+[1mindex 3d76e74..549ca39 100644[m
+[1m--- a/igoryen/Views/Cancellations/Index.cshtml[m
+[1m+++ b/igoryen/Views/Cancellations/Index.cshtml[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-﻿@model IEnumerable<igoryen.ViewModels.CancellationFull>[m
+[32m+[m[32m﻿@model IEnumerable<igoryen.Models.Cancellation>[m
+ [m
+ @{[m
+     ViewBag.Title = "Index";[m
+[36m@@ -12,10 +12,10 @@[m
+ <table class="table">[m
+     <tr>[m
+         <th>[m
+[31m-            @Html.DisplayNameFor(model => model.CourseName)[m
+[32m+[m[32m            @Html.DisplayNameFor(model => model.Date)[m
+         </th>[m
+         <th>[m
+[31m-            @Html.DisplayNameFor(model => model.Date)[m
+[32m+[m[32m            @Html.DisplayNameFor(model => model.Message)[m
+         </th>[m
+         <th></th>[m
+     </tr>[m
+[36m@@ -23,10 +23,10 @@[m
+ @foreach (var item in Model) {[m
+     <tr>[m
+         <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.CourseName)[m
+[32m+[m[32m            @Html.DisplayFor(modelItem => item.Date)[m
+         </td>[m
+         <td>[m
+[31m-            @Html.DisplayFor(modelItem => item.Date)[m
+[32m+[m[32m            @Html.DisplayFor(modelItem => item.Message)[m
+         </td>[m
+         <td>[m
+             @Html.ActionLink("Edit", "Edit", new { id=item.CancellationId }) |[m
+[1mdiff --git a/igoryen/Views/Shared/_Layout.cshtml b/igoryen/Views/Shared/_Layout.cshtml[m
+[1mindex ec482f6..f8943af 100644[m
+[1m--- a/igoryen/Views/Shared/_Layout.cshtml[m
+[1m+++ b/igoryen/Views/Shared/_Layout.cshtml[m
+[36m@@ -24,6 +24,11 @@[m
+                     <li>@Html.ActionLink("Home", "Index", "Home")</li>[m
+                     <li>@Html.ActionLink("About", "About", "Home")</li>[m
+                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("All Cancellations", "All", "Cancellations")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Your Cancellations", "Index", "Cancellations")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Courses", "Index", "Course")</li>[m
+[32m+[m[32m                    <li>@Html.ActionLink("Messages", "Index", "Message")</li>[m
+[32m+[m
+                 </ul>[m
+                 @Html.Partial("_LoginPartial")[m
+             </div>[m
+[1mdiff --git a/igoryen/bin/igoryen.dll b/igoryen/bin/igoryen.dll[m
+[1mindex 3b23538..f0b0e61 100644[m
+Binary files a/igoryen/bin/igoryen.dll and b/igoryen/bin/igoryen.dll differ
+[1mdiff --git a/igoryen/bin/igoryen.pdb b/igoryen/bin/igoryen.pdb[m
+[1mindex 046116a..4f24b54 100644[m
+Binary files a/igoryen/bin/igoryen.pdb and b/igoryen/bin/igoryen.pdb differ
+[1mdiff --git a/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache b/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache[m
+[1mindex 5b72a94..b8679a2 100644[m
+Binary files a/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache and b/igoryen/obj/Debug/DesignTimeResolveAssemblyReferences.cache differ
+[1mdiff --git a/igoryen/obj/Debug/igoryen.dll b/igoryen/obj/Debug/igoryen.dll[m
+[1mindex 3b23538..f0b0e61 100644[m
+Binary files a/igoryen/obj/Debug/igoryen.dll and b/igoryen/obj/Debug/igoryen.dll differ
+[1mdiff --git a/igoryen/obj/Debug/igoryen.pdb b/igoryen/obj/Debug/igoryen.pdb[m
+[1mindex 046116a..4f24b54 100644[m
+Binary files a/igoryen/obj/Debug/igoryen.pdb and b/igoryen/obj/Debug/igoryen.pdb differ

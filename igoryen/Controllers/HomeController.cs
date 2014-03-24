@@ -15,16 +15,8 @@ using System.Web.Mvc;
 namespace igoryen.Controllers {
   public class HomeController : Controller {
 
-    //==================================================
-    // Bring in namespaces
-    //==================================================
-    private DataContext db = new DataContext();
-    private UserManager<ApplicationUser> manager;
-    private Repo_Faculty rf = new Repo_Faculty();
-
     public ActionResult Index() {
-      //return View();
-      return View(rf.getListOfFacultyBase());
+      return View();
     }
 
     public ActionResult About() {
