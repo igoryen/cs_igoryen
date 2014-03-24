@@ -275,6 +275,19 @@ namespace igoryen.Models {
       if (user2Create.Succeeded) { // 35
         var addUser2ToRole2Result = UserManager.AddToRole(user2.Id, roleName2); // 40
       }
+
+      //===============================================
+      var user3 = new ApplicationUser(); // 10
+      string userPw3 = "123456"; // 12
+      var userInfo3 = new MyUserInfo() { FirstName = "Mark", LastName = "Fernandes" }; // 14
+      user3.UserName = "Mark"; // 20
+      user3.HomeTown = "Toronto";
+      user3.MyUserInfo = userInfo3; // 22
+      var user3Create = UserManager.Create(user3, userPw3); // 30
+      if (user3Create.Succeeded) { // 35
+        var addUser3ToRole3Result = UserManager.AddToRole(user3.Id, roleName3); // 40
+      }
+
     }
 
     protected override void Seed(DataContext dc) {
