@@ -1,4 +1,5 @@
 ﻿// 10. to bring in class IdentityUser
+using igoryen.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework; // 10
 using System;
@@ -32,9 +33,10 @@ namespace igoryen.Models {
   // Cancellation
   //===================================================
   public class Cancellation {
-    public int Id { get; set; }
-    public string Message { get; set; }
-    public virtual ApplicationUser User { get; set; }
+    public int CancellationId { get; set; }
+    public Faculty Faculty { get; set; }
+    public CourseBase Course { get; set; }
+    public string Date { get; set; }
   }
 
   //===================================================

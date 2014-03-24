@@ -1,4 +1,4 @@
-﻿@model igoryen.Models.Cancellation
+﻿@model igoryen.ViewModels.CancellationFull
 
 @{
     ViewBag.Title = "Edit";
@@ -12,16 +12,24 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Cancellation</h4>
+        <h4>CancellationFull</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CancellationId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Message, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseName, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Message)
-                @Html.ValidationMessageFor(model => model.Message)
+                @Html.EditorFor(model => model.CourseName)
+                @Html.ValidationMessageFor(model => model.CourseName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date)
+                @Html.ValidationMessageFor(model => model.Date)
             </div>
         </div>
 

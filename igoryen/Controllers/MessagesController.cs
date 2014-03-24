@@ -120,7 +120,7 @@ namespace igoryen.Controllers {
     //===================================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id) {
+    public ActionResult DeleteConfirmed(int id) {
       //MessageFull messagefull = await db.MessageFulls.FindAsync(id);
       //db.MessageFulls.Remove(messagefull);
       //await db.SaveChangesAsync();

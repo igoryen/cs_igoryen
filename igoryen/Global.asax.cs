@@ -50,6 +50,8 @@ namespace igoryen
             Mapper.CreateMap<ViewModels.StudentBase, Models.Student>();
             Mapper.CreateMap<ViewModels.StudentFull, Models.Student>();
 
+
+
         }
     }
 }

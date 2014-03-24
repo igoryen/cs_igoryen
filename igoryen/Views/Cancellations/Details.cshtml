@@ -1,4 +1,4 @@
-﻿@model igoryen.Models.Cancellation
+﻿@model igoryen.ViewModels.CancellationFull
 
 @{
     ViewBag.Title = "Details";
@@ -7,20 +7,28 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Cancellation</h4>
+    <h4>CancellationFull</h4>
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Message)
+            @Html.DisplayNameFor(model => model.CourseName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Message)
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CancellationId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
