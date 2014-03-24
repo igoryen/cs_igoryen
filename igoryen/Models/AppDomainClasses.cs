@@ -34,9 +34,11 @@ namespace igoryen.Models {
   //===================================================
   public class Cancellation {
     public int CancellationId { get; set; }
-    public Faculty Faculty { get; set; }
-    public CourseBase Course { get; set; }
-    public string Date { get; set; }
+    //public Faculty Faculty { get; set; }
+    //public CourseBase Course { get; set; }
+    //public string Date { get; set; }
+    public string Message { get; set; }
+    public virtual ApplicationUser User { get; set; }
   }
 
   //===================================================

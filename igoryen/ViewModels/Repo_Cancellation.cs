@@ -14,6 +14,7 @@ namespace igoryen.ViewModels {
     // CreateCancellation() - with Automapper
     // 50. nulls are like time bombs
     //======================================
+    /*
     public CancellationFull createCancellationAM(ViewModels.CancellationCreate newItem, string d) {
       Models.Cancellation cancellation = Mapper.Map<Models.Cancellation>(newItem);
       int did = Convert.ToInt32(d);
@@ -26,6 +27,7 @@ namespace igoryen.ViewModels {
 
       return Mapper.Map<CancellationFull>(cancellation);
     }
+     */
 
     // D 
 
@@ -90,7 +92,7 @@ namespace igoryen.ViewModels {
     //======================================
     // getListOfCancellationBase() 
     //====================================== 
-
+    /*
     public static List<CancellationBase> getListOfCancellationBase(List<igoryen.Models.Cancellation> ls) {
       List<CancellationBase> lcb = new List<CancellationBase>();
 
@@ -102,7 +104,7 @@ namespace igoryen.ViewModels {
       }
 
       return lcb;
-    }
+    }*/
 
     // I
 
@@ -127,7 +129,8 @@ namespace igoryen.ViewModels {
 
     //======================================
     // toListOfCancellationBase()
-    //====================================== 
+    //======================================
+    /*
     public List<CancellationBase> toListOfCancellationBase(List<Models.Cancellation> cancellations) {
       List<CancellationBase> lcb = new List<CancellationBase>();
       foreach (var item in cancellations) {
@@ -137,6 +140,6 @@ namespace igoryen.ViewModels {
         lcb.Add(cb);
       }
       return lcb;
-    }
+    }*/
   }
 }

@@ -25,7 +25,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Create namespaces
     //===================================================
-    private DataContext db = new DataContext();
+    private DataContext dc = new DataContext();
     private UserManager<ApplicationUser> manager;
 
     //==================================================
@@ -47,7 +47,7 @@ namespace igoryen.Controllers {
     //===================================================
     [Authorize(Roles = "Admin")] // 10
     public async Task<ActionResult> All() {
-      return View(await db.Cancellations.ToListAsync());
+      return View(await dc.Cancellations.ToListAsync());
     }
 
     // C
@@ -56,8 +56,8 @@ namespace igoryen.Controllers {
     // CancellationsController() - contstructor
     //===================================================
     public CancellationsController() {
-      db = new DataContext();
-      manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+      dc = new DataContext();
+      manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dc));
     }
 
     //===================================================
@@ -80,15 +80,17 @@ namespace igoryen.Controllers {
     public async Task<ActionResult> Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
       var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (ModelState.IsValid) {
-        //cancellation.User = currentUser;
-        db.Cancellations.Add(cancellation);
-        // db.SaveChanges();
-        await db.SaveChangesAsync(); // 40
+        cancellation.User = currentUser;
+        dc.Cancellations.Add(cancellation);
+        // dc.SaveChanges();
+        await dc.SaveChangesAsync(); // 40
         return RedirectToAction("Index");
       }
 
       return View(cancellation);
     }
+
+    // D
 
     //===================================================
     // Delete() - GET: /Cancellations/Delete/5
@@ -96,21 +98,22 @@ namespace igoryen.Controllers {
     public async Task<ActionResult> Delete(int? id) {
       var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (id == null) {
-        // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        ViewBag.ExceptionMessage = "That was an invalid record";
-        return View("Error");
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //ViewBag.ExceptionMessage = "That was an invalid record";
+        //return View("Error");
       }
-      //Cancellation cancellation = await db.Cancellations.FindAsync(id);
-      var cancellation = rcc.getCancellationFullAM(id);
+      Cancellation cancellation = await dc.Cancellations.FindAsync(id);
+      //var cancellation = rcc.getCancellationFullAM(id);
       if (cancellation == null) {
-        // return HttpNotFound();
-        ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
-        return View("Error");
+        return HttpNotFound();
+        //ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
+        //return View("Error");
+      }
+      if (cancellation.User.Id != currentUser.Id) {
+        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
       }
       return View(cancellation);
     }
-
-    // D
 
     //===================================================
     // Delete() - POST: /Cancellations/Delete/5
@@ -118,29 +121,28 @@ namespace igoryen.Controllers {
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> DeleteConfirmed(int id) {
-      Cancellation cancellation = await db.Cancellations.FindAsync(id);
-      db.Cancellations.Remove(cancellation);
-      await db.SaveChangesAsync();
+      Cancellation cancellation = await dc.Cancellations.FindAsync(id);
+      dc.Cancellations.Remove(cancellation);
+      await dc.SaveChangesAsync();
       return RedirectToAction("Index");
     }
 
     //===================================================
     // Details() - GET: /Cancellations/Details/5
     //===================================================
-    public ActionResult Details(int? id) {
-      /*var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+    public async Task<ActionResult> Details(int? id) {
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
       }
-      Cancellation cancellation = await db.Cancellations.FindAsync(id);
-
+      Cancellation cancellation = await dc.Cancellations.FindAsync(id);
       if (cancellation == null) {
         return HttpNotFound();
       }
       if (cancellation.User.Id != currentUser.Id) {
         return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
       }
-      */
+      
       return View(rcc.getCancellationFullAM(id));
     }
 
@@ -149,7 +151,7 @@ namespace igoryen.Controllers {
     //===================================================
     protected override void Dispose(bool disposing) {
       if (disposing) {
-        db.Dispose();
+        dc.Dispose();
       }
       base.Dispose(disposing);
     }
@@ -159,23 +161,23 @@ namespace igoryen.Controllers {
     //===================================================
     // Edit() - GET: /Cancellations/Edit/5
     //===================================================
-    public ActionResult Edit(int? id) {
-      //var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+    public async Task<ActionResult> Edit(int? id) {
+      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
       if (id == null) {
-        // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        ViewBag.ExceptionMessage = "That was an invalid record";
-        return View("Error");
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //ViewBag.ExceptionMessage = "That was an invalid record";
+        //return View("Error");
       }
-      // Cancellation cancellation = await db.Cancellations.FindAsync(id);
-      var cancellation = rcc.getCancellationFullAM(id);
+      Cancellation cancellation = await dc.Cancellations.FindAsync(id);
+      //var cancellation = rcc.getCancellationFullAM(id);
       if (cancellation == null) {
-        //return HttpNotFound();
-        ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
-        return View("Error");
+        return HttpNotFound();
+        //ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
+        //return View("Error");
       }
-      //if (cancellation.User.Id != currentUser.Id) {
-        // return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-      //}
+      if (cancellation.User.Id != currentUser.Id) {
+        return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+      }
       return View(cancellation);
     }
 
@@ -184,26 +186,15 @@ namespace igoryen.Controllers {
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     //===================================================
-    [HttpPost, ActionName("Edit")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "Id,Message")] CancellationFull editItem) {
+    public async Task<ActionResult> Edit([Bind(Include = "Id,Message")] Cancellation cancellation) {
       if (ModelState.IsValid) {
-        var newItem = rcc.editCancellationAM(editItem);
-        if (newItem == null) {
-          ViewBag.ExceptionMessage = "Record " + editItem.CancellationId + " was not found.";
-          return View("Error");
-        }
-        else {
-          return RedirectToAction("Index");
-        }
-        // db.Entry(newItem).State = EntityState.Modified;
-        // await db.SaveChangesAsync();
-        // return RedirectToAction("Index");
+        dc.Entry(cancellation).State = EntityState.Modified;
+        await dc.SaveChangesAsync();
+        return RedirectToAction("Index");
       }
-      else {
-        return View("Error");
-      }
-      // return View(cancellation);
+      return View(cancellation);
     }
 
     // I
@@ -212,8 +203,8 @@ namespace igoryen.Controllers {
     // Index() - GET: /Cancellations/
     //===================================================
     public ActionResult Index() {
-      // var currentUser = manager.FindById(User.Identity.GetUserId());
-      return View(db.CancellationFulls.ToListAsync());
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+      return View(dc.Cancellations.ToList().Where(cancellation => cancellation.User.Id == currentUser.Id));
     }
 
   }

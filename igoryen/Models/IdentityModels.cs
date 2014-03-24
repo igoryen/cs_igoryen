@@ -43,7 +43,7 @@ namespace igoryen.Models {
 
 
 
-    public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationFull> CancellationFulls { get; set; }
+    //public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationFull> CancellationFulls { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseBase> CourseBases { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseFull> CourseFulls { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.FacultyPublic> FacultyPublics { get; set; }

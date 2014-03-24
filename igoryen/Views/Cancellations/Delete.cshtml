@@ -1,4 +1,4 @@
-﻿@model igoryen.ViewModels.CancellationFull
+﻿@model igoryen.Models.Cancellation
 
 @{
     ViewBag.Title = "Delete";
@@ -8,23 +8,23 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>CancellationFull</h4>
+    <h4>Cancellation</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Date)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
         </dd>
 
     </dl>
