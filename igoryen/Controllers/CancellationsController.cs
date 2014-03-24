@@ -25,17 +25,20 @@ namespace igoryen.Controllers {
     //===================================================
     // Create namespaces
     //===================================================
-    private DataContext dc = new DataContext();
+    //private DataContext dc = new DataContext();
+    private DataContext dc;
     private UserManager<ApplicationUser> manager;
 
     //==================================================
     // Bring in namespaces
     //==================================================
+    /*
     private Repo_Course rc = new Repo_Course();
     private Repo_Cancellation rcc = new Repo_Cancellation();
     private Repo_Student rs = new Repo_Student();
     private Repo_Faculty rf = new Repo_Faculty();
     private Repo_Message rm = new Repo_Message();
+    */
 
     // Methods alphabetically
 
@@ -143,7 +146,8 @@ namespace igoryen.Controllers {
         return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
       }
       
-      return View(rcc.getCancellationFullAM(id));
+      //return View(rcc.getCancellationFullAM(id));
+      return View(cancellation);
     }
 
     //===================================================
