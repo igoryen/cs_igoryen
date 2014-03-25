@@ -80,15 +80,32 @@ namespace igoryen.Controllers {
     //===================================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
-      var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+    //public async Task<ActionResult> Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
+    public ActionResult Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // sync
+
+      //var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+      string userId = User.Identity.GetUserId();
+      //var currentUser = await manager.FindByIdAsync(userId);
+      var currentUser = manager.FindById(userId); // sync
+
+
+      //-----------------------------------------------------------------------
+      if (currentUser == null) { //!!! returns TRUE!!! WHY???
+        ViewBag.ExceptionMessage1 = "CancellationsController.cs/Create() [:POST]/ userId: >>" + userId + "<<";
+        ViewBag.ExceptionMessage2 = "CancellationsController.cs/Create() [:POST]/ currentUser: >>" + currentUser + "<<";
+        return View("Error"); 
+      } 
+      //-----------------------------------------------------------------------
       if (ModelState.IsValid) {
         cancellation.User = currentUser;
         dc.Cancellations.Add(cancellation);
-        // dc.SaveChanges();
-        await dc.SaveChangesAsync(); // 40
+        dc.SaveChanges(); // sync
+        //await dc.SaveChangesAsync(); // 40
         return RedirectToAction("Index");
       }
+      //----------------------------
+      //else { return View("Error"); }
+      //-----------------------------
 
       return View(cancellation);
     }
@@ -208,6 +225,12 @@ namespace igoryen.Controllers {
     //===================================================
     public ActionResult Index() {
       var currentUser = manager.FindById(User.Identity.GetUserId());
+      //------------------------------------------------------------------
+      if (currentUser == null) {
+        ViewBag.ExceptionMessage5 = "CancellationsController.cs/Index()/currentUser: null";
+        return View("Error");
+      }
+      //------------------------------------------------------------------
       return View(dc.Cancellations.ToList().Where(cancellation => cancellation.User.Id == currentUser.Id));
     }
 

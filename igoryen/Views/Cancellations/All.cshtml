@@ -12,7 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            Classes canceled: <!--@Html.DisplayNameFor(model => model.Message)-->
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            User
         </th>
         <th></th>
     </tr>
@@ -21,6 +24,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CancellationId }) |
