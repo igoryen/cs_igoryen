@@ -218,6 +218,39 @@ namespace igoryen.Controllers {
       return View(cancellation);
     }
 
+    //===================================================
+    // Find() - GET: /Cancellations/Find/
+    // 10. lock this route for all but Admin (Igor/123456)
+    //===================================================
+    [Authorize(Roles = "Admin")] // 10
+    public ActionResult Find() {
+      return View();
+    }
+
+    //===================================================
+    // Find() - POST: /Cancellations/Find
+    //===================================================
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Find(Cancellation cancellation) { // sync
+      string userName1 = cancellation.User.UserName;
+      //--------------------------------------------------------------
+      if (userName1 == null) {
+        ViewBag.ExceptionMessage0 = "GET: Find() passed to POST: Find() this value: >>" + userName1 + "<<";
+        return View("Error");
+      }
+      //--------------------------------------------------------------
+      return RedirectToAction("Found", new { userName2 = userName1 });
+    }
+
+    //===================================================
+    // Found() - GET: /Cancellations/Found
+    //===================================================
+    public ActionResult Found(string userName2) {
+      //ViewBag.debug0 = "userName4Search: >>" + userName2 + "<<";
+      return View(dc.Cancellations.ToList().Where(Cancellation => Cancellation.User.UserName == userName2));
+    }
+
     // I
 
     //===================================================

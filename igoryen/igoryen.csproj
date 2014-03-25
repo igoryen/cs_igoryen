@@ -265,6 +265,8 @@
     <Content Include="Views\Student\Details.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Cancellations\Find.cshtml" />
+    <Content Include="Views\Cancellations\Found.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
