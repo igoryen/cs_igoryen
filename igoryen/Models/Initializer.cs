@@ -31,7 +31,7 @@ namespace igoryen.Models {
       Student bob = new Student(); // 10
       bob.Id = 1; // 20
       bob.FirstName = "Bob";
-      bob.LastName = "Smith";
+      bob.LastName = "White";
       bob.Phone = "555-555-5555";
       bob.StudentNumber = "011111111";
       dc.Students.Add(bob);
@@ -73,136 +73,235 @@ namespace igoryen.Models {
       // #2 - initialize a few course rows
       // 60. insert rows into table Courses
       //-------------------------------------
+      // 1
+      Course ipc144 = new Course();
+      ipc144.CourseCode = "IPC144";
+      ipc144.CourseName = "Introduction into programming";
+      dc.Courses.Add(ipc144);
+      //2
+      Course uli101 = new Course();
+      uli101.CourseCode = "ULI101";
+      uli101.CourseName = "OS - Unix";
+      dc.Courses.Add(uli101);
+      //3
+      Course ios110 = new Course();
+      ios110.CourseCode = "IOS110";
+      ios110.CourseName = "OS - Windows";
+      dc.Courses.Add(ios110);
+      //4
+      Course oop244 = new Course();
+      oop244.CourseCode = "OOP244";
+      oop244.CourseName = "OOP development using C++";
+      dc.Courses.Add(oop244);
+      //5
+      Course int222 = new Course();
+      int222.CourseCode = "INT222";
+      int222.CourseName = "Web development - client";
+      dc.Courses.Add(int222);
+      //6
+      Course ibc233 = new Course();
+      ibc233.CourseCode = "IBC233";
+      ibc233.CourseName = "Russian Basics";
+      dc.Courses.Add(ibc233);
+      //7
+      Course dbs201 = new Course();
+      dbs201.CourseName = "Database principles";
+      dbs201.CourseCode = "DBS201";
+      dc.Courses.Add(dbs201);
+      //8
+      Course oop344 = new Course();
+      oop344.CourseCode = "OOP344";
+      oop344.CourseName = "OOP development - C++";
+      dc.Courses.Add(oop344);
+      //9
+      Course int322 = new Course();
+      int322.CourseCode = "INT322";
+      int322.CourseName = "Web development - Unix server";
+      dc.Courses.Add(int322);
+      //10
+      Course dbs301 = new Course();
+      dbs301.CourseCode = "DBS301";
+      dbs301.CourseName = "Database design and development";
+      dc.Courses.Add(dbs301);
+      //11
+      Course jac444 = new Course();
+      jac444.CourseCode = "JAC444";
+      jac444.CourseName = "OOP develoment - Java";
+      dc.Courses.Add(jac444);
+      //12
       Course int422 = new Course();
       int422.CourseCode = "INT422";
-      int422.CourseName = "Windows Web Programming";
+      int422.CourseName = "Russian Basics";
       dc.Courses.Add(int422);
-
-
-      Course jac444 = new Course();
-      jac444.CourseName = "Java";
-      jac444.CourseCode = "JAC444";
-      dc.Courses.Add(jac444);
-
-
-      Course abc123 = new Course();
-      jac444.CourseName = "Preschool English";
-      jac444.CourseCode = "ABC123";
-      dc.Courses.Add(abc123);
-
-      Course and123 = new Course();
-      jac444.CourseName = "Android Basics";
-      jac444.CourseCode = "MAND123";
-      dc.Courses.Add(and123);
-
-      Course rub123 = new Course();
-      jac444.CourseName = "Ruby Basics";
-      jac444.CourseCode = "RUB123";
-      dc.Courses.Add(rub123);
-
-      Course rus123 = new Course();
-      jac444.CourseName = "Russian Basics";
-      jac444.CourseCode = "RUS123";
-      dc.Courses.Add(rus123);
+      //13
+      Course dcn455 = new Course();
+      dcn455.CourseCode = "DCN455";
+      dcn455.CourseName = "Data communication for developers";
+      dc.Courses.Add(dcn455);
+      //14
+      Course bac344 = new Course();
+      bac344.CourseCode = "BAC344";
+      bac344.CourseName = "Business apps - Cobol";
+      dc.Courses.Add(bac344);
+      //15
+      Course map524 = new Course();
+      map524.CourseCode = "MAP524";
+      map524.CourseName = "Mobile apps - Android";
+      dc.Courses.Add(map524);
+      //16
+      Course win210 = new Course();
+      win210.CourseCode = "WIN210";
+      win210.CourseName = "Windows administration";
+      dc.Courses.Add(win210);
 
       // 60
       //-------------------------------------
       // #3 - assign a set of courses to each student
       //-------------------------------------
       bob.Courses = new List<Course>();
-      bob.Courses.Add(int422);
+      bob.Courses.Add(ipc144);
+      bob.Courses.Add(oop244);
+      bob.Courses.Add(dbs201);
       bob.Courses.Add(jac444);
-      bob.Courses.Add(abc123);
       dc.Students.Add(bob);
 
       mary.Courses = new List<Course>();
-      mary.Courses.Add(jac444);
-      mary.Courses.Add(abc123);
-      mary.Courses.Add(and123);
+      mary.Courses.Add(uli101);
+      mary.Courses.Add(int222);
+      mary.Courses.Add(oop344);
+      mary.Courses.Add(bac344);
       dc.Students.Add(mary);
 
       wei.Courses = new List<Course>();
-      wei.Courses.Add(abc123);
-      wei.Courses.Add(and123);
-      wei.Courses.Add(rub123);
+      wei.Courses.Add(ios110);
+      wei.Courses.Add(ibc233);
+      wei.Courses.Add(int322);
+      wei.Courses.Add(map524);
       dc.Students.Add(wei);
 
       john.Courses = new List<Course>();
-      john.Courses.Add(and123);
-      john.Courses.Add(rub123);
-      john.Courses.Add(rus123);
+      john.Courses.Add(oop244);
+      john.Courses.Add(dbs201);
+      john.Courses.Add(jac444);
+      john.Courses.Add(win210);
       dc.Students.Add(john);
 
       jack.Courses = new List<Course>();
-      jack.Courses.Add(rub123);
-      jack.Courses.Add(rus123);
-      jack.Courses.Add(int422);
+      jack.Courses.Add(int222);
+      jack.Courses.Add(oop344);
+      jack.Courses.Add(jac444);
+      jack.Courses.Add(bac344);
       dc.Students.Add(jack);
 
       jill.Courses = new List<Course>();
-      jill.Courses.Add(rus123);
-      jill.Courses.Add(int422);
-      jill.Courses.Add(jac444);
+      jill.Courses.Add(ibc233);
+      jill.Courses.Add(int322);
+      jill.Courses.Add(dbs301);
+      jill.Courses.Add(map524);
       dc.Students.Add(jill);
       
       // #4 - assign a set of students to each course
 
-      int422.Students = new List<Student>();
-      int422.Students.Add(bob);
-      int422.Students.Add(jack);
-      int422.Students.Add(jill);
-      dc.Courses.Add(int422);
+      ipc144.Students = new List<Student>();
+      ipc144.Students.Add(bob);
+      dc.Courses.Add(ipc144);
+
+      uli101.Students = new List<Student>();
+      uli101.Students.Add(mary);
+      dc.Courses.Add(uli101);
+
+      ios110.Students = new List<Student>();
+      uli101.Students.Add(wei);
+      dc.Courses.Add(ios110);
+
+      oop244.Students = new List<Student>();
+      oop244.Students.Add(bob);
+      oop244.Students.Add(john);
+      dc.Courses.Add(oop244);
+
+      int222.Students = new List<Student>();
+      int222.Students.Add(mary);
+      int222.Students.Add(jack);
+      dc.Courses.Add(int222);
+
+      ibc233.Students = new List<Student>();
+      ibc233.Students.Add(wei);
+      ibc233.Students.Add(jill);
+      dc.Courses.Add(ibc233);
+
+      dbs201.Students = new List<Student>();
+      dbs201.Students.Add(bob);
+      dbs201.Students.Add(john);
+      dc.Courses.Add(dbs201);
+
+      oop344.Students = new List<Student>();
+      oop344.Students.Add(mary);
+      oop344.Students.Add(jack);
+      dc.Courses.Add(oop344);
+
+      int322.Students = new List<Student>();
+      int322.Students.Add(wei);
+      int322.Students.Add(jill);
+      dc.Courses.Add(int322);
+
+      dbs301.Students = new List<Student>();
+      dbs301.Students.Add(jill);
+      dc.Courses.Add(dbs301);
 
       jac444.Students = new List<Student>();
       jac444.Students.Add(bob);
-      jac444.Students.Add(mary);
-      jac444.Students.Add(jill);
+      jac444.Students.Add(jack);
+      jac444.Students.Add(john);
       dc.Courses.Add(jac444);
 
-      abc123.Students = new List<Student>();
-      abc123.Students.Add(bob);
-      abc123.Students.Add(mary);
-      abc123.Students.Add(wei);
-      dc.Courses.Add(abc123);
+      bac344.Students = new List<Student>();
+      bac344.Students.Add(mary);
+      bac344.Students.Add(jack);
+      dc.Courses.Add(bac344);
 
-      and123.Students = new List<Student>();
-      and123.Students.Add(mary);
-      and123.Students.Add(wei);
-      and123.Students.Add(john);
-      dc.Courses.Add(and123);
+      map524.Students = new List<Student>();
+      map524.Students.Add(wei);
+      map524.Students.Add(jill);
+      dc.Courses.Add(map524);
 
-      rub123.Students = new List<Student>();
-      rub123.Students.Add(wei);
-      rub123.Students.Add(john);
-      rub123.Students.Add(jack);
-      dc.Courses.Add(rub123);
-
-      rus123.Students = new List<Student>();
-      rus123.Students.Add(john);
-      rus123.Students.Add(jack);
-      rus123.Students.Add(jill);
-      dc.Courses.Add(rus123);
+      win210.Students = new List<Student>();
+      win210.Students.Add(john);
+      dc.Courses.Add(win210);
 
       //-------------------------------------
       // #5 - initialize some faculties and assign to them courses
       //-------------------------------------
-      Faculty peter = new Faculty("Peter", "McIntyre", "555-567-6789", "034234678"); // 20
+      Faculty peter = new Faculty("Peter", "Peterson", "555-567-6789", "034234678"); // 20
       peter.Id = 10; // 25
-      peter.Courses.Add(int422);
-      peter.Courses.Add(jac444);
+      peter.Courses.Add(ipc144);
+      peter.Courses.Add(uli101);
+      peter.Courses.Add(ios110);
+      peter.Courses.Add(oop244);
       dc.Faculties.Add(peter);
 
       Faculty adam = new Faculty("Adam", "Adamson", "555-567-6790", "034234677");
       adam.Id = 11;
-      adam.Courses.Add(abc123);
-      adam.Courses.Add(and123);
+      adam.Courses.Add(int222);
+      adam.Courses.Add(ibc233);
+      adam.Courses.Add(dbs201);
+      adam.Courses.Add(oop344);
       dc.Faculties.Add(adam); // 35
 
       Faculty ron = new Faculty("Ronald", "Ronaldson", "555-567-6791", "034234676");
       ron.Id = 12;
-      ron.Courses.Add(rub123);
-      ron.Courses.Add(rus123);
+      ron.Courses.Add(int322);
+      ron.Courses.Add(dbs301);
+      ron.Courses.Add(jac444);
+      ron.Courses.Add(int422);
       dc.Faculties.Add(ron); // 35
+
+      Faculty bill = new Faculty("Bill", "Johnson", "555-567-6792", "034234677");
+      bill.Id = 13;
+      bill.Courses.Add(dcn455);
+      bill.Courses.Add(bac344);
+      bill.Courses.Add(map524);
+      bill.Courses.Add(win210);
+      dc.Faculties.Add(bill); // 35
 
       //dc.Faculty.Add(fac);
 
@@ -252,6 +351,8 @@ namespace igoryen.Models {
       // 40. add the app user to role "Admin"
       //================================================
      
+      // Admin
+
       var user1 = new ApplicationUser(); // 10
       //string userName1 = "Igor"; // 11
       string userPw1 = "123456"; // 12
@@ -261,14 +362,15 @@ namespace igoryen.Models {
       user1.MyUserInfo = userInfo1; // 22
       var user1CreateResult = UserManager.Create(user1, userPw1); // 30
       if (user1CreateResult.Succeeded) { // 35
-        var addUser1ToRole1Result = UserManager.AddToRole(user1.Id, roleName1); // 40
+        var addUser1ToRole1Result = UserManager.AddToRole(user1.Id, roleName1); // 40 Admin
       }
 
+      // Students - roleName 2
       //===============================================
       var user2 = new ApplicationUser(); // 10
       string userPw2 = "123456"; // 12
-      var userInfo2 = new MyUserInfo() { FirstName = "Igor", LastName = "Entaltsev" }; // 14
-      user2.UserName = "Yggy"; // 20
+      var userInfo2 = new MyUserInfo() { FirstName = "Bob", LastName = "White" }; // 14
+      user2.UserName = "Bob"; // 20
       user2.HomeTown = "Sochi";
       user2.MyUserInfo = userInfo2; // 22
       var user2Create = UserManager.Create(user2, userPw2); // 30
@@ -279,13 +381,111 @@ namespace igoryen.Models {
       //===============================================
       var user3 = new ApplicationUser(); // 10
       string userPw3 = "123456"; // 12
-      var userInfo3 = new MyUserInfo() { FirstName = "Mark", LastName = "Fernandes" }; // 14
-      user3.UserName = "Mark"; // 20
+      var userInfo3 = new MyUserInfo() { FirstName = "Mary", LastName = "Brown" }; // 14
+      user3.UserName = "Mary"; // 20
       user3.HomeTown = "Toronto";
       user3.MyUserInfo = userInfo3; // 22
       var user3Create = UserManager.Create(user3, userPw3); // 30
       if (user3Create.Succeeded) { // 35
-        var addUser3ToRole3Result = UserManager.AddToRole(user3.Id, roleName3); // 40
+        var addUser3ToRole2Result = UserManager.AddToRole(user3.Id, roleName2); // 40
+      }
+
+      //===============================================
+      var user4 = new ApplicationUser(); // 10
+      string userPw4 = "123456"; // 12
+      var userInfo4 = new MyUserInfo() { FirstName = "Wei", LastName = "Chen" }; // 14
+      user4.UserName = "Wei"; // 20
+      user4.HomeTown = "Toronto";
+      user4.MyUserInfo = userInfo4; // 22
+      var user4Create = UserManager.Create(user4, userPw4); // 30
+      if (user4Create.Succeeded) { // 35
+        var addUser4ToRole2Result = UserManager.AddToRole(user4.Id, roleName2); // 40
+      }
+
+      //===============================================
+      var user5 = new ApplicationUser(); // 10
+      string userPw5 = "123456"; // 12
+      var userInfo5 = new MyUserInfo() { FirstName = "John", LastName = "Woo" }; // 14
+      user5.UserName = "John"; // 20
+      user5.HomeTown = "Toronto";
+      user5.MyUserInfo = userInfo5; // 22
+      var user5Create = UserManager.Create(user5, userPw5); // 30
+      if (user5Create.Succeeded) { // 35
+        var addUser5ToRole2Result = UserManager.AddToRole(user5.Id, roleName2); // 40
+      }
+
+      //===============================================
+      var user6 = new ApplicationUser(); // 10
+      string userPw6 = "123456"; // 12
+      var userInfo6 = new MyUserInfo() { FirstName = "Jack", LastName = "Smith" }; // 14
+      user6.UserName = "Jack"; // 20
+      user6.HomeTown = "Toronto";
+      user6.MyUserInfo = userInfo6; // 22
+      var user6Create = UserManager.Create(user6, userPw6); // 30
+      if (user6Create.Succeeded) { // 35
+        var addUser6ToRole2Result = UserManager.AddToRole(user6.Id, roleName2); // 40
+      }
+
+      //===============================================
+      var user7 = new ApplicationUser(); // 10
+      string userPw7 = "123456"; // 12
+      var userInfo7 = new MyUserInfo() { FirstName = "Jill", LastName = "Smith" }; // 14
+      user7.UserName = "Jill"; // 20
+      user7.HomeTown = "Toronto";
+      user7.MyUserInfo = userInfo7; // 22
+      var user7Create = UserManager.Create(user7, userPw7); // 30
+      if (user7Create.Succeeded) { // 35
+        var addUser7ToRole2Result = UserManager.AddToRole(user7.Id, roleName2); // 40
+      }
+
+      //Faculties - Rolename 3
+
+      //===============================================
+      var user8 = new ApplicationUser(); // 10
+      string userPw8 = "123456"; // 12
+      var userInfo8 = new MyUserInfo() { FirstName = "Peter", LastName = "Peterson" }; // 14
+      user8.UserName = "Peter"; // 20
+      user8.HomeTown = "Toronto";
+      user8.MyUserInfo = userInfo8; // 22
+      var user8Create = UserManager.Create(user8, userPw8); // 30
+      if (user8Create.Succeeded) { // 35
+        var addUser8ToRole3Result = UserManager.AddToRole(user8.Id, roleName3); // 40
+      }
+
+      //===============================================
+      var user9 = new ApplicationUser(); // 10
+      string userPw9 = "123456"; // 12
+      var userInfo9 = new MyUserInfo() { FirstName = "Adam", LastName = "Adamson" }; // 14
+      user9.UserName = "Adam"; // 20
+      user9.HomeTown = "Toronto";
+      user9.MyUserInfo = userInfo9; // 22
+      var user9Create = UserManager.Create(user9, userPw9); // 30
+      if (user9Create.Succeeded) { // 35
+        var addUser9ToRole3Result = UserManager.AddToRole(user9.Id, roleName3); // 40
+      }
+
+      //===============================================
+      var user10 = new ApplicationUser(); // 10
+      string userPw10 = "123456"; // 12
+      var userInfo10 = new MyUserInfo() { FirstName = "Ronald", LastName = "Ronaldson" }; // 14
+      user10.UserName = "Ron"; // 20
+      user10.HomeTown = "Toronto";
+      user10.MyUserInfo = userInfo3; // 22
+      var user10Create = UserManager.Create(user10, userPw10); // 30
+      if (user10Create.Succeeded) { // 35
+        var addUser10ToRole3Result = UserManager.AddToRole(user10.Id, roleName3); // 40
+      }
+
+      //===============================================
+      var user11 = new ApplicationUser(); // 10
+      string userPw11 = "123456"; // 12
+      var userInfo11 = new MyUserInfo() { FirstName = "Bill", LastName = "Johnson" }; // 14
+      user11.UserName = "Bill"; // 20
+      user11.HomeTown = "Toronto";
+      user11.MyUserInfo = userInfo11; // 22
+      var user11Create = UserManager.Create(user11, userPw11); // 30
+      if (user11Create.Succeeded) { // 35
+        var addUser11ToRole3Result = UserManager.AddToRole(user11.Id, roleName3); // 40
       }
 
     }
