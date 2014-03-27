@@ -66,6 +66,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Create() - GET: /Cancellations/Create
     //===================================================
+    [Authorize(Roles="Faculty")]
     public ActionResult Create() {
       return View();
     }
