@@ -19,14 +19,14 @@ namespace igoryen.ViewModels {
   }
 
   //======================================
-  // CancellationCreate
+  // CancellationCreate - 4 fields/forms
   //======================================
   public class CancellationCreate {
     [Key]
     public int CancellationId { get; set; }
     public int FacultyId { get; set; }
     [Required]
-    public int CourseId { get; set; }
+    public string CourseCode { get; set; }
     public string Date { get; set; }
   }
 

@@ -32,13 +32,12 @@ namespace igoryen.Controllers {
     //==================================================
     // Bring in namespaces
     //==================================================
-    /*
+    
     private Repo_Course rc = new Repo_Course();
     private Repo_Cancellation rcc = new Repo_Cancellation();
-    private Repo_Student rs = new Repo_Student();
-    private Repo_Faculty rf = new Repo_Faculty();
-    private Repo_Message rm = new Repo_Message();
-    */
+    //private Repo_Student rs = new Repo_Student();
+    //private Repo_Faculty rf = new Repo_Faculty();
+    //private Repo_Message rm = new Repo_Message();
 
     // Methods alphabetically
 
@@ -67,48 +66,43 @@ namespace igoryen.Controllers {
     // Create() - GET: /Cancellations/Create
     //===================================================
     [Authorize(Roles="Faculty")]
-    public ActionResult Create() {
-      return View();
+    public ActionResult CancellationCreate() {
+      ViewModels.CancellationCreate newItem = new ViewModels.CancellationCreate();
+      ViewBag.courses = rc.getCourseSelectList();
+      return View("CancellationCreate", newItem);
     }
 
     //===================================================
     // Create() - POST: /Cancellations/Create
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    // 20. Include = "Id, Message", but not "User"
-    // 40. add operator "await" to make the method run asynchronously
-    //      i.e. to await non-blocking API calls
     //===================================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    //public async Task<ActionResult> Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // 20
-    public ActionResult Create([Bind(Include = "Id,Message")] Cancellation cancellation) { // sync
+    public ActionResult CancellationCreate(FormCollection form, ViewModels.CancellationCreate newItem) {
 
-      //var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
-      string userId = User.Identity.GetUserId();
-      //var currentUser = await manager.FindByIdAsync(userId);
-      var currentUser = manager.FindById(userId); // sync
-
-
-      //-----------------------------------------------------------------------
-      if (currentUser == null) { //!!! returns TRUE!!! WHY???
-        ViewBag.ExceptionMessage1 = "CancellationsController.cs/Create() [:POST]/ userId: >>" + userId + "<<";
-        ViewBag.ExceptionMessage2 = "CancellationsController.cs/Create() [:POST]/ currentUser: >>" + currentUser + "<<";
-        return View("Error"); 
-      } 
-      //-----------------------------------------------------------------------
       if (ModelState.IsValid) {
-        cancellation.User = currentUser;
-        dc.Cancellations.Add(cancellation);
-        dc.SaveChanges(); // sync
-        //await dc.SaveChangesAsync(); // 40
-        return RedirectToAction("Index");
+        try {
+          if (form.Count == 4) {
+            var addItem = rcc.createCancellationAM(newItem, form[3]);
+            //-----------------------------------------------------------------------
+            if (addItem == null) {
+              ViewBag.ExceptionMessage1 = "CancellationsController.cs/CancellationCreate() [:POST]/ addItem: >>" + addItem + "<<";
+              return View("Error");
+            }
+            else {
+              return RedirectToAction("Details", new { Id = addItem.CancellationId });
+            }
+            //-----------------------------------------------------------------------
+          } // if(form.Count == 4)
+          return RedirectToAction("Index");
+        }// try
+        catch (Exception e) {
+          ViewBag.ExceptionMessage0 = e.Message;
+          return View("Error");
+        }
+      } // if (ModelState.IsValid)
+      else {
+        return View("Error");
       }
-      //----------------------------
-      //else { return View("Error"); }
-      //-----------------------------
-
-      return View(cancellation);
     }
 
     // D

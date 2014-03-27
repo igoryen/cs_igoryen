@@ -11,23 +11,23 @@ namespace igoryen.ViewModels {
     // C
 
     //======================================
-    // CreateCancellation() - with Automapper
+    // CreateCancellationAM() - with Automapper
     // 50. nulls are like time bombs
     //======================================
-    /*
     public CancellationFull createCancellationAM(ViewModels.CancellationCreate newItem, string d) {
+
       Models.Cancellation cancellation = Mapper.Map<Models.Cancellation>(newItem);
       int did = Convert.ToInt32(d);
-      cancellation.Faculty = dc.Faculties.FirstOrDefault(n => n.Id == did);
+      cancellation.Course = dc.Courses.FirstOrDefault(n => n.Id == did);
 
-      if (cancellation.Faculty == null) return null; // 50
+      //if (cancellation.Course == null) return null; // 50
 
       dc.Cancellations.Add(cancellation);
       dc.SaveChanges();
 
       return Mapper.Map<CancellationFull>(cancellation);
     }
-     */
+    
 
     // D 
 

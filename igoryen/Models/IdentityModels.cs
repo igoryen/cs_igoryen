@@ -52,6 +52,8 @@ namespace igoryen.Models {
     public System.Data.Entity.DbSet<igoryen.ViewModels.MessageCreate> MessageCreates { get; set; }
     public System.Data.Entity.DbSet<igoryen.ViewModels.MessageFull> MessageFulls { get; set; }
 
+    public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationCreate> CancellationCreates { get; set; }
+
 
   }
 }

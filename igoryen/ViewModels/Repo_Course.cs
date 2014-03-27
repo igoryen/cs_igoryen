@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using AutoMapper;
 
 
@@ -80,6 +81,13 @@ namespace igoryen.ViewModels {
       else return Mapper.Map<CourseFull>(course);
     }
 
+    //======================================
+    // getCourseSelectList()
+    //======================================
+    public SelectList getCourseSelectList() {
+      SelectList sl = new SelectList(getListOfCourseBaseAM(), "CourseCode");
+      return sl;
+    }
     //======================================
     // getListOfCourseBase() - with automapper
     //====================================== 
