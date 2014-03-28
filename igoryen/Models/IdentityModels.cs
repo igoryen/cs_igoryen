@@ -61,6 +61,8 @@ namespace igoryen.Models {
 
     public System.Data.Entity.DbSet<igoryen.ViewModels.FacultyBase> FacultyBases { get; set; }
 
+    public System.Data.Entity.DbSet<igoryen.ViewModels.FacultyFull> FacultyFulls { get; set; }
+
 
   }
 }

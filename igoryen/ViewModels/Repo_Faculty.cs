@@ -19,16 +19,42 @@ namespace igoryen.ViewModels {
     // createFaculty() - create a Faculty record
     //==============================================================
     /*
-    public FacultyFull createFaculty(FacultyFull fa) {
-      Faculty fac = new Faculty(fa.FirstName, fa.LastName, fa.Phone, fa.FacultyId);
+    public FacultyFull createFaculty(FacultyFull ff) {
+      Faculty faculty = new Faculty(ff.FirstName, ff.LastName, fa.Phone, fa.FacultyId);
       fac.Id = Faculties.Max(n => n.Id) + 1;
       Faculties.Add(fac);
       return fa;
     }
     */
+    public FacultyFull createFaculty(string senId, string fname, string lname, string phone, string courseIds/*, string msgIds*/) {
+
+      Models.Faculty faculty = new Models.Faculty();
+      faculty.FirstName = fname;
+      faculty.LastName = lname;
+      faculty.Phone = phone;
+      faculty.SenecaId = senId;
+
+      foreach (var item in courseIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var course = dc.Courses.FirstOrDefault(courses => courses.CourseId == intItem);
+        faculty.Courses.Add(course);
+      }
+      /*
+      foreach (var item in msgIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var message = dc.Messages.FirstOrDefault(messages => messages.MessageId == intItem);
+        faculty.Messages.Add(message);
+      }
+      */
+      dc.Faculties.Add(faculty);
+      dc.SaveChanges();
+
+      //return getCourseFull(course.CourseId);
+      return getFacultyFullAM(faculty.PersonId);
+    }
 
     //==================================================
-    // CreateFaculty() - using Automapper
+    // CreateFacultyAM() - using Automapper
     //==================================================
     public FacultyFull createFacultyAM(ViewModels.FacultyCreate newItem, string d) {
       Models.Faculty faculty = Mapper.Map<Models.Faculty>(newItem);
@@ -47,11 +73,11 @@ namespace igoryen.ViewModels {
     //==================================================
     // DeleteFaculty()
     //==================================================
-    public void deleteFaculty(int? id) {
+    public void DeleteFaculty(int? id) {
       var itemToDelete = dc.Faculties.Find(id);
       if (itemToDelete == null) {
-        return;
-      }
+        return; // 20
+      } // if
       else {
         try {
           dc.Faculties.Remove(itemToDelete);
@@ -60,8 +86,8 @@ namespace igoryen.ViewModels {
         catch (Exception ex) {
           throw ex;
         }
-      }
-    }
+      } // else
+    } // DeleteCourse()
 
     // E
 
@@ -69,7 +95,7 @@ namespace igoryen.ViewModels {
     // EditFaculty() - with Automapper
     //==================================================
     public FacultyFull editFacultyAM(FacultyFull editItem) {
-      var itemToEdit = dc.Faculties.Find(editItem.FacultyId);
+      var itemToEdit = dc.Faculties.Find(editItem.PersonId);
       if (itemToEdit == null) {
         return null;
       }
@@ -89,17 +115,17 @@ namespace igoryen.ViewModels {
     
     public FacultyFull getFacultyFull(int? id) {
       //var st = dc.Students.FirstOrDefault(n => n.Id == id);
-      var f = dc.Faculties.Include("Courses").FirstOrDefault(n => n.PersonId == id);
+      var faculty = dc.Faculties.Include("Courses").SingleOrDefault(n => n.PersonId == id);
 
-      if (f == null) return null;
+      if (faculty == null) return null;
 
       FacultyFull ff = new FacultyFull();
-
-      ff.SenecaId = f.SenecaId;
-      ff.FirstName = f.FirstName;
-      ff.LastName = f.LastName;
-      ff.Phone = f.Phone;
-      ff.Courses = Repo_Course.getListOfCourseBase(f.Courses);
+      ff.PersonId = faculty.PersonId;
+      ff.SenecaId = faculty.SenecaId;
+      ff.FirstName = faculty.FirstName;
+      ff.LastName = faculty.LastName;
+      ff.Phone = faculty.Phone;
+      ff.Courses = Repo_Course.getListOfCourseBase(faculty.Courses);
       return ff;
 
     }
@@ -169,7 +195,7 @@ namespace igoryen.ViewModels {
 
       foreach (var item in ls) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.PersonId;
+        fb.PersonId = item.PersonId;
         fb.SenecaId = item.SenecaId;
         fb.FirstName = item.FirstName;
         fb.LastName = item.LastName;
@@ -190,7 +216,7 @@ namespace igoryen.ViewModels {
 
       foreach (var item in faculties) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.PersonId;
+        fb.PersonId = item.PersonId;
         fb.SenecaId = item.SenecaId;
         lfb.Add(fb);
       }
@@ -201,7 +227,7 @@ namespace igoryen.ViewModels {
     // getListOfFacultyBaseAM() - with automapper
     //================================================== 
     public IEnumerable<FacultyBase> getListOfFacultyBaseAM() {
-      var faculties = dc.Faculties.OrderBy(f => f.SenecaId);
+      var faculties = dc.Faculties.OrderBy(f => f.LastName);
       if (faculties == null) return null;
       return Mapper.Map<IEnumerable<FacultyBase>>(faculties);
     }
@@ -272,7 +298,7 @@ namespace igoryen.ViewModels {
       if (faculty == null) return null;
 
       FacultyFull ff = new FacultyFull();
-      ff.FacultyId = faculty.PersonId;
+      ff.PersonId = faculty.PersonId;
       ff.SenecaId = faculty.SenecaId;
       ff.FirstName = faculty.FirstName;
       ff.LastName = faculty.LastName;
@@ -294,7 +320,7 @@ namespace igoryen.ViewModels {
       List<FacultyBase> lfb = new List<FacultyBase>();
       foreach (var item in faculties) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.PersonId;
+        fb.PersonId = item.PersonId;
         fb.SenecaId = item.SenecaId;
         lfb.Add(fb);
       }

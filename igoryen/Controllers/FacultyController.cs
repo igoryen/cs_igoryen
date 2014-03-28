@@ -28,7 +28,7 @@ namespace igoryen.Controllers {
     //======================================
     public ActionResult Create() {
       ViewBag.courses = rc.getCourseSelectList(); // 20
-      ViewBag.commethods = rm.getMessageSelectList(); // 30
+      ViewBag.messages = rm.getMessageSelectList(); // 30
       return View();
     }
 
@@ -39,14 +39,12 @@ namespace igoryen.Controllers {
     //======================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "PersonId,SenecaId,FirstName,LastName,Phone")] Faculty faculty) {
-      if (ModelState.IsValid) {
-        db.Faculties.Add(faculty);
-        await db.SaveChangesAsync();
-        return RedirectToAction("Index");
+    public ActionResult Create(FormCollection form) {
+      //try {
+      if (form.Count == 6) { // 20
+        rf.createFaculty(form[1], form[2], form[3], form[4], form[5]); // 30 messages shouldn't be there
       }
-
-      return View(faculty);
+      return RedirectToAction("Index");
     }
 
     // D
@@ -54,13 +52,15 @@ namespace igoryen.Controllers {
     //======================================
     // Delete() - GET: /Faculty/Delete/5
     //======================================
-    public async Task<ActionResult> Delete(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+    public ActionResult Delete(int? id) {
+      if (id == null) { // 10
+        ViewBag.ExceptionMessage = "That was an invalid record";
+        return View("Error");
       }
-      Faculty faculty = await db.Faculties.FindAsync(id);
+      var faculty = rf.getFacultyFullAM(id);
       if (faculty == null) {
-        return HttpNotFound();
+        ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
+        return View("Error");
       }
       return View(faculty);
     }
@@ -70,25 +70,19 @@ namespace igoryen.Controllers {
     //======================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id) {
-      Faculty faculty = await db.Faculties.FindAsync(id);
-      db.Faculties.Remove(faculty);
-      await db.SaveChangesAsync();
+    public ActionResult DeleteConfirmed(int id) {
+      // Course course = db.Courses.Find(id);
+      // db.Courses.Remove(course);
+      // db.SaveChanges();
+      rf.DeleteFaculty(id);
       return RedirectToAction("Index");
     }
 
     //======================================
     // Details() - GET: /Faculty/Details/5
     //======================================
-    public async Task<ActionResult> Details(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Faculty faculty = await db.Faculties.FindAsync(id);
-      if (faculty == null) {
-        return HttpNotFound();
-      }
-      return View(faculty);
+    public ActionResult Details(int? id) {
+      return View(rf.getFacultyFull(id));
     }
 
     //======================================

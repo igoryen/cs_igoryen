@@ -17,7 +17,7 @@ namespace igoryen.ViewModels {
   //======================================
   public class FacultyBase {
     [Key]
-    public int FacultyId { get; set; }
+    public int PersonId { get; set; }
 
     [Required]
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
