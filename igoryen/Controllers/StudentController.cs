@@ -11,33 +11,25 @@ using igoryen.Models;
 
 namespace igoryen.Controllers {
   public class StudentController : Controller {
+
     private DataContext db = new DataContext();
 
-    // GET: /Student/
-    public async Task<ActionResult> Index() {
-      return View(await db.Students.ToListAsync());
-    }
+    // Action methods alphabetically
 
-    // GET: /Student/Details/5
-    public async Task<ActionResult> Details(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Student student = await db.Students.FindAsync(id);
-      if (student == null) {
-        return HttpNotFound();
-      }
-      return View(student);
-    }
+    // C
 
-    // GET: /Student/Create
+    //======================================
+    // Create() - GET: /Student/Create
+    //======================================
     public ActionResult Create() {
       return View();
     }
 
-    // POST: /Student/Create
+    //======================================
+    // Create() - POST: /Student/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    //======================================
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Include = "Id,StudentNumber,FirstName,LastName,Phone")] Student student) {
@@ -50,33 +42,11 @@ namespace igoryen.Controllers {
       return View(student);
     }
 
-    // GET: /Student/Edit/5
-    public async Task<ActionResult> Edit(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Student student = await db.Students.FindAsync(id);
-      if (student == null) {
-        return HttpNotFound();
-      }
-      return View(student);
-    }
-
-    // POST: /Student/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,StudentNumber,FirstName,LastName,Phone")] Student student) {
-      if (ModelState.IsValid) {
-        db.Entry(student).State = EntityState.Modified;
-        await db.SaveChangesAsync();
-        return RedirectToAction("Index");
-      }
-      return View(student);
-    }
-
-    // GET: /Student/Delete/5
+    // D
+    
+    //======================================
+    // Delete() - GET: /Student/Delete/5
+    //======================================
     public async Task<ActionResult> Delete(int? id) {
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,7 +58,9 @@ namespace igoryen.Controllers {
       return View(student);
     }
 
-    // POST: /Student/Delete/5
+    //======================================
+    // DeleteConfirmed() - POST: /Student/Delete/5
+    //======================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> DeleteConfirmed(int id) {
@@ -98,11 +70,68 @@ namespace igoryen.Controllers {
       return RedirectToAction("Index");
     }
 
+    //======================================
+    // Details() - GET: /Student/Details/5
+    //======================================
+    public async Task<ActionResult> Details(int? id) {
+      if (id == null) {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Student student = await db.Students.FindAsync(id);
+      if (student == null) {
+        return HttpNotFound();
+      }
+      return View(student);
+    }
+
+    //======================================
+    // Dispose()
+    //======================================
     protected override void Dispose(bool disposing) {
       if (disposing) {
         db.Dispose();
       }
       base.Dispose(disposing);
     }
+
+    // E
+
+    //======================================
+    // Edit() - GET: /Student/Edit/5
+    //======================================
+    public async Task<ActionResult> Edit(int? id) {
+      if (id == null) {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Student student = await db.Students.FindAsync(id);
+      if (student == null) {
+        return HttpNotFound();
+      }
+      return View(student);
+    }
+
+    //======================================
+    // Edit() - POST: /Student/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    //======================================
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit([Bind(Include = "Id,StudentNumber,FirstName,LastName,Phone")] Student student) {
+      if (ModelState.IsValid) {
+        db.Entry(student).State = EntityState.Modified;
+        await db.SaveChangesAsync();
+        return RedirectToAction("Index");
+      }
+      return View(student);
+    }
+
+    //======================================
+    // Index() - GET: /Student/
+    //======================================
+    public async Task<ActionResult> Index() {
+      return View(await db.Students.ToListAsync());
+    }
+
   }
 }
