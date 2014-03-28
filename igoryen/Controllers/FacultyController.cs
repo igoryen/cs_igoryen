@@ -11,6 +11,8 @@ using igoryen.Models;
 using igoryen.ViewModels;
 
 namespace igoryen.Controllers {
+
+  [Authorize]
   public class FacultyController : Controller {
     private DataContext db = new DataContext();
 
@@ -26,6 +28,7 @@ namespace igoryen.Controllers {
     //======================================
     // Create() - GET: /Faculty/Create
     //======================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Create() {
       ViewBag.courses = rc.getCourseSelectList(); // 20
       ViewBag.messages = rm.getMessageSelectList(); // 30
@@ -52,6 +55,7 @@ namespace igoryen.Controllers {
     //======================================
     // Delete() - GET: /Faculty/Delete/5
     //======================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Delete(int? id) {
       if (id == null) { // 10
         ViewBag.ExceptionMessage = "That was an invalid record";
@@ -81,6 +85,7 @@ namespace igoryen.Controllers {
     //======================================
     // Details() - GET: /Faculty/Details/5
     //======================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Details(int? id) {
       return View(rf.getFacultyFull(id));
     }
@@ -100,6 +105,7 @@ namespace igoryen.Controllers {
     //======================================
     // Edit() - GET: /Faculty/Edit/5
     //======================================
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Edit(int? id) {
       if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

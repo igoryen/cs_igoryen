@@ -11,6 +11,8 @@ using igoryen.ViewModels;
 using igoryen.Models;
 
 namespace igoryen.Controllers {
+
+  [Authorize]
   public class MessagesController : Controller {
     private DataContext db = new DataContext();
 
@@ -24,8 +26,6 @@ namespace igoryen.Controllers {
 
 
     // Methods alphabetically
-
-    // C
 
     // C
 
@@ -73,6 +73,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Create() - GET: /Messages/Create
     //===================================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Create() {
       //ViewBag.students = rs.getStudentSelectList();
       ViewBag.faculties = rf.getFacultySelectList();
@@ -99,6 +100,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Delete() - GET: /Messages/Delete/5
     //===================================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Delete(int? id) {
       if (id == null) {
         //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -131,6 +133,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Details() - GET: /Messages/Details/5
     //===================================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Details(int? id) {
       /*if (id == null) {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -157,6 +160,7 @@ namespace igoryen.Controllers {
     //===================================================
     // Edit() - GET: /Messages/Edit/5
     //===================================================
+    [Authorize(Roles = "Admin")]
     public ActionResult Edit(int? id) {
       if (id == null) {
         //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

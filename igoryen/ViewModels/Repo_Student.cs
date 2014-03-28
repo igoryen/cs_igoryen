@@ -314,7 +314,7 @@ namespace igoryen.ViewModels {
     //======================================
 
     public SelectList getStudentSelectList() {
-      SelectList sl = new SelectList(getListOfStudentBase(), "StudentId", "FirstName", "LastName");
+      SelectList sl = new SelectList(getListOfStudentBase(), "PersonId", "FirstName", "LastName");
       return sl;
     }
 
