@@ -1,4 +1,4 @@
-﻿@model IEnumerable<igoryen.Models.Student>
+﻿@model IEnumerable<igoryen.ViewModels.StudentBase>
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentNumber)
+            @Html.DisplayNameFor(model => model.SenecaId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -20,16 +20,13 @@
         <th>
             @Html.DisplayNameFor(model => model.LastName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.StudentNumber)
+            @Html.DisplayFor(modelItem => item.SenecaId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
@@ -38,12 +35,9 @@
             @Html.DisplayFor(modelItem => item.LastName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.StudentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.StudentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.StudentId })
         </td>
     </tr>
 }

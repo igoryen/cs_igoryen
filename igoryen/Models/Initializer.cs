@@ -18,6 +18,55 @@ namespace igoryen.Models {
     // InitializeTables()
     //===================================================
     private void InitializeTables(DataContext dc){
+
+      //-------------------------------------
+      // initialize a few ComMethod rows
+      //-------------------------------------
+
+
+      /*
+      ComMethod bobby = new ComMethod();
+      bobby.ComMethodId = 1;
+      bobby.Handle = "bobby";
+      bobby.CellNo = "647-111-2222";
+      bobby.Email = "bobby@gmail.com";
+      bob.ComMethods.Add(bobby);
+
+      ComMethod marie = new ComMethod();
+      marie.ComMethodId = 1;
+      marie.Handle = "marie";
+      marie.CellNo = "647-111-3333";
+      marie.Email = "marie@gmail.com";
+      mary.ComMethods.Add(marie);
+
+      ComMethod way = new ComMethod();
+      way.ComMethodId = 1;
+      way.Handle = "way";
+      way.CellNo = "647-111-4444";
+      way.Email = "way@gmail.com";
+      wei.ComMethods.Add(way);
+
+      ComMethod johnny = new ComMethod();
+      johnny.ComMethodId = 1;
+      johnny.Handle = "johnny";
+      johnny.CellNo = "647-111-5555";
+      johnny.Email = "johnny@gmail.com";
+      john.ComMethods.Add(johnny);
+
+      ComMethod jackie = new ComMethod();
+      jackie.ComMethodId = 1;
+      jackie.Handle = "jackie";
+      jackie.CellNo = "647-111-6666";
+      jackie.Email = "jackie@gmail.com";
+      jack.ComMethods.Add(jackie);
+
+      ComMethod gill = new ComMethod();
+      gill.ComMethodId = 1;
+      gill.Handle = "gill";
+      gill.CellNo = "647-111-7777";
+      gill.Email = "gill@gmail.com";
+      jill.ComMethods.Add(gill);
+      */
       //-------------------------------------
       // #1 - initialize a few student rows
       // 10. create a student row
@@ -28,12 +77,14 @@ namespace igoryen.Models {
       // 55. add the student row to table Students in course 2
       // 60. purge student row
       //-------------------------------------
+
       Student bob = new Student(); // 10
       bob.PersonId = 1; // 20
       bob.FirstName = "Bob";
       bob.LastName = "White";
       bob.Phone = "555-555-5555";
       bob.SenecaId = "011111111";
+
       dc.Students.Add(bob);
 
       Student mary = new Student();
@@ -42,6 +93,7 @@ namespace igoryen.Models {
       mary.LastName = "Brown";
       mary.Phone = "555-555-5555";
       mary.SenecaId = "011111112";
+     
       dc.Students.Add(mary);
 
       Student wei = new Student();
@@ -50,24 +102,25 @@ namespace igoryen.Models {
       wei.LastName = "Chen";
       wei.Phone = "555-555-5555";
       wei.SenecaId = "011111113";
+      
       dc.Students.Add(wei);
 
       Student john = new Student("John", "Woo", "555-555-1234", "011111114");
       john.PersonId = 4;
+      
       dc.Students.Add(john);
 
       Student jack = new Student("Jack", "Smith", "555-555-1235", "011111115");
       jack.PersonId = 5;
+      
       dc.Students.Add(jack);
 
       Student jill = new Student("Jill", "Smith", "555-555-1236", "011111116");
       jack.PersonId = 6;
+      
       dc.Students.Add(jill);
       
-      //-------------------------------------
-      // initialize a few ComMethod rows
-      //-------------------------------------
-
+     
 
       //-------------------------------------
       // #2 - initialize a few course rows

@@ -1,4 +1,4 @@
-﻿@model igoryen.Models.Student
+﻿@model igoryen.ViewModels.StudentFull
 
 @{
     ViewBag.Title = "Create";
@@ -12,15 +12,15 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Student</h4>
+        <h4>StudentFull</h4>
         <hr />
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StudentNumber, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SenecaId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StudentNumber)
-                @Html.ValidationMessageFor(model => model.StudentNumber)
+                @Html.EditorFor(model => model.SenecaId)
+                @Html.ValidationMessageFor(model => model.SenecaId)
             </div>
         </div>
 

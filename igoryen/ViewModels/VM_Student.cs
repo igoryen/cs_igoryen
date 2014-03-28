@@ -47,6 +47,7 @@ namespace igoryen.ViewModels {
     public string Phone { get; set; }
 
     public List<CourseBase> Courses { get; set; }
+    public List<ComMethod> ComMethods { get; set; }
   }
   
   //===============================

@@ -138,7 +138,7 @@ namespace igoryen.ViewModels {
       return sl;
     }
     //======================================
-    // getListOfCourseBase() - with automapper
+    // getListOfCourseBaseAM() - with automapper
     //====================================== 
     public IEnumerable<CourseBase> getListOfCourseBaseAM() {
       var courses = dc.Courses.OrderBy(c => c.CourseCode);
@@ -178,8 +178,8 @@ namespace igoryen.ViewModels {
     // Repo_Course() - Constructor
     //======================================
     public Repo_Course() {
-      rf = new Repo_Faculty();
-      rs = new Repo_Student();
+      //rf = new Repo_Faculty();
+      //rs = new Repo_Student();
     }
 
     // T

@@ -47,7 +47,7 @@ namespace igoryen.Models {
   public class ComMethod {
     public int ComMethodId { get; set; }
     public string Handle { get; set; }
-    public string CellNumber { get; set; }
+    public string CellNo { get; set; }
     public string Email { get; set; }
   }
 

@@ -17,21 +17,33 @@ namespace igoryen.ViewModels {
 
     //======================================
     // createStudent(StudentFull st)
-    /* 140. make a new 4-column row "Student" and fill it out
-     * 145. savechanges is the equivalent to a database commit statement
-     * 150. return a copy of the new Student as a StudentFull
-     */
     //======================================
-    /*
-    public StudentFull createStudent(StudentFull st) {
+    public StudentFull createStudent(string fname, string lname, string phone, string senId, string courseIds, string cmethodIds) {
 
-      Student stu = new Student(st.FirstName, st.LastName, st.Phone, st.StudentNumber); // 140
+      Models.Student student = new Models.Student();
+      student.FirstName = fname;
+      student.LastName = lname;
+      student.Phone = phone;
+      student.SenecaId = senId;
 
-      dc.Students.Add(stu);
-      dc.SaveChanges(); // 145
+      foreach (var item in courseIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var course = dc.Courses.FirstOrDefault(courses => courses.CourseId == intItem);
+        student.Courses.Add(course);
+      }
 
-      return getStudentFull(stu.Id); // 150
-    }*/
+      foreach (var item in cmethodIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var cmethod = dc.ComMethods.FirstOrDefault(cmethods => cmethods.ComMethodId == intItem);
+        student.ComMethods.Add(cmethod);
+      }
+
+      dc.Students.Add(student);
+      dc.SaveChanges();
+
+      //return getCourseFull(course.CourseId);
+      return getStudentFullAM(student.PersonId);
+    }
 
     //======================================
     // createStudent(StudentFull st, string ids)
@@ -101,6 +113,15 @@ namespace igoryen.ViewModels {
     }
 
     //======================================
+    // getListOfStudentBaseAM() - with automapper
+    //====================================== 
+    public IEnumerable<StudentBase> getListOfStudentBaseAM() {
+      var students = dc.Students.OrderBy(s => s.PersonId);
+      if (students == null) return null;
+      return Mapper.Map<IEnumerable<StudentBase>>(students);
+    }
+
+    //======================================
     // getListOfStudentFull()
     //======================================
     public IEnumerable<StudentFull> getListOfStudentFull() { // 55
@@ -147,17 +168,28 @@ namespace igoryen.ViewModels {
      */
     //======================================
     public StudentFull getStudentFull(int? id) {
-      //var st = dc.Students.FirstOrDefault(n => n.Id == id);
-      var st = Students.FirstOrDefault(n => n.PersonId == id);
+      var student = dc.Students.Include("Courses").Include("ComMethods").SingleOrDefault(n => n.PersonId == id);
+      if (student == null) return null;
 
-      StudentFull stu = new StudentFull();
-      stu.FirstName = st.FirstName;
-      stu.LastName = st.LastName;
-      stu.Phone = st.Phone;
-      stu.SenecaId = st.SenecaId;
-      stu.Courses = Repo_Course.getListOfCourseBase(st.Courses);
+      StudentFull studentFull = new StudentFull();
+      studentFull.StudentId = student.PersonId;
+      studentFull.SenecaId = student.SenecaId;
+      studentFull.FirstName = student.FirstName;
+      studentFull.LastName = student.LastName;
+      studentFull.Phone = student.Phone;
+      studentFull.Courses = rc.toListOfCourseBase(student.Courses);
+      studentFull.ComMethods = rcm.toListOfComMethod(student.ComMethods);
 
-      return stu;
+      return studentFull;
+    }
+
+    //======================================
+    // getStudentFullAM() - with Automapper
+    //====================================== 
+    public StudentFull getStudentFullAM(int? id) {
+      var student = dc.Students.Include("Courses").Include("ComMethods").SingleOrDefault(n => n.PersonId == id);
+      if (student == null) return null;
+      else return Mapper.Map<StudentFull>(student);
     }
 
 
@@ -264,7 +296,13 @@ namespace igoryen.ViewModels {
       return sl;
     }
 
+    // I
 
+    //======================================
+    // Implementation details
+    //======================================
+    Repo_Course rc;
+    Repo_ComMethod rcm;
 
 
     // R
@@ -273,7 +311,9 @@ namespace igoryen.ViewModels {
     // Repo_Student()
     //======================================
     public Repo_Student() {
-      this.Students = (List<Student>)HttpContext.Current.Application["Students"];
+      //this.Students = (List<Student>)HttpContext.Current.Application["Students"];
+      rc = new Repo_Course();
+      rcm = new Repo_ComMethod();
     }
 
 

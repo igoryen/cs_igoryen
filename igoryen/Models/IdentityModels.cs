@@ -35,6 +35,7 @@ namespace igoryen.Models {
     }
 
     public DbSet<Cancellation> Cancellations { get; set; }
+    public DbSet<ComMethod> ComMethods { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<Message> Messages { get; set; }
@@ -55,6 +56,8 @@ namespace igoryen.Models {
     public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationCreate> CancellationCreates { get; set; }
 
     public System.Data.Entity.DbSet<igoryen.ViewModels.CourseCreate> CourseCreates { get; set; }
+
+    public System.Data.Entity.DbSet<igoryen.ViewModels.StudentBase> StudentBases { get; set; }
 
 
   }
