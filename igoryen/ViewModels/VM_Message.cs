@@ -15,7 +15,8 @@ namespace igoryen.ViewModels {
     [Key]
     public int MessageId { get; set; }
     public string Date { get; set; }
-    public string Time { get; set; }
+    public string CourseName { get; set; }
+    public string Body { get; set; }
   }
 
   //======================================
@@ -38,9 +39,9 @@ namespace igoryen.ViewModels {
   // MessageFull
   //======================================
   public class MessageFull : MessageBase {
-    public string CourseName { get; set; }
+
+    public string Time { get; set; }
     public FacultyFull Faculty { get; set; }
-    public string Body { get; set; }
     public string CustomMsg { get; set; }
 
     public MessageFull() {

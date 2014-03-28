@@ -74,24 +74,6 @@ namespace igoryen.ViewModels {
     // G
 
     //======================================
-    // getMessageFull() - with Automapper
-    //====================================== 
-    public MessageFull getMessageFullAM(int? id) {
-      var message = dc.Messages.Include("Faculty").SingleOrDefault(n => n.Id == id);
-      if (message == null) return null;
-      else return Mapper.Map<MessageFull>(message);
-    }
-
-    //======================================
-    // getListOfMessageBase() - with automapper
-    //====================================== 
-    public IEnumerable<MessageBase> getListOfMessageBaseAM() {
-      var messages = dc.Messages.OrderBy(c => c.Id);
-      if (messages == null) return null;
-      return Mapper.Map<IEnumerable<MessageBase>>(messages);
-    }
-
-    //======================================
     // getListOfMessageBase() 
     //====================================== 
 
@@ -100,13 +82,41 @@ namespace igoryen.ViewModels {
 
       foreach (var item in ls) {
         MessageBase row = new MessageBase();
-        row.MessageId = item.Id;
+        row.MessageId = item.MessageId;
         row.Date = item.Date;
-        row.Time = item.Time;
+        row.CourseName = item.CourseName;
+        row.Body = item.Body;
         nls.Add(row);
       }
 
       return nls;
+    }
+
+    //======================================
+    // getListOfMessageBaseAM() - with automapper
+    //====================================== 
+    public IEnumerable<MessageBase> getListOfMessageBaseAM() {
+      var messages = dc.Messages.OrderBy(m => m.MessageId);
+      if (messages == null) return null;
+      return Mapper.Map<IEnumerable<MessageBase>>(messages);
+    }
+
+    //======================================
+    // getMessageFullAM() - with Automapper
+    //====================================== 
+    public MessageFull getMessageFullAM(int? id) {
+      var message = dc.Messages.Include("Faculty").SingleOrDefault(m => m.MessageId == id);
+      if (message == null) return null;
+      else return Mapper.Map<MessageFull>(message);
+    }
+    
+
+    //======================================
+    // getMessageSelectList()
+    //======================================
+    public SelectList getMessageSelectList() {
+      SelectList sl = new SelectList(getListOfMessageBaseAM(), "MessageId", "Body");
+      return sl;
     }
 
     // I
@@ -137,9 +147,10 @@ namespace igoryen.ViewModels {
       List<MessageBase> lmb = new List<MessageBase>();
       foreach (var item in messages) {
         MessageBase mb = new MessageBase();
-        mb.MessageId = item.Id;
+        mb.MessageId = item.MessageId;
         mb.Date = item.Date;
-        mb.Time = item.Time;
+        mb.CourseName = item.CourseName;
+        mb.Body = mb.Body;
         lmb.Add(mb);
       }
       return lmb;

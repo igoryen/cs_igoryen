@@ -160,16 +160,6 @@ namespace igoryen.ViewModels {
       return sl;
     }
 
-
-    //==================================================
-    // getListOfFacultyBaseAM() - with automapper
-    //================================================== 
-    public IEnumerable<FacultyBase> getListOfFacultyBaseAM() {
-      var faculties = dc.Faculties.OrderBy(f => f.SenecaId);
-      if (faculties == null) return null;
-      return Mapper.Map<IEnumerable<FacultyBase>>(faculties);
-    }
-
     //==================================================
     // getListOfFacultyBase() - as a List
     //================================================== 
@@ -189,7 +179,6 @@ namespace igoryen.ViewModels {
       return lfb;
     }
 
-
     //==============================================================
     // getListOfFacultyBase() - as an IEnumerable
     //==============================================================
@@ -206,6 +195,15 @@ namespace igoryen.ViewModels {
         lfb.Add(fb);
       }
       return lfb;
+    }
+
+    //==================================================
+    // getListOfFacultyBaseAM() - with automapper
+    //================================================== 
+    public IEnumerable<FacultyBase> getListOfFacultyBaseAM() {
+      var faculties = dc.Faculties.OrderBy(f => f.SenecaId);
+      if (faculties == null) return null;
+      return Mapper.Map<IEnumerable<FacultyBase>>(faculties);
     }
 
     //==================================================
