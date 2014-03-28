@@ -86,16 +86,16 @@ namespace igoryen.ViewModels {
     //==============================================================
     // getFacultyFull()
     //==============================================================
-    /*
+    
     public FacultyFull getFacultyFull(int? id) {
       //var st = dc.Students.FirstOrDefault(n => n.Id == id);
-      var f = dc.Faculties.Include("Courses").FirstOrDefault(n => n.Id == id);
+      var f = dc.Faculties.Include("Courses").FirstOrDefault(n => n.PersonId == id);
 
       if (f == null) return null;
 
       FacultyFull ff = new FacultyFull();
 
-      ff.FacultyNumber = f.FacultyNumber;
+      ff.SenecaId = f.SenecaId;
       ff.FirstName = f.FirstName;
       ff.LastName = f.LastName;
       ff.Phone = f.Phone;
@@ -103,13 +103,14 @@ namespace igoryen.ViewModels {
       return ff;
 
     }
-     */
+     
 
     //==================================================
-    // getFacultyFull() - with Automapper
+    // getFacultyFullAM() - with Automapper
     //================================================== 
     public FacultyFull getFacultyFullAM(int? id) {
-      var faculty = dc.Faculties.Include("Courses").SingleOrDefault(n => n.Id == id);
+      var faculty = new Faculty();
+      faculty = dc.Faculties.Include("Courses").SingleOrDefault(n => n.PersonId == id);
       if (faculty == null) return null;
       else return Mapper.Map<FacultyFull>(faculty);
     }
@@ -127,7 +128,7 @@ namespace igoryen.ViewModels {
       foreach (var item in ls) {      // 110
         FacultyName row = new FacultyName(); // 115
 
-        row.FacultyId = item.Id; // 50
+        row.FacultyId = item.PersonId; // 50
         row.FirstName = item.FirstName;
         row.LastName = item.LastName;
 
@@ -141,7 +142,7 @@ namespace igoryen.ViewModels {
     // getFacultyPublic() - return single faculty row by id
     //==============================================================
     public FacultyPublic getFacultyPublic(int? id) {
-      var faculty = Faculties.FirstOrDefault(n => n.Id == id);
+      var faculty = Faculties.FirstOrDefault(n => n.PersonId == id);
       FacultyPublic fp = new FacultyPublic();
       fp.FirstName = faculty.FirstName;
       fp.LastName = faculty.LastName;
@@ -155,16 +156,16 @@ namespace igoryen.ViewModels {
     // getFacultySelectList()
     //==============================================================
     public SelectList getFacultySelectList() {
-      SelectList sl = new SelectList(getListOfFacultyBase(), "FacultyId", "FacultyNumber");
+      SelectList sl = new SelectList(getListOfFacultyBaseAM(), "SenecaId", "FirstName", "LastName");
       return sl;
     }
 
 
     //==================================================
-    // getListOfFacultyBase() - with automapper
+    // getListOfFacultyBaseAM() - with automapper
     //================================================== 
     public IEnumerable<FacultyBase> getListOfFacultyBaseAM() {
-      var faculties = dc.Faculties.OrderBy(f => f.Id);
+      var faculties = dc.Faculties.OrderBy(f => f.SenecaId);
       if (faculties == null) return null;
       return Mapper.Map<IEnumerable<FacultyBase>>(faculties);
     }
@@ -178,8 +179,10 @@ namespace igoryen.ViewModels {
 
       foreach (var item in ls) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.Id;
-        fb.FacultyNumber = item.FacultyNumber;
+        fb.FacultyId = item.PersonId;
+        fb.SenecaId = item.SenecaId;
+        fb.FirstName = item.FirstName;
+        fb.LastName = item.LastName;
         lfb.Add(fb);
       }
 
@@ -191,18 +194,27 @@ namespace igoryen.ViewModels {
     // getListOfFacultyBase() - as an IEnumerable
     //==============================================================
     public IEnumerable<FacultyBase> getListOfFacultyBase() {
-      var faculties = dc.Faculties.OrderBy(f => f.Id); // ???
+      var faculties = dc.Faculties.OrderBy(f => f.PersonId); // ???
       if (faculties == null) return null;
 
       List<FacultyBase> lfb = new List<FacultyBase>();
 
       foreach (var item in faculties) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.Id;
-        fb.FacultyNumber = item.FacultyNumber;
+        fb.FacultyId = item.PersonId;
+        fb.SenecaId = item.SenecaId;
         lfb.Add(fb);
       }
       return lfb;
+    }
+
+    //==================================================
+    // getListOfFacultyName() - with automapper
+    //================================================== 
+    public IEnumerable<FacultyName> getListOfFacultyNameAM() {
+      var faculties = dc.Faculties.OrderBy(f => f.PersonId);
+      if (faculties == null) return null;
+      return Mapper.Map<IEnumerable<FacultyName>>(faculties);
     }
 
 
@@ -210,20 +222,20 @@ namespace igoryen.ViewModels {
     // getListOfFacultyPublic() - return a list / collection of faculties
     //==============================================================
     public IEnumerable<FacultyPublic> getListOfFacultyPublic() { // 1
-      var ls = Faculties.OrderBy(n => n.FacultyNumber); // 20
-      List<FacultyPublic> rls = new List<FacultyPublic>(); // 25
+      var faculties = Faculties.OrderBy(n => n.SenecaId); // 20
+      List<FacultyPublic> lfp = new List<FacultyPublic>(); // 25
 
-      foreach (var item in ls) {  // 30
-        FacultyPublic row = new FacultyPublic();   // 35
+      foreach (var item in faculties) {  // 30
+        FacultyPublic fp = new FacultyPublic();   // 35
 
-        row.FacultyNumber = item.FacultyNumber;  // 40 
-        row.FirstName = item.FirstName;
-        row.LastName = item.LastName;
-        row.Phone = item.Phone;
+        fp.SenecaId = item.SenecaId;  // 40 
+        fp.FirstName = item.FirstName;
+        fp.LastName = item.LastName;
+        fp.Phone = item.Phone;
 
-        rls.Add(row);  // 45 
+        lfp.Add(fp);  // 45 
       }
-      return rls;  // 50
+      return lfp;  // 50
     }
 
 
@@ -239,8 +251,8 @@ namespace igoryen.ViewModels {
     // Repo_Faculty() - Constructor
     //==================================================
     public Repo_Faculty() {
-      rc = new Repo_Course();
-      rs = new Repo_Student();
+      //rc = new Repo_Course();
+      //rs = new Repo_Student();
     }
 
     // S
@@ -248,7 +260,7 @@ namespace igoryen.ViewModels {
     // sortFaculties()
     //==============================================================
     public IEnumerable<Faculty> sortFaculties() {
-      var retval = Faculties.OrderBy(n => n.Id);
+      var retval = Faculties.OrderBy(n => n.PersonId);
       // if (retval == null) { System.Console.WriteLine()}
       return retval;
     }
@@ -258,19 +270,19 @@ namespace igoryen.ViewModels {
     //==================================================
     // toFacultyFull()
     //==================================================
-    public FacultyFull toFacultyFull(Models.Faculty f) {
-      if (f == null) return null;
+    public FacultyFull toFacultyFull(Models.Faculty faculty) {
+      if (faculty == null) return null;
 
       FacultyFull ff = new FacultyFull();
-      ff.FacultyId = f.Id;
-      ff.FacultyNumber = f.FacultyNumber;
-      ff.FirstName = f.FirstName;
-      ff.LastName = f.LastName;
-      ff.Phone = f.Phone;
+      ff.FacultyId = faculty.PersonId;
+      ff.SenecaId = faculty.SenecaId;
+      ff.FirstName = faculty.FirstName;
+      ff.LastName = faculty.LastName;
+      ff.Phone = faculty.Phone;
       ff.Courses = new List<CourseBase>();
-      foreach (var item in f.Courses) {
+      foreach (var item in faculty.Courses) {
         CourseBase cb = new CourseBase();
-        cb.CourseId = item.Id;
+        cb.CourseId = item.CourseId;
         cb.CourseCode = item.CourseCode;
         ff.Courses.Add(cb);
       }
@@ -284,8 +296,8 @@ namespace igoryen.ViewModels {
       List<FacultyBase> lfb = new List<FacultyBase>();
       foreach (var item in faculties) {
         FacultyBase fb = new FacultyBase();
-        fb.FacultyId = item.Id;
-        fb.FacultyNumber = item.FacultyNumber;
+        fb.FacultyId = item.PersonId;
+        fb.SenecaId = item.SenecaId;
         lfb.Add(fb);
       }
       return lfb;

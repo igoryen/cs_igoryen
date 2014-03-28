@@ -29,39 +29,39 @@ namespace igoryen.Models {
       // 60. purge student row
       //-------------------------------------
       Student bob = new Student(); // 10
-      bob.Id = 1; // 20
+      bob.PersonId = 1; // 20
       bob.FirstName = "Bob";
       bob.LastName = "White";
       bob.Phone = "555-555-5555";
-      bob.StudentNumber = "011111111";
+      bob.SenecaId = "011111111";
       dc.Students.Add(bob);
 
       Student mary = new Student();
-      mary.Id = 2;
+      mary.PersonId = 2;
       mary.FirstName = "Mary";
       mary.LastName = "Brown";
       mary.Phone = "555-555-5555";
-      mary.StudentNumber = "011111112";
+      mary.SenecaId = "011111112";
       dc.Students.Add(mary);
 
       Student wei = new Student();
-      wei.Id = 3;
+      wei.PersonId = 3;
       wei.FirstName = "Wei";
       wei.LastName = "Chen";
       wei.Phone = "555-555-5555";
-      wei.StudentNumber = "011111113";
+      wei.SenecaId = "011111113";
       dc.Students.Add(wei);
 
       Student john = new Student("John", "Woo", "555-555-1234", "011111114");
-      john.Id = 4;
+      john.PersonId = 4;
       dc.Students.Add(john);
 
       Student jack = new Student("Jack", "Smith", "555-555-1235", "011111115");
-      jack.Id = 5;
+      jack.PersonId = 5;
       dc.Students.Add(jack);
 
       Student jill = new Student("Jill", "Smith", "555-555-1236", "011111116");
-      jack.Id = 6;
+      jack.PersonId = 6;
       dc.Students.Add(jill);
       
       //-------------------------------------
@@ -272,7 +272,7 @@ namespace igoryen.Models {
       // #5 - initialize some faculties and assign to them courses
       //-------------------------------------
       Faculty peter = new Faculty("Peter", "Peterson", "555-567-6789", "034234678"); // 20
-      peter.Id = 10; // 25
+      peter.PersonId = 10; // 25
       peter.Courses.Add(ipc144);
       peter.Courses.Add(uli101);
       peter.Courses.Add(ios110);
@@ -280,7 +280,7 @@ namespace igoryen.Models {
       dc.Faculties.Add(peter);
 
       Faculty adam = new Faculty("Adam", "Adamson", "555-567-6790", "034234677");
-      adam.Id = 11;
+      adam.PersonId = 11;
       adam.Courses.Add(int222);
       adam.Courses.Add(ibc233);
       adam.Courses.Add(dbs201);
@@ -288,7 +288,7 @@ namespace igoryen.Models {
       dc.Faculties.Add(adam); // 35
 
       Faculty ron = new Faculty("Ronald", "Ronaldson", "555-567-6791", "034234676");
-      ron.Id = 12;
+      ron.PersonId = 12;
       ron.Courses.Add(int322);
       ron.Courses.Add(dbs301);
       ron.Courses.Add(jac444);
@@ -296,7 +296,7 @@ namespace igoryen.Models {
       dc.Faculties.Add(ron); // 35
 
       Faculty bill = new Faculty("Bill", "Johnson", "555-567-6792", "034234677");
-      bill.Id = 13;
+      bill.PersonId = 13;
       bill.Courses.Add(dcn455);
       bill.Courses.Add(bac344);
       bill.Courses.Add(map524);

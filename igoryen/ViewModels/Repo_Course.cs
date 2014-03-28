@@ -14,13 +14,41 @@ namespace igoryen.ViewModels {
     // C
 
     //======================================
-    // CreateCourse() - with Automapper
+    // createCourse()
+    //======================================
+    public CourseFull createCourse(string code, string name, string time, string room, string studPersIds, string facSenId) {
+
+      Models.Course course = new Models.Course();
+      course.CourseCode = code;
+      course.CourseName = name;
+      course.RunTime = time;
+      course.RoomNumber = room;
+
+      foreach (var item in studPersIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var student = dc.Students.FirstOrDefault(students => students.PersonId == intItem);
+        course.Students.Add(student);
+      }
+      //int fId = Convert.ToInt32(facId);
+      course.Faculty = dc.Faculties.FirstOrDefault(fac => fac.SenecaId == facSenId);
+
+      dc.Courses.Add(course);
+      dc.SaveChanges();
+
+      //return getCourseFull(course.CourseId);
+      return getCourseFullAM(course.CourseId);
+    }
+
+
+    //======================================
+    // CreateCourseAM() - with Automapper
     // 50. nulls are like time bombs
     //======================================
-    public CourseFull createCourseAM(ViewModels.CourseCreate newItem, string d) {
+    public CourseFull createCourseAM(ViewModels.CourseCreate newItem, string facultyId) {
+
       Models.Course course = Mapper.Map<Models.Course>(newItem);
-      int did = Convert.ToInt32(d);
-      course.Faculty = dc.Faculties.FirstOrDefault(n => n.Id == did);
+      int facId = Convert.ToInt32(facultyId);
+      course.Faculty = dc.Faculties.FirstOrDefault(n => n.PersonId == facId);
 
       if (course.Faculty == null) return null; // 50
 
@@ -73,10 +101,31 @@ namespace igoryen.ViewModels {
     // G
 
     //======================================
-    // getCourseFull() - with Automapper
+    // getCourseFull()
+    // 30. cast from IEnumerable<> to List<>
+    //====================================== 
+    public CourseFull getCourseFull(int? id) {
+      var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.CourseId == id);
+      if (course == null) return null;
+
+      CourseFull courseFull = new CourseFull();
+      courseFull.CourseId = course.CourseId;
+      courseFull.CourseCode = course.CourseCode;
+      courseFull.CourseName = course.CourseName;
+      courseFull.RunTime = course.RunTime;
+      courseFull.RoomNo = course.RoomNumber;
+      courseFull.Students = rs.toListOfStudentBase(course.Students);
+      courseFull.Faculty = rf.getFacultyFull(course.Faculty.PersonId);
+
+      return courseFull;
+    }
+
+
+    //======================================
+    // getCourseFullAM() - with Automapper
     //====================================== 
     public CourseFull getCourseFullAM(int? id) {
-      var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.Id == id);
+      var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.CourseId == id);
       if (course == null) return null;
       else return Mapper.Map<CourseFull>(course);
     }
@@ -107,7 +156,7 @@ namespace igoryen.ViewModels {
       foreach (var item in ls) {
         CourseBase co = new CourseBase();
         co.CourseCode = item.CourseCode;
-        co.CourseId = item.Id;
+        co.CourseId = item.CourseId;
         nls.Add(co);
       }
 
@@ -142,7 +191,7 @@ namespace igoryen.ViewModels {
       List<CourseBase> lcb = new List<CourseBase>();
       foreach (var item in courses) {
         CourseBase cb = new CourseBase();
-        cb.CourseId = item.Id;
+        cb.CourseId = item.CourseId;
         cb.CourseCode = item.CourseCode;
         lcb.Add(cb);
       }

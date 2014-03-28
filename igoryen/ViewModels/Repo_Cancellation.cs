@@ -18,7 +18,7 @@ namespace igoryen.ViewModels {
 
       Models.Cancellation cancellation = Mapper.Map<Models.Cancellation>(newItem);
       int did = Convert.ToInt32(d);
-      cancellation.Course = dc.Courses.FirstOrDefault(n => n.Id == did);
+      cancellation.Course = dc.Courses.FirstOrDefault(n => n.CourseId == did);
 
       //if (cancellation.Course == null) return null; // 50
 

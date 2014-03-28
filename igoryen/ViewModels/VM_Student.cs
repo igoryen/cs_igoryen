@@ -18,17 +18,7 @@ namespace igoryen.ViewModels {
 
     [Required]
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
-    public string StudentNumber { get; set; }
-  }
-
-  //===============================
-  // StudentFull : StudentBase
-  //===============================
-  public class StudentFull : StudentBase {
-
-    public StudentFull() {
-      this.Courses = new List<CourseBase>();
-    }
+    public string SenecaId { get; set; }
 
     [Required]
     [StringLength(40, MinimumLength = 3)]
@@ -39,6 +29,18 @@ namespace igoryen.ViewModels {
     [StringLength(100, MinimumLength = 3)]
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
+
+
+  }
+
+  //===============================
+  // StudentFull : StudentBase
+  //===============================
+  public class StudentFull : StudentBase {
+
+    public StudentFull() {
+      this.Courses = new List<CourseBase>();
+    }
 
     [Required]
     [RegularExpression("^[2-9]\\d{2}-\\d{3}-\\d{4}$", ErrorMessage = "nnn-nnn-nnnn")]
@@ -76,7 +78,7 @@ namespace igoryen.ViewModels {
 
     [Required]
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
-    public string StudentNumber { get; set; }
+    public string SenecaId { get; set; }
 
     [Required]
     [StringLength(40, MinimumLength = 3)]

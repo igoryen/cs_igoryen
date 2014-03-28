@@ -52,20 +52,20 @@ namespace igoryen.Models {
   }
 
   //===================================================
-  // Course
+  // Course - 7 fields
   //===================================================
   public class Course {
     public Course() {
       this.Students = new List<Student>();
     }
     [Key]
-    public int Id { get; set; }
-    public string CourseName { get; set; }
+    public int CourseId { get; set; }
     public string CourseCode { get; set; }
+    public string CourseName { get; set; }
     public string RoomNumber { get; set; }
     public string RunTime { get; set; }
-    public List<Student> Students { get; set; }
     public Faculty Faculty { get; set; }
+    public List<Student> Students { get; set; }
   }
 
   // F
@@ -76,20 +76,21 @@ namespace igoryen.Models {
   public class Faculty : Person {
     public Faculty() {
       this.Courses = new List<Course>();
-      FacultyNumber = string.Empty;
+      SenecaId = string.Empty;
     }
 
-    public Faculty(string f, string l, string p, string fid)
-      : base(f, l, p) {
+    public Faculty(string fname, string lname, string phone, string senId)
+      : base(fname, lname, phone) {
       this.Courses = new List<Course>();
-      FacultyNumber = fid;
+      this.Messages = new List<Message>();
+      SenecaId = senId;
     }
 
     [Required]
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
-    public string FacultyNumber { get; set; }
+    public string SenecaId { get; set; }
     public List<Course> Courses { get; set; }
-    //public List<Message> Messages { get; set; }
+    public List<Message> Messages { get; set; }
   }
 
   // M
@@ -160,7 +161,7 @@ namespace igoryen.Models {
     }
 
     [Key]
-    public int Id { get; set; }
+    public int PersonId { get; set; }
 
     [Required]
     [StringLength(40, MinimumLength = 3)]
@@ -183,18 +184,18 @@ namespace igoryen.Models {
   //===================================================
   public class Student : Person {
     public Student() {
-      StudentNumber = string.Empty;
+      SenecaId = string.Empty;
       this.Courses = new List<Course>();
     }
 
-    public Student(string f, string l, string p, string sid)
+    public Student(string f, string l, string p, string senId)
       : base(f, l, p) {
-      StudentNumber = sid;
+        SenecaId = senId;
     }
 
     [Required]
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
-    public string StudentNumber { get; set; }
+    public string SenecaId { get; set; }
     public List<Course> Courses { get; set; }
     public List<ComMethod> ComMethods { get; set; }
   } // Student

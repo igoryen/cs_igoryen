@@ -11,7 +11,7 @@ using igoryen.ViewModels;
 
 namespace igoryen.Controllers {
   public class CourseController : Controller {
-    private DataContext db = new DataContext();
+    //private DataContext db = new DataContext();
 
     //==================================================
     // Bring in namespaces
@@ -25,7 +25,7 @@ namespace igoryen.Controllers {
     // C
 
     //======================================
-    // CourseCreate() - GET: /Course/Create
+    // CourseCreate() - GET: /CourseCreate/Create
     //======================================
     public ActionResult CourseCreate() {
       ViewModels.CourseCreate newItem = new ViewModels.CourseCreate();
@@ -37,14 +37,15 @@ namespace igoryen.Controllers {
     }
 
     //======================================
-    // CourseCreate() - POST: /Course/Create
+    // CourseCreate() - POST: /CourseCreate/Create
     //======================================
     [HttpPost]
     public ActionResult CourseCreate(FormCollection form, ViewModels.CourseCreate newItem) {
+
       if (ModelState.IsValid) {
         try {
-          if (form.Count == 4) {
-            var addedItem = rc.createCourseAM(newItem, form[3]);
+          if (form.Count == 7) {
+            var addedItem = rc.createCourseAM(newItem, form[6]);
             if (addedItem == null) {
               return View("Error");
             }
@@ -64,6 +65,7 @@ namespace igoryen.Controllers {
       }
     } // CourseCreate()
 
+
     //==================================================
     // Create() - GET: /Course/Create
     //==================================================
@@ -75,19 +77,23 @@ namespace igoryen.Controllers {
 
     //======================================
     // Create() - POST: /Course/Create
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     //======================================
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime")] Course course) {
-      if (ModelState.IsValid) {
-        db.Courses.Add(course);
-        db.SaveChanges();
+    public ActionResult Create(FormCollection form) {
+      //try {
+        if (form.Count == 7) {
+          rc.createCourse(form[1], form[2], form[3], form[4], form[5], form[6]);
+        }
         return RedirectToAction("Index");
+      /*
       }
-
-      return View(course);
+      catch (Exception e) {
+        ViewBag.ExceptionMessage0 = "CourseController.cs/Create(): " + e.Message;
+        ViewBag.ExceptionMessage1 = "form.Count: " + form.Count;
+        return View("Error");
+      }
+       */
     }
 
     // D
@@ -135,18 +141,19 @@ namespace igoryen.Controllers {
       }
       return View(course);
       */
-      return View(rc.getCourseFullAM(id));
+      return View(rc.getCourseFull(id));
     }
 
     //==================================================
     // Dispose()
     //==================================================
+    /*
     protected override void Dispose(bool disposing) {
       if (disposing) {
         db.Dispose();
       }
       base.Dispose(disposing);
-    }
+    }*/
 
     // E
 
@@ -155,15 +162,19 @@ namespace igoryen.Controllers {
     // 10. if id == null, do not query
     //==================================================
     public ActionResult Edit(int? id) {
+
       if (id == null) { // 10
         ViewBag.ExceptionMessage = "That was an invalid record";
         return View("Error");
       }
-      var course = rc.getCourseFullAM(id);
+
+      var course = rc.getCourseFull(id);
+
       if (course == null) {
         ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
         return View("Error");
       }
+
       return View(course);
     }
 
@@ -175,7 +186,7 @@ namespace igoryen.Controllers {
     //==================================================
     [HttpPost, ActionName("Edit")] // 10
     [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime")] CourseFull editItem) {
+    public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime,Faculty,Students")] CourseFull editItem) {
       if (ModelState.IsValid) {
         var newItem = rc.editCourseAM(editItem);
         if (newItem == null) {

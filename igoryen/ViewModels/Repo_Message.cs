@@ -21,7 +21,7 @@ namespace igoryen.ViewModels {
     public MessageFull createMessageAM(ViewModels.MessageCreate newItem, string d) {
       Models.Message message = Mapper.Map<Models.Message>(newItem);
       int did = Convert.ToInt32(d);
-      message.Faculty = dc.Faculties.FirstOrDefault(n => n.Id == did);
+      message.Faculty = dc.Faculties.FirstOrDefault(n => n.PersonId == did);
 
       if (message.Faculty == null) return null; // 50
 

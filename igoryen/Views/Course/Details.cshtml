@@ -42,6 +42,22 @@
             @Html.DisplayFor(model => model.RoomNo)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Faculty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Faculty.LastName)
+        </dd>
+        
+
+            <dt>@Html.DisplayNameFor(model =>model.Students)</dt>
+
+                @foreach(var item in Model.Students){
+                    <dd>@item.LastName<br/></dd>
+                }
+        
+
     </dl>
 </div>
 <p>

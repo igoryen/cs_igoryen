@@ -49,6 +49,22 @@
             </div>
         </div>
 
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4>Students:</h4>
+                @Html.ListBox("students")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4>Faculties:</h4>
+                @Html.DropDownList("faculties")
+            </div>
+        </div>
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

@@ -48,7 +48,7 @@ namespace igoryen.ViewModels {
 
     //======================================
     public StudentFull createStudent(StudentFull st, string ids) {
-      Student stu = new Student(st.FirstName, st.LastName, st.Phone, st.StudentNumber); // 100 
+      Student stu = new Student(st.FirstName, st.LastName, st.Phone, st.SenecaId); // 100 
 
       /*
       stu.Id = Students.Max(n => n.Id) + 1;
@@ -64,13 +64,13 @@ namespace igoryen.ViewModels {
       }
 
       foreach (var item in ls) { // 120
-        stu.Courses.Add(dc.Courses.FirstOrDefault(n => n.Id == item));
+        stu.Courses.Add(dc.Courses.FirstOrDefault(n => n.CourseId == item));
       }
 
       dc.Students.Add(stu); // 125
       dc.SaveChanges(); // 130
 
-      return getStudentFull(stu.Id); // 135
+      return getStudentFull(stu.PersonId); // 135
 
     }
 
@@ -80,7 +80,7 @@ namespace igoryen.ViewModels {
     // getListOfStudentBase()
     //======================================
     public IEnumerable<StudentBase> getListOfStudentBase() {
-      var students = dc.Students.OrderBy(n => n.Id);
+      var students = dc.Students.OrderBy(student => student.LastName);
       //var ls = this.Students.OrderBy(n => n.Id);
 
       if (students == null) return null;
@@ -89,8 +89,11 @@ namespace igoryen.ViewModels {
 
       foreach (var item in students) {
         StudentBase sb = new StudentBase();
-        sb.StudentId = item.Id;
-        sb.StudentNumber = item.StudentNumber;
+        sb.StudentId = item.PersonId;
+        sb.SenecaId = item.SenecaId;
+        sb.FirstName = item.FirstName;
+        sb.LastName = item.LastName;
+
         lsb.Add(sb);
       }
 
@@ -109,8 +112,8 @@ namespace igoryen.ViewModels {
       foreach (var item in st) {  // 70
         StudentFull row = new StudentFull();   // 75
 
-        row.StudentId = item.Id;  // 80
-        row.StudentNumber = item.StudentNumber;
+        row.StudentId = item.PersonId;  // 80
+        row.SenecaId = item.SenecaId;
         row.FirstName = item.FirstName;
         row.LastName = item.LastName;
         row.Phone = item.Phone;
@@ -145,13 +148,13 @@ namespace igoryen.ViewModels {
     //======================================
     public StudentFull getStudentFull(int? id) {
       //var st = dc.Students.FirstOrDefault(n => n.Id == id);
-      var st = Students.FirstOrDefault(n => n.Id == id);
+      var st = Students.FirstOrDefault(n => n.PersonId == id);
 
       StudentFull stu = new StudentFull();
       stu.FirstName = st.FirstName;
       stu.LastName = st.LastName;
       stu.Phone = st.Phone;
-      stu.StudentNumber = st.StudentNumber;
+      stu.SenecaId = st.SenecaId;
       stu.Courses = Repo_Course.getListOfCourseBase(st.Courses);
 
       return stu;
@@ -180,7 +183,7 @@ namespace igoryen.ViewModels {
       foreach (var item in st) {      // 110
         StudentName row = new StudentName(); // 115
 
-        row.StudentId = item.Id; // 50
+        row.StudentId = item.PersonId; // 50
         row.FirstName = item.FirstName;
         row.LastName = item.LastName;
 
@@ -215,14 +218,14 @@ namespace igoryen.ViewModels {
      */
     //======================================
     public IEnumerable<StudentPublic> getListOfStudentPublic() { // 1
-      var st = dc.Students.OrderBy(n => n.StudentNumber); // 20
+      var st = dc.Students.OrderBy(n => n.SenecaId); // 20
       //var st = this.Students.OrderBy(n => n.StudentNumber); // 20
       List<StudentPublic> rls = new List<StudentPublic>(); // 25
 
       foreach (var item in st) {  // 30
         StudentPublic row = new StudentPublic();   // 35
 
-        row.StudentNumber = item.StudentNumber;  // 40 
+        row.StudentId = item.PersonId;  // 40 
         row.FirstName = item.FirstName;
         row.LastName = item.LastName;
         row.Phone = item.Phone;
@@ -237,13 +240,13 @@ namespace igoryen.ViewModels {
     //======================================
     public StudentPublic getStudentPublic(int? id) {
       //var st = dc.Students.FirstOrDefault(n => n.Id == id);
-      var st = Students.FirstOrDefault(n => n.Id == id);
+      var st = Students.FirstOrDefault(n => n.PersonId == id);
 
       StudentPublic stu = new StudentPublic();
+      stu.StudentId = st.PersonId;
       stu.FirstName = st.FirstName;
       stu.LastName = st.LastName;
       stu.Phone = st.Phone;
-      stu.StudentNumber = st.StudentNumber;
 
       return stu;
 
@@ -257,7 +260,7 @@ namespace igoryen.ViewModels {
     //======================================
 
     public SelectList getStudentSelectList() {
-      SelectList sl = new SelectList(getListOfStudentBase(), "StudentId", "StudentNumber");
+      SelectList sl = new SelectList(getListOfStudentBase(), "StudentId", "FirstName", "LastName");
       return sl;
     }
 
@@ -284,8 +287,10 @@ namespace igoryen.ViewModels {
 
       foreach (var item in students) {
         StudentBase sb = new StudentBase();
-        sb.StudentId = item.Id;
-        sb.StudentNumber = item.StudentNumber;
+        sb.StudentId = item.PersonId;
+        sb.SenecaId = item.SenecaId;
+        sb.FirstName = item.FirstName;
+        sb.LastName = item.LastName;
         lsb.Add(sb);
       }
       return lsb;

@@ -20,7 +20,7 @@ namespace igoryen.Models {
     //===================================================
     public Student createStudent(Student stu) {
 
-      stu.Id = Students.Max(n => n.Id) + 1;
+      stu.PersonId = Students.Max(n => n.PersonId) + 1;
       //Students.Add(stu);
       dc.Students.Add(stu);
       dc.SaveChanges();
@@ -32,7 +32,7 @@ namespace igoryen.Models {
     public Student createStudent(string fName, string lName, string pNumber, string sid) {
       var st = new Student(fName, lName, pNumber, sid);
 
-      st.Id = Students.Last().Id + 1;
+      st.PersonId = Students.Last().PersonId + 1;
       //Students.Add(st);
       dc.Students.Add(st);
       dc.SaveChanges();
@@ -45,13 +45,13 @@ namespace igoryen.Models {
     //===================================================
     // editStudent()
     //===================================================
-    public Student editStudent(int id, string fName, string lName, string pNumber, string sid) {
-      var stu = Students.FirstOrDefault(b => b.Id == id);
+    public Student editStudent(int id, string fName, string lName, string pNumber, string senId) {
+      var stu = Students.FirstOrDefault(b => b.PersonId == id);
 
       stu.FirstName = fName;
       stu.LastName = lName;
       stu.Phone = pNumber;
-      stu.StudentNumber = sid;
+      stu.SenecaId = senId;
       dc.SaveChanges();
       return stu;
     }
@@ -73,7 +73,7 @@ namespace igoryen.Models {
     // getStudent() 
     //===================================================
     public Student getStudent(int? id) {
-      return Students.FirstOrDefault(n => n.Id == id);
+      return Students.FirstOrDefault(n => n.PersonId == id);
     }
 
 
@@ -93,7 +93,7 @@ namespace igoryen.Models {
     //===================================================
     public IEnumerable<Student> sortStudents() {
       //return this.Students.OrderBy(n => n.Id);
-      return dc.Students.OrderBy(n => n.Id);
+      return dc.Students.OrderBy(n => n.PersonId);
     }
 
     public List<Student> Students { get; set; }

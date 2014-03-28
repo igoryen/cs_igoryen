@@ -54,6 +54,8 @@ namespace igoryen.Models {
 
     public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationCreate> CancellationCreates { get; set; }
 
+    public System.Data.Entity.DbSet<igoryen.ViewModels.CourseCreate> CourseCreates { get; set; }
+
 
   }
 }

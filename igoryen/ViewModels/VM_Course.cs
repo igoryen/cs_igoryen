@@ -22,7 +22,7 @@ namespace igoryen.ViewModels {
   //======================================
   public class CourseCreate {
     [Key]
-    public int Id { get; set; }
+    public int CourseId { get; set; }
     [Required]
     public string CourseName { get; set; }
     public string CourseCode { get; set; }
