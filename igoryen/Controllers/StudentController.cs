@@ -39,13 +39,15 @@ namespace igoryen.Controllers {
 
     //======================================
     // Create() - POST: /Student/Create
+    // 20. Change to 7 when ComMethod is clarified
+    // 30. add ", form[6]" for ComMethod when it's clarified
     //======================================
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Create(FormCollection form) {
       //try {
-      if (form.Count == 7) {
-        rs.createStudent(form[1], form[2], form[3], form[4], form[5], form[6]);
+      if (form.Count == 6) { // 20
+        rs.createStudent(form[1], form[2], form[3], form[4], form[5]/*, form[6]*/); // 30
       }
       return RedirectToAction("Index");
       /*
@@ -59,45 +61,42 @@ namespace igoryen.Controllers {
     }
 
     // D
-    
-    //======================================
+
+    //==================================================
     // Delete() - GET: /Student/Delete/5
-    //======================================
-    public async Task<ActionResult> Delete(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+    // 10. if id == null, don't delete
+    //==================================================
+    public ActionResult Delete(int? id) {
+      if (id == null) { // 10
+        ViewBag.ExceptionMessage = "That was an invalid record";
+        return View("Error");
       }
-      Student student = await db.Students.FindAsync(id);
-      if (student == null) {
-        return HttpNotFound();
+      var course = rs.getStudentFullAM(id);
+      if (course == null) {
+        ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
+        return View("Error");
       }
-      return View(student);
+      return View(course);
     }
 
-    //======================================
-    // DeleteConfirmed() - POST: /Student/Delete/5
-    //======================================
+    //==================================================
+    // Delete() - POST: /Student/Delete/5
+    //==================================================
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id) {
-      Student student = await db.Students.FindAsync(id);
-      db.Students.Remove(student);
-      await db.SaveChangesAsync();
+    public ActionResult DeleteConfirmed(int id) {
+      // Course course = db.Courses.Find(id);
+      // db.Courses.Remove(course);
+      // db.SaveChanges();
+      rs.DeleteStudent(id);
       return RedirectToAction("Index");
     }
 
     //======================================
     // Details() - GET: /Student/Details/5
     //======================================
-    public async Task<ActionResult> Details(int? id) {
-      if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Student student = await db.Students.FindAsync(id);
-      if (student == null) {
-        return HttpNotFound();
-      }
-      return View(student);
+    public ActionResult Details(int? id) {
+      return View(rs.getStudentFull(id));
     }
 
     //======================================

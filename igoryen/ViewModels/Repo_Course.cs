@@ -134,7 +134,7 @@ namespace igoryen.ViewModels {
     // getCourseSelectList()
     //======================================
     public SelectList getCourseSelectList() {
-      SelectList sl = new SelectList(getListOfCourseBaseAM(), "CourseCode");
+      SelectList sl = new SelectList(getListOfCourseBaseAM(), "CourseId", "CourseCode");
       return sl;
     }
     //======================================

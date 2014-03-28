@@ -16,9 +16,9 @@ namespace igoryen.ViewModels {
     // C
 
     //======================================
-    // createStudent(StudentFull st)
+    // createStudent()
     //======================================
-    public StudentFull createStudent(string fname, string lname, string phone, string senId, string courseIds, string cmethodIds) {
+    public StudentFull createStudent(string senId, string fname, string lname, string phone, string courseIds/*, string cmethodIds*/) {
 
       Models.Student student = new Models.Student();
       student.FirstName = fname;
@@ -31,13 +31,13 @@ namespace igoryen.ViewModels {
         var course = dc.Courses.FirstOrDefault(courses => courses.CourseId == intItem);
         student.Courses.Add(course);
       }
-
+      /*
       foreach (var item in cmethodIds.Split(',')) {
         var intItem = Convert.ToInt32(item);
         var cmethod = dc.ComMethods.FirstOrDefault(cmethods => cmethods.ComMethodId == intItem);
         student.ComMethods.Add(cmethod);
       }
-
+      */
       dc.Students.Add(student);
       dc.SaveChanges();
 
@@ -86,6 +86,28 @@ namespace igoryen.ViewModels {
 
     }
 
+    // D
+
+    //======================================
+    // DeleteStudent()
+    // 20. return [void] since the function's retval is void
+    //======================================
+    public void DeleteStudent(int? id) {
+      var itemToDelete = dc.Students.Find(id);
+      if (itemToDelete == null) {
+        return; // 20
+      } // if
+      else {
+        try {
+          dc.Students.Remove(itemToDelete);
+          dc.SaveChanges();
+        }
+        catch (Exception ex) {
+          throw ex;
+        }
+      } // else
+    } // DeleteCourse()
+
     // G
 
     //======================================
@@ -101,7 +123,7 @@ namespace igoryen.ViewModels {
 
       foreach (var item in students) {
         StudentBase sb = new StudentBase();
-        sb.StudentId = item.PersonId;
+        sb.PersonId = item.PersonId;
         sb.SenecaId = item.SenecaId;
         sb.FirstName = item.FirstName;
         sb.LastName = item.LastName;
@@ -116,7 +138,7 @@ namespace igoryen.ViewModels {
     // getListOfStudentBaseAM() - with automapper
     //====================================== 
     public IEnumerable<StudentBase> getListOfStudentBaseAM() {
-      var students = dc.Students.OrderBy(s => s.PersonId);
+      var students = dc.Students.OrderBy(s => s.LastName);
       if (students == null) return null;
       return Mapper.Map<IEnumerable<StudentBase>>(students);
     }
@@ -133,7 +155,7 @@ namespace igoryen.ViewModels {
       foreach (var item in st) {  // 70
         StudentFull row = new StudentFull();   // 75
 
-        row.StudentId = item.PersonId;  // 80
+        row.PersonId = item.PersonId;  // 80
         row.SenecaId = item.SenecaId;
         row.FirstName = item.FirstName;
         row.LastName = item.LastName;
@@ -172,13 +194,13 @@ namespace igoryen.ViewModels {
       if (student == null) return null;
 
       StudentFull studentFull = new StudentFull();
-      studentFull.StudentId = student.PersonId;
+      studentFull.PersonId = student.PersonId;
       studentFull.SenecaId = student.SenecaId;
       studentFull.FirstName = student.FirstName;
       studentFull.LastName = student.LastName;
       studentFull.Phone = student.Phone;
       studentFull.Courses = rc.toListOfCourseBase(student.Courses);
-      studentFull.ComMethods = rcm.toListOfComMethod(student.ComMethods);
+      //studentFull.ComMethods = rcm.toListOfComMethod(student.ComMethods);
 
       return studentFull;
     }
@@ -327,7 +349,7 @@ namespace igoryen.ViewModels {
 
       foreach (var item in students) {
         StudentBase sb = new StudentBase();
-        sb.StudentId = item.PersonId;
+        sb.PersonId = item.PersonId;
         sb.SenecaId = item.SenecaId;
         sb.FirstName = item.FirstName;
         sb.LastName = item.LastName;
