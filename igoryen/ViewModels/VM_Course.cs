@@ -15,6 +15,8 @@ namespace igoryen.ViewModels {
     [Key]
     public int CourseId { get; set; }
     public string CourseCode { get; set; }
+    public string CourseName { get; set; }
+
   }
 
   //======================================
@@ -34,7 +36,6 @@ namespace igoryen.ViewModels {
   // CourseFull
   //======================================
   public class CourseFull : CourseBase {
-    public string CourseName { get; set; }
     public string RunTime { get; set; }
     public string RoomNo { get; set; }
     public FacultyFull Faculty { get; set; }

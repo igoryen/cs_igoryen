@@ -53,8 +53,10 @@ namespace igoryen.Models {
 
   //===================================================
   // Course - 7 fields
+  // 10. Add ': IdentityDbContext' and you won't see 'Course' 
+  //     among class models when you create a view
   //===================================================
-  public class Course {
+  public class Course { // 10
     public Course() {
       this.Students = new List<Student>();
     }
@@ -66,6 +68,7 @@ namespace igoryen.Models {
     public string RunTime { get; set; }
     public Faculty Faculty { get; set; }
     public List<Student> Students { get; set; }
+    public virtual ApplicationUser User { get; set; }
   }
 
   // F
@@ -148,8 +151,17 @@ namespace igoryen.Models {
 
   //===================================================
   // Person
+  // 10. Without this line you get the error:
+  //     The type 'igoryen.Models.Person' cannot be used as type parameter 'TUser' 
+  //     in the generic type or method 'Microsoft.AspNet.Identity.EntityFramework.IdentityDbContext<TUser>'. 
+  //     There is no implicit reference conversion 
+  //     from 'igoryen.Models.Person' to 'Microsoft.AspNet.Identity.EntityFramework.IdentityUser'.
+  //     C:\aaa\vat\c#\proj\igoryen\igoryen\Models\IdentityModels.cs. Line: 27, column: 16
+
   //===================================================
-  public class Person {
+  public class Person 
+    : IdentityUser { // 10
+
     public Person() {
       FirstName = LastName = Phone = string.Empty;
     }

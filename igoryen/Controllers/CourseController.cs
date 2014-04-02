@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using igoryen.Models;
 using igoryen.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace igoryen.Controllers {
   [Authorize]
@@ -16,14 +18,28 @@ namespace igoryen.Controllers {
 
     //==================================================
     // Bring in namespaces
+    // 40. datacontext
+    // 50. manager
     //==================================================
     private Repo_Course rc = new Repo_Course();
     private Repo_Student rs = new Repo_Student();
     private Repo_Faculty rf = new Repo_Faculty();
 
+    private DataContext dc; // 40
+    private UserManager<ApplicationUser> manager; // 50
+
+
     // Action methods alphabetically
 
     // C
+
+    //======================================
+    // Constructor
+    //======================================
+    public CourseController() {
+      dc = new DataContext();
+      manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dc));
+    }
 
     //======================================
     // CourseCreate() - GET: /CourseCreate/Create
@@ -213,11 +229,111 @@ namespace igoryen.Controllers {
 
     //==================================================
     // Index() - GET: /Course/
+    // 20. see: Identity Sample v1 - p.5
     //==================================================
     public ActionResult Index() {
-      //return View(db.Courses.ToList());
-      return View(rc.getListOfCourseBaseAM());
+
+      //------------------------------------------------------
+      // option 10 - retrieve all courses for all faculties
+      //------------------------------------------------------
+      //return View(dc.Courses.ToList());
+
+
+      //------------------------------------------------------
+      // option 15
+      //------------------------------------------------------
+      /*
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+
+      return View(rc.getListOfCourseBaseAM(currentUser.Id));
+      */
+
+      //------------------------------------------------------
+      // option 17 - works
+      //------------------------------------------------------
+      //return View(rc.getListOfCourseBaseAM());
+
+
+      //------------------------------------------------------
+      // option 20
+      //------------------------------------------------------
+      
+      var currentUser =  manager.FindById(User.Identity.GetUserId());
+
+      if (currentUser == null) {
+        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
+        return View("Error");
+      }
+
+      return View(dc.Courses.ToList().Where(
+        course => 
+          course.User.Id 
+          == currentUser.Id)); // 20
+      
+
+      //----------------------------
+      // option 25 - 
+      //----------------------------
+      /*
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+
+      if (currentUser == null) {
+        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
+        return View("Error");
+      }
+
+      courses = dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id);
+
+      return View(courses);
+      */
+
+      //----------------------------
+      // option 30
+      //----------------------------
+      /*
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+
+      IEnumerable<Course> courses;
+      courses = dc.Courses.ToList().Where(
+        course => course != null &&
+          course.User.Id 
+          == currentUser.Id);
+      
+      if (courses != null) {
+        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/courses: >>" + courses + "<<";
+        return View("Error");
+      }
+      
+      return View(courses);
+      */
+
+      //----------------------------
+      // option 32
+      //----------------------------
+      /*
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+
+      IEnumerable<Course> courses;
+      courses = dc.Courses.ToList().Where(
+        course => course != null &&
+          course.User.Id 
+          == currentUser.Id);
+      
+      return View(courses);
+      */
+
+      //----------------------------
+      // option 45
+      //----------------------------
+      /*
+      var currentUser = manager.FindById(User.Identity.GetUserId());
+      Course course = dc.Courses.FirstOrDefault(c => c.User.Id == currentUser.Id);
+
+      return View(course);
+      */
+      
     }
+
 
   }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework; // 20
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,8 +19,9 @@ namespace igoryen.Models {
     // InitializeTables()
     //===================================================
     private void InitializeTables(DataContext dc){
+      try {
 
-      //-------------------------------------
+        //-------------------------------------
       // initialize a few ComMethod rows
       //-------------------------------------
 
@@ -84,6 +86,7 @@ namespace igoryen.Models {
       bob.LastName = "White";
       bob.Phone = "555-555-5555";
       bob.SenecaId = "011111111";
+      bob.UserName = "Bob";
 
       dc.Students.Add(bob);
 
@@ -93,6 +96,7 @@ namespace igoryen.Models {
       mary.LastName = "Brown";
       mary.Phone = "555-555-5555";
       mary.SenecaId = "011111112";
+      mary.UserName = "Mary";
      
       dc.Students.Add(mary);
 
@@ -102,21 +106,25 @@ namespace igoryen.Models {
       wei.LastName = "Chen";
       wei.Phone = "555-555-5555";
       wei.SenecaId = "011111113";
+      wei.UserName = "Wei";
       
       dc.Students.Add(wei);
 
       Student john = new Student("John", "Woo", "555-555-1234", "011111114");
       john.PersonId = 4;
+      john.UserName = "John";
       
       dc.Students.Add(john);
 
       Student jack = new Student("Jack", "Smith", "555-555-1235", "011111115");
       jack.PersonId = 5;
+      jack.UserName = "Jack";
       
       dc.Students.Add(jack);
 
       Student jill = new Student("Jill", "Smith", "555-555-1236", "011111116");
-      jack.PersonId = 6;
+      jill.PersonId = 6;
+      jill.UserName = "Jill";
       
       dc.Students.Add(jill);
       
@@ -154,7 +162,7 @@ namespace igoryen.Models {
       //6
       Course ibc233 = new Course();
       ibc233.CourseCode = "IBC233";
-      ibc233.CourseName = "Russian Basics";
+      ibc233.CourseName = "iSeries - Business Applications";
       dc.Courses.Add(ibc233);
       //7
       Course dbs201 = new Course();
@@ -184,7 +192,7 @@ namespace igoryen.Models {
       //12
       Course int422 = new Course();
       int422.CourseCode = "INT422";
-      int422.CourseName = "Russian Basics";
+      int422.CourseName = "Web development - Wondows";
       dc.Courses.Add(int422);
       //13
       Course dcn455 = new Course();
@@ -326,6 +334,8 @@ namespace igoryen.Models {
       //-------------------------------------
       Faculty peter = new Faculty("Peter", "Peterson", "555-567-6789", "034234678"); // 20
       peter.PersonId = 10; // 25
+      peter.UserName = "Peter";
+
       peter.Courses.Add(ipc144);
       peter.Courses.Add(uli101);
       peter.Courses.Add(ios110);
@@ -334,6 +344,7 @@ namespace igoryen.Models {
 
       Faculty adam = new Faculty("Adam", "Adamson", "555-567-6790", "034234677");
       adam.PersonId = 11;
+      adam.UserName = "Adam";
       adam.Courses.Add(int222);
       adam.Courses.Add(ibc233);
       adam.Courses.Add(dbs201);
@@ -342,6 +353,7 @@ namespace igoryen.Models {
 
       Faculty ron = new Faculty("Ronald", "Ronaldson", "555-567-6791", "034234676");
       ron.PersonId = 12;
+      ron.UserName = "Ron";
       ron.Courses.Add(int322);
       ron.Courses.Add(dbs301);
       ron.Courses.Add(jac444);
@@ -350,6 +362,7 @@ namespace igoryen.Models {
 
       Faculty bill = new Faculty("Bill", "Johnson", "555-567-6792", "034234677");
       bill.PersonId = 13;
+      bill.UserName = "Bill";
       bill.Courses.Add(dcn455);
       bill.Courses.Add(bac344);
       bill.Courses.Add(map524);
@@ -359,7 +372,34 @@ namespace igoryen.Models {
       //dc.Faculty.Add(fac);
 
       dc.SaveChanges(); // commit changes
-    }
+      }
+      catch (DbEntityValidationException e) {
+        //----------------------------------------------------------
+        List<string> output1 = new List<string>();
+        List<string> output2 = new List<string>();
+        foreach (var eve in e.EntityValidationErrors) {
+          output1.Add("Entity of type " + eve.Entry.Entity.GetType().Name + 
+                     " in state "+ eve.Entry.State + " has the following validation errors:");
+          foreach (var ve in eve.ValidationErrors) {
+            output1.Add("- Property: " + ve.PropertyName + ", Error: " + ve.ErrorMessage);
+          } // foreach()
+          /*
+          Console.WriteLine("======================================");
+          Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+              eve.Entry.Entity.GetType().Name, eve.Entry.State);
+          foreach (var ve in eve.ValidationErrors) {
+            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                ve.PropertyName, ve.ErrorMessage);
+          }
+           */
+        } // foreach
+        output2 = output1;
+        throw;
+      }
+      
+
+      
+    } // InitializeTables()
 
     //===================================================
     // InitianlizeIdentityForEF()

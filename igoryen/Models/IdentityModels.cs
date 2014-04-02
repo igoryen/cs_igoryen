@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -16,22 +17,32 @@ namespace igoryen.Models {
   public class ApplicationUser : IdentityUser {
     public string HomeTown { get; set; } // 10
     public virtual ICollection<Cancellation> Cancellations { get; set; }
+    public virtual ICollection<Course> Courses { get; set; }
     public virtual MyUserInfo MyUserInfo { get; set; } // 30
   }
 
   //===================================================
   // ApplicationDbContext
+  // Person is the base class for Student and Faculty
   //===================================================
-  public class DataContext : IdentityDbContext<ApplicationUser> {
+  public class DataContext : IdentityDbContext<Person> { // 10
     public DataContext()
       : base("DefaultConnection") {
     }
-
+    //===================================================
+    // 30. The entity types 'IdentityUser' and 'Course'/'Person'
+    //     cannot share table 'Users' 
+    //     because they are not in the same type hierarchy 
+    //     or do not have a valid one to one foreign key relationship 
+    //     with matching primary keys between them.
+    //===================================================
     protected override void OnModelCreating(DbModelBuilder modelBuilder) {
       base.OnModelCreating(modelBuilder);
       // Change the name of the table to be Users instead of AspNetUsers
       modelBuilder.Entity<IdentityUser>().ToTable("Users");
       modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+      //modelBuilder.Entity<Person>().ToTable("Users"); // 30
+      //modelBuilder.Entity<Course>().ToTable("Users"); // 30
     }
 
     public DbSet<Cancellation> Cancellations { get; set; }

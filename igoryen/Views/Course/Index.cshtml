@@ -1,4 +1,4 @@
-﻿@model IEnumerable<igoryen.ViewModels.CourseBase>
+﻿@model IEnumerable<igoryen.Models.Course>
 
 @{
     ViewBag.Title = "Index";
@@ -14,6 +14,15 @@
         <th>
             @Html.DisplayNameFor(model => model.CourseCode)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoomNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RunTime)
+        </th>
         <th></th>
     </tr>
 
@@ -21,6 +30,15 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.CourseCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RunTime)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CourseId }) |

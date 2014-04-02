@@ -146,6 +146,8 @@ namespace igoryen.ViewModels {
       return Mapper.Map<IEnumerable<CourseBase>>(courses);
     }
 
+    // write another code that takes an id
+
     //======================================
     // getListOfCourseBase() 
     //====================================== 
