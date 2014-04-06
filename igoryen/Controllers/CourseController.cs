@@ -255,21 +255,55 @@ namespace igoryen.Controllers {
 
 
       //------------------------------------------------------
-      // option 20
+      // option 20 - displays column headings but no courses
+      // This dictionary requires a model item of type 
+      // 'System.Collections.Generic.IEnumerable`1[igoryen.Models.Course]'.
       //------------------------------------------------------
-      
-      var currentUser =  manager.FindById(User.Identity.GetUserId());
+
+      //var currentuser = manager.findbyid(user.identity.getuserid());
+
+      //if (currentuser == null) {
+      //  viewbag.exceptionmessage0 = "coursecontroller.cs/index()/currentuser: >>" + currentuser + "<<";
+      //  return view("error");
+      //}
+
+      //return view(dc.courses.where(
+      //  course =>
+      //    course != null
+      //     && course.user.id
+      //    == currentuser.id).tolist()); // 20
+
+      //------------------------------------------------------
+      // option 22
+      // This dictionary requires a model item of type 
+      // 'System.Collections.Generic.IEnumerable`1[igoryen.Models.Course]'.
+      //------------------------------------------------------
+
+      var currentUser = manager.FindById(User.Identity.GetUserId());
 
       if (currentUser == null) {
         ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
         return View("Error");
       }
 
-      return View(dc.Courses.ToList().Where(
-        course => 
-          course.User.Id 
-          == currentUser.Id)); // 20
-      
+      var courses = rc.getListOfCourseAMbyCurrentUser(currentUser.Id);
+      Faculty Peter = new Faculty();
+      Peter = dc.Faculties.Find(currentUser.Id);
+      //string Peter = dc.Faculties.Find(currentUser.Id);
+
+      if (courses.Count() == 0) {
+        //ViewBag.ExceptionMessage1 = "CourseController.cs/Index()/courses.Count(): >>" + courses.Count() + "<<";
+        string currUserStringed = currentUser.ToString();
+        ViewBag.ExceptionMessage1 = "CourseController.cs/Index()/ compare:" + 
+          //"\n currentUser.Id: "+ currentUser.Id + 
+          "\n currentUser: "+ currUserStringed + 
+          "\n Peter: " + Peter.Id;
+
+        return View("Error");
+      }
+
+      return View(courses);
+
 
       //----------------------------
       // option 25 - 

@@ -14,7 +14,9 @@ namespace igoryen.Models {
   // 10. HomeTown will be stored in the same table as Users
   // 30. FirstName & LastName will be stored in a different table called MyUserInfo
   //===================================================
-  public class ApplicationUser : IdentityUser {
+  public class ApplicationUser : IdentityUser { // 05
+    //[Key]
+    //public int Id { get; set; }
     public string HomeTown { get; set; } // 10
     public virtual ICollection<Cancellation> Cancellations { get; set; }
     public virtual ICollection<Course> Courses { get; set; }
@@ -23,7 +25,7 @@ namespace igoryen.Models {
 
   //===================================================
   // ApplicationDbContext
-  // Person is the base class for Student and Faculty
+  // 10. ApplicationUser is the user that can use the IdentityDbContext
   //===================================================
   public class DataContext : IdentityDbContext<Person> { // 10
     public DataContext()

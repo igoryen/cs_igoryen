@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using igoryen.Models;
 
 
 namespace igoryen.ViewModels {
@@ -144,6 +145,18 @@ namespace igoryen.ViewModels {
       var courses = dc.Courses.OrderBy(c => c.CourseCode);
       if (courses == null) return null;
       return Mapper.Map<IEnumerable<CourseBase>>(courses);
+    }
+
+    //======================================
+    // getListOfCourseBaseAMbyFaculty() - with automapper
+    //====================================== 
+    public IEnumerable<Course> getListOfCourseAMbyCurrentUser(string currentUserId) {
+      //int currentUserIdInt = Convert.ToInt32(currentUserId);
+      var courses = dc.Courses.Where(course => 
+        course != null 
+        && course.User.Id == currentUserId);
+      if (courses == null) return null;
+      return Mapper.Map<IEnumerable<Course>>(courses);     
     }
 
     // write another code that takes an id

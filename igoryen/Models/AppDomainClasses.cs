@@ -69,6 +69,8 @@ namespace igoryen.Models {
     public Faculty Faculty { get; set; }
     public List<Student> Students { get; set; }
     public virtual ApplicationUser User { get; set; }
+    //public virtual IdentityUser User { get; set; }
+
   }
 
   // F
@@ -159,8 +161,7 @@ namespace igoryen.Models {
   //     C:\aaa\vat\c#\proj\igoryen\igoryen\Models\IdentityModels.cs. Line: 27, column: 16
 
   //===================================================
-  public class Person 
-    : IdentityUser { // 10
+  public class Person : IdentityUser { // 10
 
     public Person() {
       FirstName = LastName = Phone = string.Empty;
