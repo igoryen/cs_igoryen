@@ -30,7 +30,7 @@ namespace igoryen.Controllers {
     //======================================
     [Authorize(Roles = "Admin")]
     public ActionResult Create() {
-      ViewBag.courses = rc.getCourseSelectList(); // 20
+      ViewBag.courses = rc.getSelectListOfCourse(); // 20
       ViewBag.messages = rm.getMessageSelectList(); // 30
       return View();
     }

@@ -12,362 +12,246 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace igoryen.Controllers {
-  [Authorize]
-  public class CourseController : Controller {
-    //private DataContext db = new DataContext();
+    [Authorize]
+    public class CourseController : Controller {
+        //private DataContext db = new DataContext();
 
-    //==================================================
-    // Bring in namespaces
-    // 40. datacontext
-    // 50. manager
-    //==================================================
-    private Repo_Course rc = new Repo_Course();
-    private Repo_Student rs = new Repo_Student();
-    private Repo_Faculty rf = new Repo_Faculty();
+        //==================================================
+        // Bring in namespaces
+        // 40. datacontext
+        // 50. manager
+        //==================================================
+        private Repo_Course rc = new Repo_Course();
+        private Repo_Student rs = new Repo_Student();
+        private Repo_Faculty rf = new Repo_Faculty();
 
-    private DataContext dc; // 40
-    private UserManager<ApplicationUser> manager; // 50
+        private DataContext dc; // 40
+        private UserManager<ApplicationUser> manager; // 50
+        //private UserManager<IdentityUser> manager; // 50
 
 
-    // Action methods alphabetically
+        // Action methods alphabetically
 
-    // C
+        // C
 
-    //======================================
-    // Constructor
-    //======================================
-    public CourseController() {
-      dc = new DataContext();
-      manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dc));
-    }
+        //======================================
+        // Constructor
+        //======================================
+        public CourseController() {
+            dc = new DataContext();
+            manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dc));
+        }
 
-    //======================================
-    // CourseCreate() - GET: /CourseCreate/Create
-    //======================================
-    public ActionResult CourseCreate() {
-      ViewModels.CourseCreate newItem = new ViewModels.CourseCreate();
+        //======================================
+        // CourseCreate() - GET: /CourseCreate/Create
+        //======================================
+        public ActionResult CourseCreate() {
+            ViewModels.CourseCreate newItem = new ViewModels.CourseCreate();
 
-      ViewBag.students = rs.getStudentSelectList();
-      ViewBag.faculties = rf.getFacultySelectList();
+            ViewBag.students = rs.getStudentSelectList();
+            ViewBag.faculties = rf.getFacultySelectList();
 
-      return View("CourseCreate", newItem);
-    }
+            return View("CourseCreate", newItem);
+        }
 
-    //======================================
-    // CourseCreate() - POST: /CourseCreate/Create
-    //======================================
-    [HttpPost]
-    public ActionResult CourseCreate(FormCollection form, ViewModels.CourseCreate newItem) {
+        //======================================
+        // CourseCreate() - POST: /CourseCreate/Create
+        //======================================
+        [HttpPost]
+        public ActionResult CourseCreate(FormCollection form, ViewModels.CourseCreate newItem) {
 
-      if (ModelState.IsValid) {
-        try {
-          if (form.Count == 7) {
-            var addedItem = rc.createCourseAM(newItem, form[6]);
-            if (addedItem == null) {
+            if (ModelState.IsValid) {
+                try {
+                    if (form.Count == 7) {
+                        var addedItem = rc.createCourseAM(newItem, form[6]);
+                        if (addedItem == null) {
+                            return View("Error");
+                        }
+                        else {
+                            return RedirectToAction("Details", new { Id = addedItem.CourseId });
+                        }
+                    } // if (form.Count == 4)
+                    return RedirectToAction("Index");
+                } // try
+                catch (Exception e) {
+                    ViewBag.ExceptionMessage = e.Message;
+                    return View("Error");
+                } // catch
+            } // if (ModelState.IsValid)
+            else {
+                return View("Error");
+            }
+        } // CourseCreate()
+
+
+        //==================================================
+        // Create() - GET: /Course/Create
+        //==================================================
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create() {
+            ViewBag.students = rs.getStudentSelectList();
+            ViewBag.faculties = rf.getFacultySelectList();
+            return View();
+        }
+
+        //======================================
+        // Create() - POST: /Course/Create
+        //======================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(FormCollection form) {
+            //try {
+            if (form.Count == 7) {
+                rc.createCourse(form[1], form[2], form[3], form[4], form[5], form[6]);
+            }
+            return RedirectToAction("Index");
+            /*
+            }
+            catch (Exception e) {
+              ViewBag.ExceptionMessage0 = "CourseController.cs/Create(): " + e.Message;
+              ViewBag.ExceptionMessage1 = "form.Count: " + form.Count;
               return View("Error");
             }
-            else {
-              return RedirectToAction("Details", new { Id = addedItem.CourseId });
+             */
+        }
+
+        // D
+
+        //==================================================
+        // Delete() - GET: /Course/Delete/5
+        // 10. if id == null, don't delete
+        //==================================================
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int? id) {
+            if (id == null) { // 10
+                ViewBag.ExceptionMessage = "That was an invalid record";
+                return View("Error");
             }
-          } // if (form.Count == 4)
-          return RedirectToAction("Index");
-        } // try
-        catch (Exception e) {
-          ViewBag.ExceptionMessage = e.Message;
-          return View("Error");
-        } // catch
-      } // if (ModelState.IsValid)
-      else {
-        return View("Error");
-      }
-    } // CourseCreate()
-
-
-    //==================================================
-    // Create() - GET: /Course/Create
-    //==================================================
-    [Authorize(Roles = "Admin")]
-    public ActionResult Create() {
-      ViewBag.students = rs.getStudentSelectList();
-      ViewBag.faculties = rf.getFacultySelectList();
-      return View();
-    }
-
-    //======================================
-    // Create() - POST: /Course/Create
-    //======================================
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(FormCollection form) {
-      //try {
-        if (form.Count == 7) {
-          rc.createCourse(form[1], form[2], form[3], form[4], form[5], form[6]);
+            var course = rc.getCourseFullAM(id);
+            if (course == null) {
+                ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
+                return View("Error");
+            }
+            return View(course);
         }
-        return RedirectToAction("Index");
-      /*
-      }
-      catch (Exception e) {
-        ViewBag.ExceptionMessage0 = "CourseController.cs/Create(): " + e.Message;
-        ViewBag.ExceptionMessage1 = "form.Count: " + form.Count;
-        return View("Error");
-      }
-       */
-    }
 
-    // D
-
-    //==================================================
-    // Delete() - GET: /Course/Delete/5
-    // 10. if id == null, don't delete
-    //==================================================
-    [Authorize(Roles = "Admin")]
-    public ActionResult Delete(int? id) {
-      if (id == null) { // 10
-        ViewBag.ExceptionMessage = "That was an invalid record";
-        return View("Error");
-      }
-      var course = rc.getCourseFullAM(id);
-      if (course == null) {
-        ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
-        return View("Error");
-      }
-      return View(course);
-    }
-
-    //==================================================
-    // Delete() - POST: /Course/Delete/5
-    //==================================================
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public ActionResult DeleteConfirmed(int id) {
-      // Course course = db.Courses.Find(id);
-      // db.Courses.Remove(course);
-      // db.SaveChanges();
-      rc.DeleteCourse(id);
-      return RedirectToAction("Index");
-    }
-
-    //==================================================
-    // Details() - GET: /Course/Details/5
-    //==================================================
-    [Authorize(Roles = "Admin")]
-    public ActionResult Details(int? id) {
-      /*if (id == null) {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Course course = db.Courses.Find(id);
-      if (course == null) {
-        return HttpNotFound();
-      }
-      return View(course);
-      */
-      return View(rc.getCourseFull(id));
-    }
-
-    //==================================================
-    // Dispose()
-    //==================================================
-    /*
-    protected override void Dispose(bool disposing) {
-      if (disposing) {
-        db.Dispose();
-      }
-      base.Dispose(disposing);
-    }*/
-
-    // E
-
-    //==================================================
-    // Edit() - // GET: /Course/Edit/5
-    // 10. if id == null, do not query
-    //==================================================
-    [Authorize(Roles = "Admin")]
-    public ActionResult Edit(int? id) {
-
-      if (id == null) { // 10
-        ViewBag.ExceptionMessage = "That was an invalid record";
-        return View("Error");
-      }
-
-      var course = rc.getCourseFull(id);
-
-      if (course == null) {
-        ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
-        return View("Error");
-      }
-
-      return View(course);
-    }
-
-    //==================================================
-    // Edit() - //POST: /Course/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    // 10. If no ActionName("Edit"), it defaults to ActionName("Create")
-    //==================================================
-    [HttpPost, ActionName("Edit")] // 10
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime,Faculty,Students")] CourseFull editItem) {
-      if (ModelState.IsValid) {
-        var newItem = rc.editCourseAM(editItem);
-        if (newItem == null) {
-          ViewBag.ExceptionMessage = "Record " + editItem.CourseId + " was not found.";
-          return View("Error");
+        //==================================================
+        // Delete() - POST: /Course/Delete/5
+        //==================================================
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id) {
+            // Course course = db.Courses.Find(id);
+            // db.Courses.Remove(course);
+            // db.SaveChanges();
+            rc.DeleteCourse(id);
+            return RedirectToAction("Index");
         }
-        else {
-          return RedirectToAction("Index");
+
+        //==================================================
+        // Details() - GET: /Course/Details/5
+        //==================================================
+        [Authorize(Roles = "Admin")]
+        public ActionResult Details(int? id) {
+            /*if (id == null) {
+              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null) {
+              return HttpNotFound();
+            }
+            return View(course);
+            */
+            return View(rc.getCourseFull(id));
         }
-        // db.Entry(editItem).State = EntityState.Modified;
-        // db.SaveChanges();
-        // return RedirectToAction("Index");
-      } // if (ModelState.IsValid)
-      else {
-        return View("Error");
-      }
-      // return View(editItem);
+
+        //==================================================
+        // Dispose()
+        //==================================================
+        /*
+        protected override void Dispose(bool disposing) {
+          if (disposing) {
+            db.Dispose();
+          }
+          base.Dispose(disposing);
+        }*/
+
+        // E
+
+        //==================================================
+        // Edit() - // GET: /Course/Edit/5
+        // 10. if id == null, do not query
+        //==================================================
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(int? id) {
+
+            if (id == null) { // 10
+                ViewBag.ExceptionMessage = "That was an invalid record";
+                return View("Error");
+            }
+
+            var course = rc.getCourseFull(id);
+
+            if (course == null) {
+                ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
+                return View("Error");
+            }
+
+            return View(course);
+        }
+
+        //==================================================
+        // Edit() - //POST: /Course/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // 10. If no ActionName("Edit"), it defaults to ActionName("Create")
+        //==================================================
+        [HttpPost, ActionName("Edit")] // 10
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,CourseName,CourseCode,RoomNumber,RunTime,Faculty,Students")] CourseFull editItem) {
+            if (ModelState.IsValid) {
+                var newItem = rc.editCourseAM(editItem);
+                if (newItem == null) {
+                    ViewBag.ExceptionMessage = "Record " + editItem.CourseId + " was not found.";
+                    return View("Error");
+                }
+                else {
+                    return RedirectToAction("Index");
+                }
+                // db.Entry(editItem).State = EntityState.Modified;
+                // db.SaveChanges();
+                // return RedirectToAction("Index");
+            } // if (ModelState.IsValid)
+            else {
+                return View("Error");
+            }
+            // return View(editItem);
+        }
+
+        // Index_Course_05 - doesn't work
+        // Index_Course_06
+        // GET: /Course/
+        public ActionResult Index() {
+
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+
+            if (currentUser == null) {
+                ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
+                return View("Error");
+            }
+
+            return View(dc.
+                Courses.
+                ToList().
+                Where(
+                course =>
+                    course.
+                    User.
+                    Id == 
+                    currentUser.
+                    Id));
+        }
+
+
     }
-
-    //==================================================
-    // Index() - GET: /Course/
-    // 20. see: Identity Sample v1 - p.5
-    //==================================================
-    public ActionResult Index() {
-
-      //------------------------------------------------------
-      // option 10 - retrieve all courses for all faculties
-      //------------------------------------------------------
-      //return View(dc.Courses.ToList());
-
-
-      //------------------------------------------------------
-      // option 15
-      //------------------------------------------------------
-      /*
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-
-      return View(rc.getListOfCourseBaseAM(currentUser.Id));
-      */
-
-      //------------------------------------------------------
-      // option 17 - works
-      //------------------------------------------------------
-      //return View(rc.getListOfCourseBaseAM());
-
-
-      //------------------------------------------------------
-      // option 20 - displays column headings but no courses
-      // This dictionary requires a model item of type 
-      // 'System.Collections.Generic.IEnumerable`1[igoryen.Models.Course]'.
-      //------------------------------------------------------
-
-      //var currentuser = manager.findbyid(user.identity.getuserid());
-
-      //if (currentuser == null) {
-      //  viewbag.exceptionmessage0 = "coursecontroller.cs/index()/currentuser: >>" + currentuser + "<<";
-      //  return view("error");
-      //}
-
-      //return view(dc.courses.where(
-      //  course =>
-      //    course != null
-      //     && course.user.id
-      //    == currentuser.id).tolist()); // 20
-
-      //------------------------------------------------------
-      // option 22
-      // This dictionary requires a model item of type 
-      // 'System.Collections.Generic.IEnumerable`1[igoryen.Models.Course]'.
-      //------------------------------------------------------
-
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-
-      if (currentUser == null) {
-        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
-        return View("Error");
-      }
-
-      var courses = rc.getListOfCourseAMbyCurrentUser(currentUser.Id);
-      Faculty Peter = new Faculty();
-      Peter = dc.Faculties.Find(currentUser.Id);
-      //string Peter = dc.Faculties.Find(currentUser.Id);
-
-      if (courses.Count() == 0) {
-        //ViewBag.ExceptionMessage1 = "CourseController.cs/Index()/courses.Count(): >>" + courses.Count() + "<<";
-        string currUserStringed = currentUser.ToString();
-        ViewBag.ExceptionMessage1 = "CourseController.cs/Index()/ compare:" + 
-          //"\n currentUser.Id: "+ currentUser.Id + 
-          "\n currentUser: "+ currUserStringed + 
-          "\n Peter: " + Peter.Id;
-
-        return View("Error");
-      }
-
-      return View(courses);
-
-
-      //----------------------------
-      // option 25 - 
-      //----------------------------
-      /*
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-
-      if (currentUser == null) {
-        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
-        return View("Error");
-      }
-
-      courses = dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id);
-
-      return View(courses);
-      */
-
-      //----------------------------
-      // option 30
-      //----------------------------
-      /*
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-
-      IEnumerable<Course> courses;
-      courses = dc.Courses.ToList().Where(
-        course => course != null &&
-          course.User.Id 
-          == currentUser.Id);
-      
-      if (courses != null) {
-        ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/courses: >>" + courses + "<<";
-        return View("Error");
-      }
-      
-      return View(courses);
-      */
-
-      //----------------------------
-      // option 32
-      //----------------------------
-      /*
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-
-      IEnumerable<Course> courses;
-      courses = dc.Courses.ToList().Where(
-        course => course != null &&
-          course.User.Id 
-          == currentUser.Id);
-      
-      return View(courses);
-      */
-
-      //----------------------------
-      // option 45
-      //----------------------------
-      /*
-      var currentUser = manager.FindById(User.Identity.GetUserId());
-      Course course = dc.Courses.FirstOrDefault(c => c.User.Id == currentUser.Id);
-
-      return View(course);
-      */
-      
-    }
-
-
-  }
 }

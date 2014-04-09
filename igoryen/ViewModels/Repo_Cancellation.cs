@@ -3,31 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
+using igoryen.Models;
 
 namespace igoryen.ViewModels {
   public class Repo_Cancellation : RepositoryBase {
+
     // methods alphabetically
 
     // C
 
     //======================================
+    // CreateCancellation() - with Automapper
+    // 50. nulls are like time bombs
+    //======================================
+    public CancellationFull createCancellation(string coursesIds, string date, string msg/*, string currentUserId*/) {
+
+      Models.Cancellation cancellation = new Models.Cancellation();
+
+      foreach (var item in coursesIds.Split(',')) {
+        var intItem = Convert.ToInt32(item);
+        var course = dc.Courses.FirstOrDefault(crs => crs.CourseId == intItem);
+        //cancellation.Course.Add(course);
+      }
+
+      cancellation.Date = date;
+      cancellation.Message = msg;
+      //cancellation.Faculty = 
+
+      dc.Cancellations.Add(cancellation);
+      dc.SaveChanges();
+
+      //return Mapper.Map<CancellationFull>(cancellation);
+      return getCancellationFullAM(cancellation.CancellationId);
+    }
+
+    //======================================
     // CreateCancellationAM() - with Automapper
     // 50. nulls are like time bombs
     //======================================
-    public CancellationFull createCancellationAM(ViewModels.CancellationCreate newItem, string d) {
+    public CancellationFull createCancellationAM(ViewModels.CancellationCreate newItem, string courseId) {
 
       Models.Cancellation cancellation = Mapper.Map<Models.Cancellation>(newItem);
-      int did = Convert.ToInt32(d);
-      cancellation.Course = dc.Courses.FirstOrDefault(n => n.CourseId == did);
+      int courseIdInt = Convert.ToInt32(courseId);
+      cancellation.Course = dc.Courses.FirstOrDefault(n => n.CourseId == courseIdInt);
 
-      //if (cancellation.Course == null) return null; // 50
+      if (cancellation.Course == null) return null; // 50
 
       dc.Cancellations.Add(cancellation);
       dc.SaveChanges();
 
       return Mapper.Map<CancellationFull>(cancellation);
     }
-    
 
     // D 
 

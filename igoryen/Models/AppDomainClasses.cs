@@ -34,11 +34,12 @@ namespace igoryen.Models {
   //===================================================
   public class Cancellation {
     public int CancellationId { get; set; }
-    public Faculty Faculty { get; set; }
+    //public Faculty Faculty { get; set; }
     public Course Course { get; set; }
     public string Date { get; set; }
     public string Message { get; set; }
     public virtual ApplicationUser User { get; set; }
+    //public virtual IdentityUser User { get; set; }
   }
 
   //===================================================
@@ -119,9 +120,9 @@ namespace igoryen.Models {
   // MyUserInfo
   //===================================================
   public class MyUserInfo {
-    public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+      public int Id { get; set; }
+      public string FirstName { get; set; }
+      public string LastName { get; set; }
   }
 
 
@@ -161,7 +162,10 @@ namespace igoryen.Models {
   //     C:\aaa\vat\c#\proj\igoryen\igoryen\Models\IdentityModels.cs. Line: 27, column: 16
 
   //===================================================
-  public class Person : IdentityUser { // 10
+  public class Person : ApplicationUser { // 10
+
+  //public class Person : IdentityUser { // 10
+
 
     public Person() {
       FirstName = LastName = Phone = string.Empty;
@@ -210,6 +214,6 @@ namespace igoryen.Models {
     [RegularExpression("^[0][0-9]{8}$", ErrorMessage = "0 followed by 8 digits")]
     public string SenecaId { get; set; }
     public List<Course> Courses { get; set; }
-    public List<ComMethod> ComMethods { get; set; }
+    //public List<ComMethod> ComMethods { get; set; }
   } // Student
 }

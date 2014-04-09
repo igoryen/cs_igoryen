@@ -15,13 +15,17 @@ namespace igoryen.Controllers {
   public class AccountController : Controller {
     public AccountController()
       : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new DataContext()))) {
+
     }
 
     public AccountController(UserManager<ApplicationUser> userManager) {
+    //public AccountController(UserManager<IdentityUser> userManager) {
       UserManager = userManager;
     }
 
     public UserManager<ApplicationUser> UserManager { get; private set; }
+    //public UserManager<IdentityUser> UserManager { get; private set; }
+
 
     //
     // GET: /Account/Login
@@ -282,6 +286,8 @@ namespace igoryen.Controllers {
     }
 
     private async Task SignInAsync(ApplicationUser user, bool isPersistent) {
+    //private async Task SignInAsync(IdentityUser user, bool isPersistent) {
+
       AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
       var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
       AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
