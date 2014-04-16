@@ -131,35 +131,41 @@ namespace igoryen.ViewModels {
             else return Mapper.Map<CourseFull>(course);
         }
 
-        public SelectList getSelectListOfCourse() {
-            IEnumerable<CourseBase> cbs = getListOfCourseBaseAM();
+        public SelectList getSelectListOfCourse(string currentUserId) {
+
+            IEnumerable<CourseBase> cbs = getListOfCourseBaseAM(currentUserId);
             SelectList sl = new SelectList(cbs, "CourseId", "CourseCode");
             return sl;
         }
         //======================================
         // getListOfCourseBaseAM() - with automapper
         //====================================== 
-        public IEnumerable<CourseBase> getListOfCourseBaseAM() {
-            var courses = dc.Courses.OrderBy(c => c.CourseCode);
+        public IEnumerable<CourseBase> getListOfCourseBaseAM(string currentUserId) {
+            var courses = dc.Courses.ToList().
+                Where(course => 
+                    course.
+                    User.
+                    Id == 
+                    currentUserId);
             if (courses == null) return null;
             return Mapper.Map<IEnumerable<CourseBase>>(courses);
         }
 
-        public IEnumerable<Course> getListOfCourseAMbyCurrentUser(string currentUserId) {
-            //int currentUserIdInt = Convert.ToInt32(currentUserId);
+        //public IEnumerable<Course> getListOfCourseAMbyCurrentUser(string currentUserId) {
+        //    //int currentUserIdInt = Convert.ToInt32(currentUserId);
 
-            var courses = dc.Courses.ToList().Where(
-                course => 
-                    course.User.Id 
-                    == currentUserId);
-                //course != null && 
+        //    var courses = dc.Courses.ToList().Where(
+        //        course => 
+        //            course.User.Id 
+        //            == currentUserId);
+        //        //course != null && 
                 
             
-            //if (courses == null) return null;
-            if (courses.Count() < 1) return null;
+        //    //if (courses == null) return null;
+        //    if (courses.Count() < 1) return null;
 
-            return Mapper.Map<IEnumerable<Course>>(courses);
-        }
+        //    return Mapper.Map<IEnumerable<Course>>(courses);
+        //}
 
         // write another code that takes an id
 

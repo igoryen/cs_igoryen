@@ -42,6 +42,10 @@ namespace igoryen.Controllers {
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dc));
         }
 
+        [Authorize(Roles = "Admin")] // 10
+        public ActionResult All() {
+            return View(dc.Courses.ToList());
+        }
         //======================================
         // CourseCreate() - GET: /CourseCreate/Create
         //======================================
@@ -234,22 +238,50 @@ namespace igoryen.Controllers {
         public ActionResult Index() {
 
             var currentUser = manager.FindById(User.Identity.GetUserId());
-
+            
             if (currentUser == null) {
                 ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
                 return View("Error");
             }
 
-            return View(dc.
-                Courses.
-                ToList().
-                Where(
-                course =>
-                    course.
-                    User.
-                    Id == 
-                    currentUser.
-                    Id));
+            //List<Course> courses = new List<Course>();
+            //var course =  dc.Courses.FirstOrDefault(c => c.Users.FirstOrDefault(cr => cr.UserName))
+            //return View(courses);
+
+            //return View(dc.Courses.ToList().
+            //    Where(course =>
+            //    course.
+            //    Users.
+            //    Find(currentUser.Id) == currentUser.Id));
+
+
+            //return View(dc.Courses.ToList().Where(
+            //    course =>
+            //    (course.
+            //    Users.
+            //    FirstOrDefault(
+            //    user =>
+            //        user.
+            //        Id ==
+            //        currentUser.
+            //        Id)).ToString()
+            //    == currentUser.Id));       
+
+            //return View(
+            //    dc.Courses.ToList().Where(
+            //       course => (
+            //            dc.Courses.Find(                                                                                    
+            //                course.Users.Find(
+            //                  user => user.Id == currentUser.Id
+            //                )
+            //            )
+
+            //        ).ToString()
+            //      == currentUser.Id
+            //    )
+            //);       
+            return View(dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id));
+
         }
 
 

@@ -38,48 +38,37 @@ namespace igoryen.Controllers {
 
 
         // GET: /Cancellations/Create
-        [Authorize(Roles = "Faculty")]
         public ActionResult Create() {
-            CancellationCreate newItem = new CancellationCreate();
-            ViewBag.courses = rc.getSelectListOfCourse();
-            return View("CancellationCreate", newItem);
+            var currentuser = manager.FindById(User.Identity.GetUserId());
+
+            ViewBag.courses = rc.getSelectListOfCourse(currentuser.Id);
+            return View();
         }
 
-
-        public ActionResult CancellationCreate(FormCollection form, CancellationCreate newItem) {
-            if (ModelState.IsValid) {
-                try {
-                    if (form.Count == 4) {
-                        var addedItem = rcc.createCancellationAM(newItem, form[2]); // 30
-
-                        if (addedItem == null) {
-                            return View("Error");
-                        }
-                        else {
-                            return RedirectToAction("Details", new { Id = addedItem.CancellationId });
-                        }
-                    }
-                    return RedirectToAction("Index");
+        // POST: /Cancellation/Create
+        [HttpPost]
+        [Authorize(Roles = "Faculty")]
+        public ActionResult Create(FormCollection form) {
+            try {
+                if (form.Count == 4) {
+                    rcc.createCancellation(form[1], form[2], form[3]);
                 }
-                catch (Exception e) {
-                    ViewBag.ExceptionMessage0 = "CancellationController.cs/CancellationCreate()/ExceptionMessage: " + e.Message;
-                    return View("Error");
-                }
+                return RedirectToAction("Index");
             }
-            else {
+            catch (Exception e) {
+                ViewBag.ExceptionMessage1 = e.Message;
                 return View("Error");
             }
         }
 
-
         // GET: /Cancellations/Delete/5
-        public async Task<ActionResult> Delete(int? id) {
-            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+        public ActionResult Delete(int? id) {
+            var currentUser = manager.FindById(User.Identity.GetUserId());
             if (id == null) {
                 ViewBag.ExceptionMessage = "That was an invalid record";
                 return View("Error");
             }
-            Cancellation cancellation = await dc.Cancellations.FindAsync(id);
+            Cancellation cancellation = dc.Cancellations.Find(id);
             //var cancellation = rcc.getCancellationFullAM(id);
             if (cancellation == null) {
                 ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";

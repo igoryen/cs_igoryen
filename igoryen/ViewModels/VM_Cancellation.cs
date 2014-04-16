@@ -24,7 +24,7 @@ namespace igoryen.ViewModels {
   public class CancellationCreate {
     [Key]
     public int CancellationId { get; set; }
-    public int FacultyId { get; set; }
+    public FacultyBase Faculty { get; set; }
     [Required]
     public string CourseCode { get; set; }
     public string Date { get; set; }

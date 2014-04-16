@@ -9,13 +9,17 @@ using System.Web;
 using System.Web.Mvc;
 using igoryen.Models;
 using igoryen.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace igoryen.Controllers {
 
     [Authorize]
     public class StudentController : Controller {
 
-        private DataContext db = new DataContext();
+        private DataContext dc;
+        private UserManager<ApplicationUser> manager;
+
 
         //==================================================
         // Bring in namespaces
@@ -33,12 +37,12 @@ namespace igoryen.Controllers {
         // 20. display list of Courses on the view
         // 30. display list of ComMethods on the view
         //======================================
-        [Authorize(Roles = "Admin")]
-        public ActionResult Create() {
-            ViewBag.courses = rc.getSelectListOfCourse(); // 20
-            ViewBag.commethods = rcm.getComMethodSelectList(); // 30
-            return View();
-        }
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Create() {
+        //    ViewBag.courses = rc.getSelectListOfCourse(); // 20
+        //    ViewBag.commethods = rcm.getComMethodSelectList(); // 30
+        //    return View();
+        //}
 
         //======================================
         // Create() - POST: /Student/Create
@@ -89,9 +93,9 @@ namespace igoryen.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            // Course course = db.Courses.Find(id);
-            // db.Courses.Remove(course);
-            // db.SaveChanges();
+            // Course course = dc.Courses.Find(id);
+            // dc.Courses.Remove(course);
+            // dc.SaveChanges();
             rs.DeleteStudent(id);
             return RedirectToAction("Index");
         }
@@ -109,7 +113,7 @@ namespace igoryen.Controllers {
         //======================================
         protected override void Dispose(bool disposing) {
             if (disposing) {
-                db.Dispose();
+                dc.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -124,7 +128,7 @@ namespace igoryen.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await dc.Students.FindAsync(id);
             if (student == null) {
                 return HttpNotFound();
             }
@@ -140,8 +144,8 @@ namespace igoryen.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,StudentNumber,FirstName,LastName,Phone")] Student student) {
             if (ModelState.IsValid) {
-                db.Entry(student).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                dc.Entry(student).State = EntityState.Modified;
+                await dc.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -151,7 +155,22 @@ namespace igoryen.Controllers {
         // Index() - GET: /Student/
         //======================================
         public ActionResult Index() {
-            return View(rs.getListOfStudentBaseAM());
+
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+
+            if (currentUser == null) {
+                ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
+                return View("Error");
+            }
+            //var CourseUser = 
+            //return View(dc.Courses.ToList().Where(
+            //    course => 
+            //        course.Users.FirstOrDefault(
+            //        student => student.Id == currentUser.Id) 
+            //        == currentUser.Id));
+
+            //return View(dc.Courses.ToList().Where(course => (course.Students.FirstOrDefault(student => student.Id == currentUser.Id))));
+            return View();
         }
 
     }

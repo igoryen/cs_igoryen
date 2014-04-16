@@ -28,12 +28,12 @@ namespace igoryen.Controllers {
     //======================================
     // Create() - GET: /Faculty/Create
     //======================================
-    [Authorize(Roles = "Admin")]
-    public ActionResult Create() {
-      ViewBag.courses = rc.getSelectListOfCourse(); // 20
-      ViewBag.messages = rm.getMessageSelectList(); // 30
-      return View();
-    }
+    //[Authorize(Roles = "Admin")]
+    //public ActionResult Create() {
+    //  ViewBag.courses = rc.getSelectListOfCourse(); // 20
+    //  ViewBag.messages = rm.getMessageSelectList(); // 30
+    //  return View();
+    //}
 
     //======================================
     // Create() - POST: /Faculty/Create

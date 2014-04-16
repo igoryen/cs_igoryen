@@ -15,7 +15,7 @@
         <hr />
         @Html.ValidationSummary(true)
 
-        @Html.ListBox("courses");
+        @Html.DropDownList("courses")
 
         <div class="form-group">
             @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })

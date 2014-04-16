@@ -1,4 +1,3 @@
-C:\aaa\vat\c#\proj\igoryen\igoryen\obj\Debug\igoryen.csprojResolveAssemblyReference.cache
 C:\aaa\vat\c#\proj\igoryen\igoryen\bin\AutoMapper.Net4.dll
 C:\aaa\vat\c#\proj\igoryen\igoryen\bin\igoryen.dll.config
 C:\aaa\vat\c#\proj\igoryen\igoryen\bin\igoryen.dll

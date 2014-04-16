@@ -59,6 +59,7 @@ namespace igoryen.Models {
   //===================================================
   public class Course { // 10
     public Course() {
+      this.Faculty = new Faculty();
       this.Students = new List<Student>();
     }
     [Key]
@@ -70,6 +71,11 @@ namespace igoryen.Models {
     public Faculty Faculty { get; set; }
     public List<Student> Students { get; set; }
     public virtual ApplicationUser User { get; set; }
+    //public virtual List<ApplicationUser> Users { get; set; }
+
+
+
+
     //public virtual IdentityUser User { get; set; }
 
   }
