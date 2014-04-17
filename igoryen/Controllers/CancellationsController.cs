@@ -26,8 +26,8 @@ namespace igoryen.Controllers {
 
 
         [Authorize(Roles = "Admin")] // 10
-        public async Task<ActionResult> All() {
-            return View(await dc.Cancellations.ToListAsync());
+        public ActionResult All() {
+            return View(dc.Cancellations.ToList());
         }
 
 
