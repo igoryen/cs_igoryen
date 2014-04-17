@@ -93,7 +93,9 @@ namespace igoryen.Controllers {
         public async Task<ActionResult> Details(int? id) {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] = "No id specified";
+                return View("Error", errors); // 12
             }
             Cancellation cancellation = await dc.Cancellations.FindAsync(id);
             if (cancellation == null) {

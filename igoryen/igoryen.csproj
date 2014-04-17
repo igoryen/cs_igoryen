@@ -281,6 +281,7 @@
     <Content Include="Views\Faculty\Error.cshtml" />
     <Content Include="Views\Student\Error.cshtml" />
     <Content Include="Views\Course\Error.cshtml" />
+    <Content Include="Views\Cancellations\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
