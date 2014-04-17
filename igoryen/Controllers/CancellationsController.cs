@@ -39,10 +39,36 @@ namespace igoryen.Controllers {
 
         // GET: /Cancellations/Create
         public ActionResult Create() {
-            var currentuser = manager.FindById(User.Identity.GetUserId());
+            var currentuser = manager.FindById(User.Identity.GetUserId()); // 13
 
-            ViewBag.courses = rc.getSelectListOfCourse(currentuser.Id);
-            return View();
+            //if (currentuser != null) {
+            //    var errors = new ViewModels.VM_Error();
+            //    errors.ErrorMessages["ExceptionMessage"] = "currentUser = " + currentuser + " courses";
+            //    return View("Error", errors); // 12
+            //}
+
+            var courses = rc.getSelectListOfCourse(currentuser.Id); // 14
+
+            if (courses == null) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] = 
+                    "rc.getSelectListOfCourse(currentuser.Id) returned null";
+                return View("Error", errors); // 12
+            }
+            if (courses != null) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] =
+                    "rc.getSelectListOfCourse(currentuser.Id) returned "+courses.ElementAtOrDefault(0)+" courses";
+                return View("Error", errors); // 12
+            }
+            if (courses.Count() > 0) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] =
+                    "rc.getSelectListOfCourse(currentuser.Id) returned " + courses.ElementAt(0) + " courses";
+                return View("Error", errors); // 12
+            }
+
+            return View(courses);
         }
 
         // POST: /Cancellation/Create

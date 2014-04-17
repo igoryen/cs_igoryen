@@ -327,10 +327,10 @@ namespace igoryen.Models {
                 Course c = new Course();
                 c.CourseCode = "IPC144";
                 c.CourseName = "Introduction into programming";
-                c.RoomNumber = "1000";
+                c.RoomNumber = "1000";  
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserPeter;
+                c.User = UserPeter; // 17
                 f.Courses.Add(c); // <------------------------
                 c.Students.Add(bob);
                 bob.Courses.Add(c);
@@ -855,6 +855,9 @@ namespace igoryen.Models {
                 //dc.Students.Add(jill);
 
                 dc.SaveChanges(); // commit changes
+
+                var course = dc.Courses;
+
             }
             catch (DbEntityValidationException e) {
                 //----------------------------------------------------------

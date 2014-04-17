@@ -133,8 +133,8 @@ namespace igoryen.ViewModels {
 
         public SelectList getSelectListOfCourse(string currentUserId) {
 
-            IEnumerable<CourseBase> cbs = getListOfCourseBaseAM(currentUserId);
-            SelectList sl = new SelectList(cbs, "CourseId", "CourseCode");
+            IEnumerable<CourseBase> cbs = getListOfCourseBaseAM(currentUserId); // 15
+            SelectList sl = new SelectList(cbs, "CourseId", "CourseCode"); // 16
             return sl;
         }
         //======================================
@@ -142,7 +142,7 @@ namespace igoryen.ViewModels {
         //====================================== 
         public IEnumerable<CourseBase> getListOfCourseBaseAM(string currentUserId) {
             var courses = dc.Courses.ToList().
-                Where(course => 
+                Where(course =>
                     course.
                     User.
                     Id == 
