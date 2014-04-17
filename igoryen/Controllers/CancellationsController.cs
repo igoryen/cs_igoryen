@@ -55,12 +55,12 @@ namespace igoryen.Controllers {
                     "rc.getSelectListOfCourse(currentuser.Id) returned null";
                 return View("Error", errors); // 12
             }
-            if (courses != null) {
-                var errors = new ViewModels.VM_Error();
-                errors.ErrorMessages["ExceptionMessage"] =
-                    "rc.getSelectListOfCourse(currentuser.Id) returned >>"+courses.Count() +"<< courses";
-                return View("Error", errors); // 12
-            }
+            //if (courses != null) {
+            //    var errors = new ViewModels.VM_Error();
+            //    errors.ErrorMessages["ExceptionMessage"] =
+            //        "rc.getSelectListOfCourse(currentuser.Id) returned >>"+courses.Count() +"<< courses";
+            //    return View("Error", errors); // 12
+            //}
 
             return View(courses);
         }
