@@ -157,15 +157,11 @@ namespace igoryen.Controllers {
         //==================================================
         [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id) {
-            /*if (id == null) {
-              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] = "No id specified";
+                return View("Error", errors); // 12
             }
-            Course course = db.Courses.Find(id);
-            if (course == null) {
-              return HttpNotFound();
-            }
-            return View(course);
-            */
             return View(rc.getCourseFull(id));
         }
 
