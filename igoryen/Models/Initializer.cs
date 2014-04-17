@@ -246,9 +246,10 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";  
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = new ApplicationUser();
+                c.User = new ApplicationUser(); // 36
                 c.User = UserPeter; // 17
                 f.Courses.Add(c); // 34
+                c.Students = new List<Student>(); // 37
                 c.Students.Add(bob); // 35
                 bob.Courses.Add(c);
                 dc.Courses.Add(c);
