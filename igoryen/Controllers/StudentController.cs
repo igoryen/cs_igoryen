@@ -105,6 +105,11 @@ namespace igoryen.Controllers {
         //======================================
         [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id) {
+            if (id == null) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] = "No id specified";
+                return View("Error", errors); // 12
+            }
             return View(rs.getStudentFull(id));
         }
 
