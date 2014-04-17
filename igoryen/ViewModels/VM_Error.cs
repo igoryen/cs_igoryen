@@ -7,10 +7,8 @@ using System.Web.Mvc;
 namespace igoryen.ViewModels {
     public class VM_Error {
         public Dictionary<string, string> ErrorMessages { get; set; }
-        // custom error reporting of key sources of errors
-        public VM_Error GetErrorModel(FormCollection collection, ModelStateDictionary msd, string eMessage = "") {
-            // remove old errormessages if any
-            ErrorMessages.Clear();
+        public VM_Error GetErrorModel(FormCollection collection, ModelStateDictionary msd, string eMessage = "") { // 10
+            ErrorMessages.Clear(); // 11
             if (eMessage != "") ErrorMessages["Exception"] = Convert.ToString(eMessage);
 
             var i = 0;

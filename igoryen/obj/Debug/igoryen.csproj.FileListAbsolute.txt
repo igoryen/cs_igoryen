@@ -55,3 +55,4 @@ C:\aaa\vat\c#\proj\igoryen\igoryen\bin\Microsoft.Owin.Security.Twitter.xml
 C:\aaa\vat\c#\proj\igoryen\igoryen\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\aaa\vat\c#\proj\igoryen\igoryen\obj\Debug\igoryen.dll
 C:\aaa\vat\c#\proj\igoryen\igoryen\obj\Debug\igoryen.pdb
+C:\aaa\vat\c#\proj\igoryen\igoryen\obj\Debug\igoryen.csprojResolveAssemblyReference.cache
