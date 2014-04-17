@@ -191,6 +191,7 @@
     <Compile Include="ViewModels\VM_Cancellation.cs" />
     <Compile Include="ViewModels\VM_ComMethod.cs" />
     <Compile Include="ViewModels\VM_Course.cs" />
+    <Compile Include="ViewModels\VM_Error.cs" />
     <Compile Include="ViewModels\VM_Faculty.cs" />
     <Compile Include="ViewModels\VM_Message.cs" />
     <Compile Include="ViewModels\VM_Student.cs" />
