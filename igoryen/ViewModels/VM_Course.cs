@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace igoryen.ViewModels {
     // Classes alphabetically
@@ -30,8 +31,6 @@ namespace igoryen.ViewModels {
         public string CourseCode { get; set; }
         public int FacultyId { get; set; }
     }
-
-
 
     //======================================
     // CourseFull
