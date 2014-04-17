@@ -278,6 +278,7 @@
     <Content Include="Views\Faculty\Edit.cshtml" />
     <Content Include="Views\Faculty\Index.cshtml" />
     <Content Include="Views\Course\All.cshtml" />
+    <Content Include="Views\Faculty\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

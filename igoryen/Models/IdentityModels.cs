@@ -80,8 +80,6 @@ namespace igoryen.Models {
 
     public System.Data.Entity.DbSet<igoryen.ViewModels.CancellationFull> CancellationFulls { get; set; }
 
-    public System.Data.Entity.DbSet<igoryen.ViewModels.VM_Error> VM_Error { get; set; }
-
 
   }
 }
