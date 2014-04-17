@@ -58,13 +58,7 @@ namespace igoryen.Controllers {
             if (courses != null) {
                 var errors = new ViewModels.VM_Error();
                 errors.ErrorMessages["ExceptionMessage"] =
-                    "rc.getSelectListOfCourse(currentuser.Id) returned "+courses.ElementAtOrDefault(0)+" courses";
-                return View("Error", errors); // 12
-            }
-            if (courses.Count() > 0) {
-                var errors = new ViewModels.VM_Error();
-                errors.ErrorMessages["ExceptionMessage"] =
-                    "rc.getSelectListOfCourse(currentuser.Id) returned " + courses.ElementAt(0) + " courses";
+                    "rc.getSelectListOfCourse(currentuser.Id) returned >>"+courses.Count() +"<< courses";
                 return View("Error", errors); // 12
             }
 

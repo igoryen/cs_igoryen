@@ -141,12 +141,12 @@ namespace igoryen.ViewModels {
         // getListOfCourseBaseAM() - with automapper
         //====================================== 
         public IEnumerable<CourseBase> getListOfCourseBaseAM(string currentUserId) {
-            var courses = dc.Courses.ToList().
+            var courses = dc.Courses.
                 Where(course =>
                     course.
                     User.
                     Id == 
-                    currentUserId);
+                    currentUserId).ToList(); // 38
             if (courses == null) return null;
             return Mapper.Map<IEnumerable<CourseBase>>(courses);
         }
