@@ -67,13 +67,14 @@ namespace igoryen.ViewModels {
         //=====================================
         // createCancellation(CancellationCreateForHttpPost)
         //=====================================
-        public CancellationFull createCancellation(CancellationCreateForHttpPost newItem) { // 52
+        public CancellationFull createCancellation(CancellationCreateForHttpPost newItem, ApplicationUser currentUser) { // 52
             var course = dc.Courses.Find(newItem.CourseId); // 40
             Models.Cancellation cancellation = new Models.Cancellation(); // 41
 
             cancellation.CancellationId = newItem.CancellationId;
             cancellation.Date = newItem.Date;
             cancellation.Message = newItem.Message;
+            cancellation.User = currentUser;
             //======= alternating ============================
             // cancellation.Course = course;
             //------------------------------------------------

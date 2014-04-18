@@ -71,8 +71,10 @@ namespace igoryen.Controllers {
         [HttpPost]
         public ActionResult Create(ViewModels.CancellationCreateForHttpPost newItem) { // 51
 
+            var currentuser = manager.FindById(User.Identity.GetUserId()); // 13
+
             if (ModelState.IsValid && newItem.CourseId != -1) { // 39 
-                var createdCancellationFull = rcc.createCancellation(newItem); // 52
+                var createdCancellationFull = rcc.createCancellation(newItem, currentuser); // 52
                 if (createdCancellationFull == null) {
                     return View("Error", vme.GetErrorModel(null, ModelState));
                 }
