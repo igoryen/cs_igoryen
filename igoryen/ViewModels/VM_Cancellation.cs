@@ -50,18 +50,34 @@ namespace igoryen.ViewModels {
         }
     }
 
+    //======================================
+    // CancellationCreateForHttpPost
+    //======================================
+    public class CancellationCreateForHttpPost {
+        [Key]
+        public int CancellationId { get; set; }
+        [Required]
+        public string Message { get; set; }
+        [Required]
+        public string Date { get; set; }
+        [Required(ErrorMessage="Select a course")]
+        public int CourseId { get; set; }
+    }
+
 
     //======================================
     // CancellationFull
     //======================================
     public class CancellationFull : CancellationBase {
-        public string CourseName { get; set; }
-        public FacultyFull Faculty { get; set; }
-        public CourseBase Course { get; set; }
+        //public string CourseName { get; set; }
+        //public string Date { get; set; } // 43
+        public string Message { get; set; }
+        //public FacultyFull Faculty { get; set; }
+        public CourseFull CourseFull { get; set; }
 
         public CancellationFull() {
-            this.Faculty = new FacultyFull();
-            this.Course = new CourseBase();
+            //this.Faculty = new FacultyFull();
+            this.CourseFull = new CourseFull();
         }
     }
 }

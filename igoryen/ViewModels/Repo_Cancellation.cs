@@ -55,6 +55,24 @@ namespace igoryen.ViewModels {
             return Mapper.Map<CancellationFull>(cancellation);
         }
 
+        //=====================================
+        // createCancellation(CancellationCreateForHttpPost)
+        //=====================================
+        public CancellationFull createCancellation(CancellationCreateForHttpPost newItem) { // 52
+            var c = dc.Courses.Find(newItem.CourseId); // 40
+            Models.Cancellation cancellation = new Models.Cancellation(); // 41
+
+            cancellation.CancellationId = newItem.CancellationId;
+            cancellation.Date = newItem.Date;
+            cancellation.Message = newItem.Message;
+            cancellation.Course = c;
+
+            dc.Cancellations.Add(cancellation); // 53
+            dc.SaveChanges();
+
+            return getCancellationFull(cancellation.CancellationId);
+        }
+
         // D 
 
         //======================================
@@ -98,9 +116,33 @@ namespace igoryen.ViewModels {
         // G
 
         //======================================
-        // getCancellationFull() - with Automapper
+        // getCancellationFull
+        //====================================== 
+        public CancellationFull getCancellationFull(int? CancellationId) {
+            if (CancellationId == null) return null;
+
+            var cancellation = dc.Cancellations.Include("Course").SingleOrDefault(n => n.CancellationId == CancellationId); // 44
+            if (cancellation == null) return null;
+
+            CancellationFull ccf = new CancellationFull(); // 45
+            ccf.CancellationId = cancellation.CancellationId;
+            ccf.Date = cancellation.Date;
+            ccf.Message = cancellation.Message;
+            ccf.CourseFull = 
+                rc.
+                getCourseFull(
+                cancellation.
+                Course.
+                CourseId);
+
+            return ccf;
+        }
+
+        //======================================
+        // getCancellationFullAM - with Automapper
         //====================================== 
         public CancellationFull getCancellationFullAM(int? id) {
+            if (id == null) return null;
             var cancellation = dc.Cancellations.Include("Faculty").SingleOrDefault(n => n.CancellationId == id);
             if (cancellation == null) return null;
             else return Mapper.Map<CancellationFull>(cancellation);

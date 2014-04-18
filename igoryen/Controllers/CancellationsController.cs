@@ -23,6 +23,7 @@ namespace igoryen.Controllers {
         //private UserManager<IdentityUser> manager;
         private Repo_Course rc = new Repo_Course();
         private Repo_Cancellation rcc = new Repo_Cancellation();
+        private ViewModels.VM_Error vme = new ViewModels.VM_Error();
         static ViewModels.CancellationCreateForHttpGet cancellationToCreate = new CancellationCreateForHttpGet();
 
         [Authorize(Roles = "Admin")] // 10
@@ -61,24 +62,34 @@ namespace igoryen.Controllers {
             //        "rc.getSelectListOfCourse(currentuser.Id) returned >>"+courses.Count() +"<< courses";
             //    return View("Error", errors); // 12
             //}
-            cancellationToCreate.CourseSelectList = rc.getCourseSelectList(currentuser.Id);
+            cancellationToCreate.CourseSelectList = rc.getCourseSelectList(currentuser.Id); // 46
 
             return View(cancellationToCreate);
         }
 
         // POST: /Cancellation/Create
         [HttpPost]
-        [Authorize(Roles = "Faculty")]
-        public ActionResult Create(FormCollection form) {
-            try {
-                if (form.Count == 4) {
-                    rcc.createCancellation(form[1], form[2], form[3]);
+        public ActionResult Create(ViewModels.CancellationCreateForHttpPost newItem) { // 51
+
+            if (ModelState.IsValid && newItem.CourseId != -1) { // 39 
+                var createdCancellationFull = rcc.createCancellation(newItem); // 52
+                if (createdCancellationFull == null) {
+                    return View("Error", vme.GetErrorModel(null, ModelState));
                 }
-                return RedirectToAction("Index");
+                else {
+                    cancellationToCreate.Clear();
+                    return RedirectToAction("Details", new { CancellationId = createdCancellationFull.CancellationId });
+                }
             }
-            catch (Exception e) {
-                ViewBag.ExceptionMessage1 = e.Message;
-                return View("Error");
+            else {
+                if (newItem.CourseId == -1) 
+                    ModelState.AddModelError("CourseSelectList", "Select a Course");
+                //if (newItem.GenreId == null) ModelState.AddModelError("GenreSelectList", "Select One or More Genres");
+
+                cancellationToCreate.Date = newItem.Date;
+                cancellationToCreate.Message = newItem.Message;
+
+                return View(cancellationToCreate);
             }
         }
 

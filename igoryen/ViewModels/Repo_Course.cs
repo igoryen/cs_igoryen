@@ -105,20 +105,21 @@ namespace igoryen.ViewModels {
         // getCourseFull()
         // 30. cast from IEnumerable<> to List<>
         //====================================== 
-        public CourseFull getCourseFull(int? id) {
-            var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.CourseId == id);
+        public CourseFull getCourseFull(int? CourseId) {
+            var course = dc.Courses.Include("Students").Include("Faculty").SingleOrDefault(n => n.CourseId == CourseId);
             if (course == null) return null;
 
-            CourseFull courseFull = new CourseFull();
-            courseFull.CourseId = course.CourseId;
-            courseFull.CourseCode = course.CourseCode;
-            courseFull.CourseName = course.CourseName;
-            courseFull.RunTime = course.RunTime;
-            courseFull.RoomNo = course.RoomNumber;
-            courseFull.Students = rs.toListOfStudentBase(course.Students);
-            courseFull.Faculty = rf.getFacultyFull(course.Faculty.PersonId);
+            CourseFull cf = new CourseFull();
+            cf.CourseId = course.CourseId;
+            cf.CourseCode = course.CourseCode;
+            cf.CourseName = course.CourseName;
+            cf.RunTime = course.RunTime;
+            cf.RoomNo = course.RoomNumber;
 
-            return courseFull;
+            cf.Students = rs.toListOfStudentBase(course.Students);
+            cf.Faculty = rf.getFacultyFull(course.Faculty.PersonId);
+
+            return cf;
         }
 
 
@@ -138,17 +139,17 @@ namespace igoryen.ViewModels {
             return sl;
         }
 
-        public SelectList getCourseSelectList(string currentUserId) {
+        public SelectList getCourseSelectList(string currentUserId) { // 47
             var lcb = new List<CourseBase>();
             lcb.Add(new CourseBase {
                 CourseCode = "Select a course code",
                 CourseId = -1
             });
-            foreach (var item in getListOfCourseBaseAM(currentUserId)) {
-                lcb.Add(item);
+            foreach (var item in getListOfCourseBaseAM(currentUserId)) { // 48
+                lcb.Add(item); // 49
             }
             SelectList sl = new SelectList(lcb.ToList(), "CourseId", "CourseCode"); // 16
-            return sl;
+            return sl; // 50
         }
 
         //public IEnumerable<CourseBase> getListOfCourseBase(string currentUserId) {
