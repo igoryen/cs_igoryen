@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using igoryen.Models;
+using System.Data.Entity.Validation;
 
 namespace igoryen.ViewModels {
     public class Repo_Cancellation : RepositoryBase {
@@ -59,16 +60,42 @@ namespace igoryen.ViewModels {
         // createCancellation(CancellationCreateForHttpPost)
         //=====================================
         public CancellationFull createCancellation(CancellationCreateForHttpPost newItem) { // 52
-            var c = dc.Courses.Find(newItem.CourseId); // 40
+            var course = dc.Courses.Find(newItem.CourseId); // 40
             Models.Cancellation cancellation = new Models.Cancellation(); // 41
 
             cancellation.CancellationId = newItem.CancellationId;
             cancellation.Date = newItem.Date;
             cancellation.Message = newItem.Message;
-            cancellation.Course = c;
+            cancellation.Course = course;
 
             dc.Cancellations.Add(cancellation); // 53
-            dc.SaveChanges();
+            try {
+                dc.SaveChanges();
+            }
+            catch (DbEntityValidationException e) {
+                //----------------------------------------------------------
+                List<string> output1 = new List<string>();
+                List<string> output2 = new List<string>();
+                foreach (var eve in e.EntityValidationErrors) {
+                    output1.Add("Entity of type " + eve.Entry.Entity.GetType().Name + " in state " + eve.Entry.State + " has the following validation errors:");
+                    foreach (var ve in eve.ValidationErrors) {
+                        output1.Add("- Property: " + ve.PropertyName + ", Error: " + ve.ErrorMessage);
+                    } // foreach()
+
+                    /*
+                    Console.WriteLine("======================================");
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors) {
+                      Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                          ve.PropertyName, ve.ErrorMessage);
+                    }
+                     */
+                } // foreach
+                output2 = output1;
+                throw;
+            } // catch
+            
 
             return getCancellationFull(cancellation.CancellationId);
         }

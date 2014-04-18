@@ -38,11 +38,11 @@ namespace igoryen.ViewModels {
     public class CourseFull : CourseBase {
         public string RunTime { get; set; }
         public string RoomNo { get; set; }
-        public FacultyFull Faculty { get; set; }
+        public FacultyFull FacultyFull { get; set; }
         public List<StudentBase> Students { get; set; }
 
         public CourseFull() {
-            this.Faculty = new FacultyFull();
+            this.FacultyFull = new FacultyFull();
             this.Students = new List<StudentBase>();
         }
     }

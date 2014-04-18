@@ -117,7 +117,7 @@ namespace igoryen.ViewModels {
             cf.RoomNo = course.RoomNumber;
 
             cf.Students = rs.toListOfStudentBase(course.Students);
-            cf.Faculty = rf.getFacultyFull(course.Faculty.PersonId);
+            cf.FacultyFull = rf.getFacultyFull(course.Faculty.PersonId);
 
             return cf;
         }

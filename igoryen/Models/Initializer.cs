@@ -241,6 +241,7 @@ namespace igoryen.Models {
 
                 // 1) Peter teaches IPC144
                 Course c = new Course();
+                c.CourseId = 1;
                 c.CourseCode = "IPC144";
                 c.CourseName = "Introduction into programming";
                 c.RoomNumber = "1000";  
@@ -258,6 +259,7 @@ namespace igoryen.Models {
 
                 // 2) Peter teaches ULI101
                 c = new Course();
+                c.CourseId = 2;
                 c.CourseCode = "ULI101";
                 c.CourseName = "OS - Unix";
                 c.RoomNumber = "1000";
@@ -272,6 +274,7 @@ namespace igoryen.Models {
 
                 // 3) Peter teaches IOS110
                 c = new Course();
+                c.CourseId = 3;
                 c.CourseCode = "IOS110";
                 c.CourseName = "OS - Windows";
                 c.RoomNumber = "1000";
@@ -286,6 +289,7 @@ namespace igoryen.Models {
 
                 // 4) Peter teaches OOP244
                 c = new Course();
+                c.CourseId = 4;
                 c.CourseCode = "OOP244";
                 c.CourseName = "OOP development using C++";
                 c.RoomNumber = "1000";
@@ -311,6 +315,7 @@ namespace igoryen.Models {
 
                 // 1) Adam teaches INT222
                 c = new Course();
+                c.CourseId = 5;
                 c.CourseCode = "INT222";
                 c.CourseName = "Web development - client";
                 c.RoomNumber = "1000";
@@ -328,6 +333,7 @@ namespace igoryen.Models {
 
                 // 2) Adam teaches IBC233
                 c = new Course();
+                c.CourseId = 6;
                 c.CourseCode = "IBC233";
                 c.CourseName = "iSeries - Business Applications";
                 c.RoomNumber = "1000";
@@ -345,6 +351,7 @@ namespace igoryen.Models {
 
                 // 3) Adam teaches DBS201
                 c = new Course();
+                c.CourseId = 7;
                 c.CourseCode = "DBS201";
                 c.CourseName = "Database principles";
                 c.RoomNumber = "1000";
@@ -361,6 +368,7 @@ namespace igoryen.Models {
 
                 // 4) Adam teaches OOP344
                 c = new Course();
+                c.CourseId = 8;
                 c.CourseCode = "OOP344";
                 c.CourseName = "OOP development - C++";
                 c.RoomNumber = "1000";
@@ -384,6 +392,7 @@ namespace igoryen.Models {
 
                 // 1) Ron teaches INT322
                 c = new Course();
+                c.CourseId = 9;
                 c.CourseCode = "INT322";
                 c.CourseName = "Web development - Unix server";
                 c.RoomNumber = "1000";
@@ -400,6 +409,7 @@ namespace igoryen.Models {
 
                 // 2) Ron teaches DBS301
                 c = new Course();
+                c.CourseId = 10;
                 c.CourseCode = "DBS301";
                 c.CourseName = "Database design and development";
                 c.RoomNumber = "1000";
@@ -414,6 +424,7 @@ namespace igoryen.Models {
 
                 // 3) Ron teaches JAC444
                 c = new Course();
+                c.CourseId = 11;
                 c.CourseCode = "JAC444";
                 c.CourseName = "OOP develoment - Java";
                 c.RoomNumber = "1000";
@@ -432,6 +443,7 @@ namespace igoryen.Models {
 
                 // 4) Ron teaches INT422
                 c = new Course();
+                c.CourseId = 12;
                 c.CourseCode = "INT422";
                 c.CourseName = "Web development - Wondows";
                 c.RoomNumber = "1000";
@@ -453,6 +465,7 @@ namespace igoryen.Models {
 
                 // 1) Bill teaches DCN455
                 c = new Course();
+                c.CourseId = 13;
                 c.CourseCode = "DCN455";
                 c.CourseName = "Data communication for developers";
                 c.RoomNumber = "1000";
@@ -467,6 +480,7 @@ namespace igoryen.Models {
 
                 // 2) Bill teaches BAC344
                 c = new Course();
+                c.CourseId = 14;
                 c.CourseCode = "BAC344";
                 c.CourseName = "Business apps - Cobol";
                 c.RoomNumber = "1000";
@@ -483,6 +497,7 @@ namespace igoryen.Models {
 
                 // 3) Bill teaches MAP524
                 c = new Course();
+                c.CourseId = 15;
                 c.CourseCode = "MAP524";
                 c.CourseName = "Mobile apps - Android";
                 c.RoomNumber = "1000";
@@ -499,6 +514,7 @@ namespace igoryen.Models {
 
                 // 4) Bill teaches  WIN210
                 c = new Course();
+                c.CourseId = 16;
                 c.CourseCode = "WIN210";
                 c.CourseName = "Windows administration";
                 c.RoomNumber = "1000";
