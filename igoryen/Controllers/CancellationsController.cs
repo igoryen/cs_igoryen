@@ -11,6 +11,7 @@ using System.Net; // 45
 using System.Threading.Tasks; // 50
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Validation;
 
 
 namespace igoryen.Controllers {
@@ -71,10 +72,45 @@ namespace igoryen.Controllers {
         [HttpPost]
         public ActionResult Create(ViewModels.CancellationCreateForHttpPost newItem) { // 51
 
-            var currentuser = manager.FindById(User.Identity.GetUserId()); // 13
+            var currentuser = manager.FindById(User.Identity.GetUserId());
 
             if (ModelState.IsValid && newItem.CourseId != -1) { // 39 
-                var createdCancellationFull = rcc.createCancellation(newItem, currentuser); // 52
+                var cancellation = rcc.createCancellation(newItem); // 52
+                cancellation.User = currentuser; //<=========================!!!!                
+                //--------------------------------------------------
+                dc.Cancellations.Add(cancellation); // 53
+                try {
+                    dc.SaveChanges();
+                }
+                catch (DbEntityValidationException e) {
+                    //----------------------------------------------------------
+                    List<string> output1 = new List<string>();
+                    List<string> output2 = new List<string>();
+                    foreach (var eve in e.EntityValidationErrors) {
+                        output1.Add("Entity of type " + eve.Entry.Entity.GetType().Name + " in state " + eve.Entry.State + " has the following validation errors:");
+                        foreach (var ve in eve.ValidationErrors) {
+                            output1.Add("- Property: " + ve.PropertyName + ", Error: " + ve.ErrorMessage);
+                        } // foreach()
+
+                        /*
+                        Console.WriteLine("======================================");
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors) {
+                          Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                              ve.PropertyName, ve.ErrorMessage);
+                        }
+                         */
+                    } // foreach
+                    output2 = output1;
+                    throw;
+                } // catch
+
+                var createdCancellationFull = rcc.getCancellationFull(cancellation.CancellationId);
+             
+                //--------------------------------------------------
+                //var createdCancellationFull = getCancellationFull(cancellation.CancellationId);
+
                 if (createdCancellationFull == null) {
                     return View("Error", vme.GetErrorModel(null, ModelState));
                 }
@@ -124,14 +160,17 @@ namespace igoryen.Controllers {
             await dc.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        public async Task<ActionResult> Details(int? id) {
+
+        // Cancellation/Details
+        // Details()
+        public async Task<ActionResult> Details(int? CancellationId) {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
-            if (id == null) {
+            if (CancellationId == null) {
                 var errors = new ViewModels.VM_Error();
-                errors.ErrorMessages["ExceptionMessage"] = "No id specified";
+                errors.ErrorMessages["ExceptionMessage"] = "No CancellationId specified";
                 return View("Error", errors); // 12
             }
-            Cancellation cancellation = await dc.Cancellations.FindAsync(id);
+            Cancellation cancellation = await dc.Cancellations.FindAsync(CancellationId);
             if (cancellation == null) {
                 return HttpNotFound();
             }
