@@ -137,6 +137,39 @@ namespace igoryen.ViewModels {
             SelectList sl = new SelectList(cbs, "CourseId", "CourseCode"); // 16
             return sl;
         }
+
+        public SelectList getCourseSelectList(string currentUserId) {
+            var lcb = new List<CourseBase>();
+            lcb.Add(new CourseBase {
+                CourseCode = "Select a course code",
+                CourseId = -1
+            });
+            foreach (var item in getListOfCourseBaseAM(currentUserId)) {
+                lcb.Add(item);
+            }
+            SelectList sl = new SelectList(lcb.ToList(), "CourseId", "CourseCode"); // 16
+            return sl;
+        }
+
+        //public IEnumerable<CourseBase> getListOfCourseBase(string currentUserId) {
+        //    var courses = dc.Courses.
+        //                        Where(course =>
+        //                        course.
+        //                        User.
+        //                        Id ==
+        //                        currentUserId).ToList(); // 38
+        //    var courses = dc.Courses.OrderBy(c => c.CourseCode);
+        //    if (courses == null) return null;
+        //    List<CourseBase> lcb = new List<CourseBase>();
+        //    foreach (var item in courses) {
+        //        CourseBase cb = new CourseBase();
+        //        cb.CourseId = item.CourseId;
+        //        cb.CourseCode = cb.CourseCode;
+        //        lcb.Add(cb);
+        //    }
+        //    return lcb.ToList();
+        //}
+
         //======================================
         // getListOfCourseBaseAM() - with automapper
         //====================================== 

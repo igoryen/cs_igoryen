@@ -23,7 +23,7 @@ namespace igoryen.Controllers {
         //private UserManager<IdentityUser> manager;
         private Repo_Course rc = new Repo_Course();
         private Repo_Cancellation rcc = new Repo_Cancellation();
-
+        static ViewModels.CancellationCreateForHttpGet cancellationToCreate = new CancellationCreateForHttpGet();
 
         [Authorize(Roles = "Admin")] // 10
         public ActionResult All() {
@@ -61,8 +61,9 @@ namespace igoryen.Controllers {
             //        "rc.getSelectListOfCourse(currentuser.Id) returned >>"+courses.Count() +"<< courses";
             //    return View("Error", errors); // 12
             //}
+            cancellationToCreate.CourseSelectList = rc.getCourseSelectList(currentuser.Id);
 
-            return View(courses);
+            return View(cancellationToCreate);
         }
 
         // POST: /Cancellation/Create

@@ -64,7 +64,9 @@ namespace igoryen.Models {
     }
     [Key]
     public int CourseId { get; set; }
+      [Required]
     public string CourseCode { get; set; }
+      [Required]
     public string CourseName { get; set; }
     public string RoomNumber { get; set; }
     public string RunTime { get; set; }

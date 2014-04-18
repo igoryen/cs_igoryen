@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace igoryen.ViewModels {
 
@@ -28,6 +29,25 @@ namespace igoryen.ViewModels {
         [Required]
         public string CourseCode { get; set; }
         public string Date { get; set; }
+    }
+
+    //======================================
+    // CancellationCreateForHttpGet
+    //======================================
+    public class CancellationCreateForHttpGet {
+        [Key]
+        public int CancellationId { get; set; }
+        public string Message { get; set; }
+
+        [Display(Name = "Date :)")]
+        public string Date { get; set; }
+
+        public SelectList CourseSelectList { get; set; }
+
+        public void Clear() {
+            Message = string.Empty;
+            Date = string.Empty;
+        }
     }
 
 
