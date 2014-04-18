@@ -73,11 +73,15 @@ namespace igoryen.ViewModels {
         //public string Date { get; set; } // 43
         public string Message { get; set; }
         //public FacultyFull Faculty { get; set; }
-        public CourseFull CourseFull { get; set; }
+        //======== alternating ======================
+        //public CourseFull CourseFull { get; set; }
+        //-------------------------------------------
+        public CourseBase CourseBase { get; set; }
+        //===========================================
 
         public CancellationFull() {
             //this.Faculty = new FacultyFull();
-            this.CourseFull = new CourseFull();
+            this.CourseBase = new CourseBase();
         }
     }
 }

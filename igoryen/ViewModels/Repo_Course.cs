@@ -100,6 +100,20 @@ namespace igoryen.ViewModels {
 
 
         // G
+        //======================================
+        // getCourseBase()
+        //====================================== 
+        public CourseBase getCourseBase(int? CourseId) {
+            var course = dc.Courses.SingleOrDefault(n => n.CourseId == CourseId);
+            if (course == null) return null;
+
+            CourseBase cb = new CourseBase();
+            cb.CourseId = course.CourseId;
+            cb.CourseCode = course.CourseCode;
+            cb.CourseName = course.CourseName;
+
+            return cb;
+        }
 
         //======================================
         // getCourseFull()

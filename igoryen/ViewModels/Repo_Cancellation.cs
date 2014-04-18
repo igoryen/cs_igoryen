@@ -46,9 +46,17 @@ namespace igoryen.ViewModels {
 
             Models.Cancellation cancellation = Mapper.Map<Models.Cancellation>(newItem);
             int courseIdInt = Convert.ToInt32(courseId);
-            cancellation.Course = dc.Courses.FirstOrDefault(n => n.CourseId == courseIdInt);
 
-            if (cancellation.Course == null) return null; // 50
+            //======= alternating ==============================
+            // cancellation.Course = dc.Courses.FirstOrDefault(n => n.CourseId == courseIdInt);
+            //--------------------------------------------------
+            var course = dc.Courses.FirstOrDefault(n => n.CourseId == courseIdInt);
+            cancellation.CourseBase.CourseCode = course.CourseCode;
+            cancellation.CourseBase.CourseId = course.CourseId;
+            cancellation.CourseBase.CourseName = course.CourseName;
+            //==================================================
+
+            if (cancellation.CourseBase == null) return null; // 50
 
             dc.Cancellations.Add(cancellation);
             dc.SaveChanges();
@@ -66,7 +74,14 @@ namespace igoryen.ViewModels {
             cancellation.CancellationId = newItem.CancellationId;
             cancellation.Date = newItem.Date;
             cancellation.Message = newItem.Message;
-            cancellation.Course = course;
+            //======= alternating ============================
+            // cancellation.Course = course;
+            //------------------------------------------------
+            cancellation.CourseBase = new CourseBase();
+            cancellation.CourseBase.CourseCode = course.CourseCode;
+            cancellation.CourseBase.CourseId = course.CourseId;
+            cancellation.CourseBase.CourseName = course.CourseName;
+            //================================================
 
             dc.Cancellations.Add(cancellation); // 53
             try {
@@ -155,11 +170,9 @@ namespace igoryen.ViewModels {
             ccf.CancellationId = cancellation.CancellationId;
             ccf.Date = cancellation.Date;
             ccf.Message = cancellation.Message;
-            ccf.CourseFull = 
-                rc.
-                getCourseFull(
-                cancellation.
-                Course.
+            ccf.CourseBase = 
+                rc.getCourseBase(
+                cancellation.CourseBase.
                 CourseId);
 
             return ccf;
