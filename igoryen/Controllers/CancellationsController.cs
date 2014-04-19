@@ -246,6 +246,7 @@ namespace igoryen.Controllers {
         }
 
         // GET: /Cancellations/
+        // Index()
         public ActionResult Index() {
             string userId = User.Identity.GetUserId();
             var currentUser = manager.FindById(userId);
@@ -253,7 +254,8 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage5 = "CancellationsController.cs/Index()/currentUser: null";
                 return View("Error");
             }
-            return View(dc.Cancellations.ToList().Where(cancellation => cancellation.User.Id == currentUser.Id));
+            //return View(dc.Cancellations.Where(cancellation => cancellation.User.Id == currentUser.Id));
+            return View(rcc.getListOfCancellationFull(currentUser.Id));
         }
 
     }

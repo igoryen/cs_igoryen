@@ -82,6 +82,6 @@ namespace igoryen.ViewModels {
         public CancellationFull() {
             //this.Faculty = new FacultyFull();
             this.CourseBase = new CourseBase();
-        }
+            }
     }
 }

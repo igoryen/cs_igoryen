@@ -1,4 +1,4 @@
-﻿@model IEnumerable<igoryen.Models.Cancellation>
+﻿@model IEnumerable<igoryen.ViewModels.CancellationFull>
 
 @{
     ViewBag.Title = "Index";
@@ -12,22 +12,30 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Message)
+            Course
         </th>
         <th>
-            User
+            @Html.DisplayNameFor(model => model.Date)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Message)
+            @Html.DisplayFor(modelItem => item.CourseBase.CourseCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
+            @Html.DisplayFor(modelItem => item.Date)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CancellationId }) |
             @Html.ActionLink("Details", "Details", new { id=item.CancellationId }) |

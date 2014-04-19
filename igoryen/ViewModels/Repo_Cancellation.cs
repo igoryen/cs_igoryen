@@ -171,11 +171,12 @@ namespace igoryen.ViewModels {
         //======================================
         // getListOfCancellationBase() 
         //====================================== 
-        /*
-        public static List<CancellationBase> getListOfCancellationBase(List<igoryen.Models.Cancellation> ls) {
+        
+        public IEnumerable<CancellationBase> getListOfCancellationBase(string currentUserId) {
+          var all_cancellations = dc.Cancellations.Include("Course").Where(cancellation => cancellation.User.Id == currentUserId);
           List<CancellationBase> lcb = new List<CancellationBase>();
 
-          foreach (var item in ls) {
+          foreach (var item in all_cancellations) {
             CancellationBase cb = new CancellationBase();
             cb.CancellationId = item.CancellationId;
             cb.Date = item.Date;
@@ -183,7 +184,26 @@ namespace igoryen.ViewModels {
           }
 
           return lcb;
-        }*/
+        }
+
+        //======================================
+        // getListOfCancellationBase() 
+        //====================================== 
+        public List<CancellationFull> getListOfCancellationFull(string currentUserId) {
+            var all_cancellations = dc.Cancellations.Include("CourseBase").Where(cancellation => cancellation.User.Id == currentUserId);
+            List<CancellationFull> lcf = new List<CancellationFull>();
+            foreach (var item in all_cancellations) {
+                CancellationFull cf = new CancellationFull();
+                cf.CancellationId = item.CancellationId;
+                cf.Date = item.Date;
+                cf.Message = item.Message;
+                cf.CourseBase = new CourseBase();
+                cf.CourseBase = item.CourseBase;
+                lcf.Add(cf);
+            }
+
+            return lcf;
+        }
 
         // I
 
