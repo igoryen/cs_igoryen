@@ -82,6 +82,16 @@ namespace igoryen.ViewModels {
             cancellation.CourseBase.CourseId = course.CourseId;
             cancellation.CourseBase.CourseName = course.CourseName;
             //================================================
+            //---- option 2 ----------------------------------
+            //for (int i = 0; i < dc.Students.Count(); i++) {
+            //    for (int j = 0; j < dc.Students.ElementAt(i).Courses.Count(); j++) {
+            //        if (dc.Students.ElementAt(i).Courses.ElementAt(j).CourseId == course.CourseId) {
+            //            cancellation.User = dc.Students.ElementAt(i).UserName; << fail
+            //        }
+
+            //    }
+            //}
+            //------------------------------------------------
 
             return cancellation;
         }
@@ -187,7 +197,7 @@ namespace igoryen.ViewModels {
         }
 
         //======================================
-        // getListOfCancellationBase() 
+        // getListOfCancellationFull() 
         //====================================== 
         public List<CancellationFull> getListOfCancellationFull(string currentUserId) {
             var all_cancellations = dc.Cancellations.Include("CourseBase").Where(cancellation => cancellation.User.Id == currentUserId);

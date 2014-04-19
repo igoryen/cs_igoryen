@@ -260,14 +260,40 @@ namespace igoryen.Controllers {
             }
             //---------------------------------------------------------
             // checking the role
-            if (User.IsInRole("Student")) {
-                var errors = new ViewModels.VM_Error();
-                errors.ErrorMessages["ExceptionMessage"] = "Hello, student "+ currentUser.MyUserInfo.FirstName;
-                return View("Error", errors); // 12
-            }
-            else {
+            //if (User.IsInRole("Student")) {
+            //    var errors = new ViewModels.VM_Error();
+            //    errors.ErrorMessages["ExceptionMessage"] = "Hello, student " + currentUser.MyUserInfo.FirstName;
+            //    return View("Error", errors); // 12
+                //--- Option 1 ------------------------------------------
+
+                //currentUser.Id.
+                //for (int cc = 0; cc < dc.Cancellations.Count(); cc++){ // 10
+                //    dc.Cancellations.ElementAt(cc).CourseBase.
+
+                //}
+                //List<Course> crss = new List<Course>(); // 20
+                //for (int c = 0; c < dc.Courses.Count(); c++) { // 30
+                //    for (int s = 0; s < dc.Courses.ElementAt(c).Students.Count(); s++) { // 40
+                //        for (int cs = 0; cs < dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.Count(); cs ++){ // 50
+                //            if(dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs).User.Id == currentUser.Id){
+                //                crss.Add(dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs));
+                //            }
+                            
+                //        }
+
+                //    }
+                //}
+                // 10. for each of all the `Cancellation` objects
+                // 20. for all the courses which the currentUser (Student) is registered in.
+                // 30. for each of all the `Course` objects
+                // 40. for each of the `Course`s `Student` objects
+                // 50. for each of the Course's Student's `Course` objects
+                //-------------------------------------------------------
+                   
+            //}
+            //else {
                 return View(rcc.getListOfCancellationFull(currentUser.Id));
-            }
+            //}
             //---------------------------------------------------------
             //return View(dc.Cancellations.Where(cancellation => cancellation.User.Id == currentUser.Id));
             //return View(rcc.getListOfCancellationFull(currentUser.Id));
