@@ -163,22 +163,26 @@ namespace igoryen.Controllers {
 
         // Cancellation/Details
         // Details()
-        public async Task<ActionResult> Details(int? CancellationId) {
-            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+        public ActionResult Details(int? CancellationId) {
+            var currentUser = manager.FindById(User.Identity.GetUserId());
             if (CancellationId == null) {
                 var errors = new ViewModels.VM_Error();
                 errors.ErrorMessages["ExceptionMessage"] = "No CancellationId specified";
                 return View("Error", errors); // 12
             }
-            Cancellation cancellation = await dc.Cancellations.FindAsync(CancellationId);
+            Cancellation cancellation = dc.Cancellations.Include("CourseBase").SingleOrDefault(cc => cc.CancellationId == CancellationId);
             if (cancellation == null) {
                 return HttpNotFound();
             }
             if (cancellation.User.Id != currentUser.Id) {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
+            CancellationFull ccf = new CancellationFull();
+            ccf.CancellationId = cancellation.CancellationId;
+            ccf.CourseBase = cancellation.CourseBase;
+            ccf.Date = cancellation.Date;
 
-            return View(cancellation);
+            return View(ccf);
         }
 
 
