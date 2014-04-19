@@ -79,16 +79,15 @@ namespace igoryen.Controllers {
                 cancellation.Users = new List<ApplicationUser>();
                 cancellation.Users.Add(currentuser); //<=========================!!!!
                 //--- add Students who are registered for this course----------
-                var coursesCount = dc.Courses.Count();
-                foreach (var c in dc.Courses) { // 57
-                    if (c.CourseId == cancellation.CourseBase.CourseId) { // 59
-                        var studentsCount = c.Students.Count();
-                        foreach (var st in c.Students) {
-                            var user = manager.FindByName(st.UserName); // 60
-                            cancellation.Users.Add(user); // 61
-
+                var studentsCount = dc.Students.Count();
+                foreach (var st in dc.Students.Include("Courses")) { // 57
+                    var coursesCount = st.Courses.Count();
+                    foreach (var crs in st.Courses) {
+                        if (crs.CourseId == cancellation.CourseBase.CourseId) {
+                            var user = manager.FindByName(st.UserName);
+                            cancellation.Users.Add(user);
                         }
-                    }                    
+                    }
                 }
                 //-------------------------------------------------------------
                 dc.Cancellations.Add(cancellation); // 53

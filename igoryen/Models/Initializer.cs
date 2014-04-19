@@ -535,7 +535,7 @@ namespace igoryen.Models {
 
                 dc.SaveChanges();
 
-                var course = dc.Courses;
+                //var course = dc.Courses;
 
             } // try
             catch (DbEntityValidationException e) {
