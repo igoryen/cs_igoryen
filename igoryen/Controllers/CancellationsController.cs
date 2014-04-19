@@ -258,6 +258,20 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage5 = "CancellationsController.cs/Index()/currentUser: null";
                 return View("Error");
             }
+            //---------------------------------------------------------
+            // checking the role
+            string role = null;
+            role =
+                System.
+                Web.
+                Security.
+                Roles.
+                GetRolesForUser().
+                Single();
+
+            //var roles = dc.Roles.OrderBy(x => x.Name);
+
+            //---------------------------------------------------------
             //return View(dc.Cancellations.Where(cancellation => cancellation.User.Id == currentUser.Id));
             return View(rcc.getListOfCancellationFull(currentUser.Id));
         }
