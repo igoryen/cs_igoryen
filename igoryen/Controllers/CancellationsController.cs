@@ -260,20 +260,17 @@ namespace igoryen.Controllers {
             }
             //---------------------------------------------------------
             // checking the role
-            string role = null;
-            role =
-                System.
-                Web.
-                Security.
-                Roles.
-                GetRolesForUser().
-                Single();
-
-            //var roles = dc.Roles.OrderBy(x => x.Name);
-
+            if (User.IsInRole("Student")) {
+                var errors = new ViewModels.VM_Error();
+                errors.ErrorMessages["ExceptionMessage"] = "Hello, student "+ currentUser.MyUserInfo.FirstName;
+                return View("Error", errors); // 12
+            }
+            else {
+                return View(rcc.getListOfCancellationFull(currentUser.Id));
+            }
             //---------------------------------------------------------
             //return View(dc.Cancellations.Where(cancellation => cancellation.User.Id == currentUser.Id));
-            return View(rcc.getListOfCancellationFull(currentUser.Id));
+            //return View(rcc.getListOfCancellationFull(currentUser.Id));
         }
 
     }
