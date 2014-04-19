@@ -183,7 +183,8 @@ namespace igoryen.ViewModels {
         //====================================== 
         
         public IEnumerable<CancellationBase> getListOfCancellationBase(string currentUserId) {
-          var all_cancellations = dc.Cancellations.Include("Course").Where(cancellation => cancellation.User.Id == currentUserId);
+          var all_cancellations = dc.Cancellations.Include("Course").Where(
+              cancellation => cancellation.Users.Any(u => u.Id == currentUserId)); // 55
           List<CancellationBase> lcb = new List<CancellationBase>();
 
           foreach (var item in all_cancellations) {
@@ -200,7 +201,8 @@ namespace igoryen.ViewModels {
         // getListOfCancellationFull() 
         //====================================== 
         public List<CancellationFull> getListOfCancellationFull(string currentUserId) {
-            var all_cancellations = dc.Cancellations.Include("CourseBase").Where(cancellation => cancellation.User.Id == currentUserId);
+            var all_cancellations = dc.Cancellations.Include("CourseBase").Where(
+                cancellation => cancellation.Users.Any(u => u.Id == currentUserId)); // 55
             List<CancellationFull> lcf = new List<CancellationFull>();
             foreach (var item in all_cancellations) {
                 CancellationFull cf = new CancellationFull();

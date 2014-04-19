@@ -524,6 +524,14 @@ namespace igoryen.Models {
                 c.Students.Add(john);
                 john.Courses.Add(c);
                 dc.Courses.Add(c);
+                //----------------------
+                bob.Courses.Count();
+                mary.Courses.Count();
+                wei.Courses.Count();
+                john.Courses.Count();
+                jack.Courses.Count();
+                jill.Courses.Count();
+                //--------------------
 
                 dc.SaveChanges();
 

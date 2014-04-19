@@ -76,8 +76,20 @@ namespace igoryen.Controllers {
 
             if (ModelState.IsValid && newItem.CourseId != -1) { // 39 
                 var cancellation = rcc.createCancellation(newItem); // 52
-                cancellation.User = currentuser; //<=========================!!!!                
-                //--------------------------------------------------
+                cancellation.Users = new List<ApplicationUser>();
+                cancellation.Users.Add(currentuser); //<=========================!!!!
+                //--- add Students who are registered for this course----------
+                var studentsCount = dc.Students.Count();
+                foreach (var st in dc.Students.ToList()) { // 57
+                    var coursesCount = st.Courses.Count();
+                    foreach (var crs in st.Courses.ToList()) {
+                        if (crs.CourseId == cancellation.CourseBase.CourseId) {
+                            var user = manager.FindByName(st.UserName);
+                            cancellation.Users.Add(user);
+                        }
+                    }
+                }
+                //-------------------------------------------------------------
                 dc.Cancellations.Add(cancellation); // 53
                 try {
                     dc.SaveChanges();
@@ -144,7 +156,7 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
                 return View("Error");
             }
-            if (cancellation.User.Id != currentUser.Id) {
+            if (!cancellation.Users.Any(u => u.Id == currentUser.Id)){
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(cancellation);
@@ -174,7 +186,7 @@ namespace igoryen.Controllers {
             if (cancellation == null) {
                 return HttpNotFound();
             }
-            if (cancellation.User.Id != currentUser.Id) {
+            if (!cancellation.Users.Any(u => u.Id == currentUser.Id)) {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             CancellationFull ccf = new CancellationFull();
@@ -207,7 +219,7 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage = "That record could not be edited because it doesn't exist";
                 return View("Error");
             }
-            if (cancellation.User.Id != currentUser.Id) {
+            if (!cancellation.Users.Any(u => u.Id == currentUser.Id)) { // 56
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(cancellation);
@@ -232,22 +244,22 @@ namespace igoryen.Controllers {
         }
 
         // GET: /Cancellations/Find/
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Find(Cancellation cancellation) {
-            string userName1 = cancellation.User.UserName;
-            if (userName1 == null) {
-                ViewBag.ExceptionMessage0 = "GET: Find() passed to POST: Find() this value: >>" + userName1 + "<<";
-                return View("Error");
-            }
-            return RedirectToAction("Found", new { userName2 = userName1 });
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Find(Cancellation cancellation) {
+        //    string userName1 = cancellation.User.UserName;
+        //    if (userName1 == null) {
+        //        ViewBag.ExceptionMessage0 = "GET: Find() passed to POST: Find() this value: >>" + userName1 + "<<";
+        //        return View("Error");
+        //    }
+        //    return RedirectToAction("Found", new { userName2 = userName1 });
+        //}
 
 
-        public ActionResult Found(string userName2) {
-            //ViewBag.debug0 = "userName4Search: >>" + userName2 + "<<";
-            return View(dc.Cancellations.ToList().Where(Cancellation => Cancellation.User.UserName == userName2));
-        }
+        //public ActionResult Found(string userName2) {
+        //    //ViewBag.debug0 = "userName4Search: >>" + userName2 + "<<";
+        //    return View(dc.Cancellations.ToList().Where(Cancellation => Cancellation.User.UserName == userName2));
+        //}
 
         // GET: /Cancellations/
         // Index()

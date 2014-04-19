@@ -41,7 +41,7 @@ namespace igoryen.Models {
     //--------------------------------------------------
     public string Date { get; set; }
     public string Message { get; set; }
-    public virtual ApplicationUser User { get; set; }
+    public virtual List<ApplicationUser> Users { get; set; }
     //public virtual IdentityUser User { get; set; }
   }
 

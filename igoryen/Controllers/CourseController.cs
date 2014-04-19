@@ -239,31 +239,9 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage0 = "CourseController.cs/Index()/currentUser: >>" + currentUser + "<<";
                 return View("Error");
             }
-            //===========================================================
-            if (User.IsInRole("Student")) {
-                List<Course> crss = new List<Course>(); // 20
+            
+            return View(dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id));
 
-                int dcc = dc.Courses.Count(); // 54
-                for (int c = 0; c < dcc; c++) { // 30
-
-                    int csc = dc.Courses.ElementAt(c).Students.Count(); // 55
-                    for (int s = 0; s < csc; s++) { // 40
-
-                        int scs = dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.Count();
-                        for (int cs = 0; cs < scs; cs++) { // 50
-                            if (dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs).User.Id == currentUser.Id) {
-                                crss.Add(dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs));
-                            }
-
-                        }
-
-                    }
-                } // 
-                return View(crss.ToList());
-            } // if role = student
-            else {
-                return View(dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id));
-            }
             //===========================================================
             //List<Course> courses = new List<Course>();
             //var course =  dc.Courses.FirstOrDefault(c => c.Users.FirstOrDefault(cr => cr.UserName))
