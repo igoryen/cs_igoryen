@@ -53,7 +53,7 @@ namespace igoryen.Controllers {
 
             if (courses == null) {
                 var errors = new ViewModels.VM_Error();
-                errors.ErrorMessages["ExceptionMessage"] = 
+                errors.ErrorMessages["ExceptionMessage"] =
                     "rc.getSelectListOfCourse(currentuser.Id) returned null";
                 return View("Error", errors); // 12
             }
@@ -79,16 +79,16 @@ namespace igoryen.Controllers {
                 cancellation.Users = new List<ApplicationUser>();
                 cancellation.Users.Add(currentuser); //<=========================!!!!
                 //--- add Students who are registered for this course----------
-                var studentsCount = dc.Students.Count();
-                foreach (var st in dc.Students.Include("Courses")) { // 57
-                    var coursesCount = st.Courses.Count();
-                    foreach (var crs in st.Courses) {
-                        if (crs.CourseId == cancellation.CourseBase.CourseId) {
-                            var user = manager.FindByName(st.UserName);
-                            cancellation.Users.Add(user);
-                        }
-                    }
-                }
+                //var studentsCount = dc.Students.Count();
+                //foreach (var st in dc.Students.Include("Courses")) { // 57
+                //    var coursesCount = st.Courses.Count();
+                //    foreach (var crs in st.Courses) {
+                //        if (crs.CourseId == cancellation.CourseBase.CourseId) {
+                //            var user = manager.FindByName(st.UserName);
+                //            cancellation.Users.Add(user);
+                //        }
+                //    }
+                //}
                 //-------------------------------------------------------------
                 dc.Cancellations.Add(cancellation); // 53
                 try {
@@ -119,7 +119,7 @@ namespace igoryen.Controllers {
                 } // catch
 
                 var createdCancellationFull = rcc.getCancellationFull(cancellation.CancellationId);
-             
+
                 //--------------------------------------------------
                 //var createdCancellationFull = getCancellationFull(cancellation.CancellationId);
 
@@ -132,7 +132,7 @@ namespace igoryen.Controllers {
                 }
             }
             else {
-                if (newItem.CourseId == -1) 
+                if (newItem.CourseId == -1)
                     ModelState.AddModelError("CourseSelectList", "Select a Course");
                 //if (newItem.GenreId == null) ModelState.AddModelError("GenreSelectList", "Select One or More Genres");
 
@@ -156,7 +156,7 @@ namespace igoryen.Controllers {
                 ViewBag.ExceptionMessage = "That record could not be deleted because it doesn't exist";
                 return View("Error");
             }
-            if (!cancellation.Users.Any(u => u.Id == currentUser.Id)){
+            if (!cancellation.Users.Any(u => u.Id == currentUser.Id)) {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             return View(cancellation);
@@ -272,44 +272,47 @@ namespace igoryen.Controllers {
             }
             //---------------------------------------------------------
             // checking the role
-            //if (User.IsInRole("Student")) {
-            //    var errors = new ViewModels.VM_Error();
-            //    errors.ErrorMessages["ExceptionMessage"] = "Hello, student " + currentUser.MyUserInfo.FirstName;
-            //    return View("Error", errors); // 12
+            if (User.IsInRole("Student")) {
+                //var errors = new ViewModels.VM_Error();
+                //errors.ErrorMessages["ExceptionMessage"] = "Hello, student " + currentUser.MyUserInfo.FirstName;
+                //return View("Error", errors); // 12
                 //--- Option 1 ------------------------------------------
 
-                //currentUser.Id.
-                //for (int cc = 0; cc < dc.Cancellations.Count(); cc++){ // 10
-                //    dc.Cancellations.ElementAt(cc).CourseBase.
+                List<CancellationFull> lcf = new List<CancellationFull>();
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                foreach (var c in dc.Courses.Include("Students")) { // 1) L1 - get one course
+                    //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                    var c_ss = c.Students.Count();
+                    foreach (var c_s in c.Students) { // L2 - get one student in that one course
+                        //================================================
+                        var c_s_cs = c_s.Courses.Count();
+                        foreach (var c_s_c in c_s.Courses) { // L3 - get one course in that one student in that one course
 
-                //}
-                //List<Course> crss = new List<Course>(); // 20
-                //for (int c = 0; c < dc.Courses.Count(); c++) { // 30
-                //    for (int s = 0; s < dc.Courses.ElementAt(c).Students.Count(); s++) { // 40
-                //        for (int cs = 0; cs < dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.Count(); cs ++){ // 50
-                //            if(dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs).User.Id == currentUser.Id){
-                //                crss.Add(dc.Courses.ElementAt(c).Students.ElementAt(s).Courses.ElementAt(cs));
-                //            }
-                            
-                //        }
-
-                //    }
-                //}
-                // 10. for each of all the `Cancellation` objects
-                // 20. for all the courses which the currentUser (Student) is registered in.
-                // 30. for each of all the `Course` objects
-                // 40. for each of the `Course`s `Student` objects
-                // 50. for each of the Course's Student's `Course` objects
-                //-------------------------------------------------------
-                   
-            //}
-            //else {
+                            //------------------------------------------
+                            var cns = dc.Cancellations.Count();
+                            foreach (var cn in dc.Cancellations.Include("CourseBase")) { // look in dc Cancellations
+                                if ((c_s_c.CourseId == cn.CourseBase.CourseId)) {
+                                    CancellationFull cf = new CancellationFull();
+                                    cf.CancellationId = cn.CancellationId;
+                                    cf.Date = cn.Date;
+                                    cf.Message = cn.Message;
+                                    cf.CourseBase = new CourseBase();
+                                    cf.CourseBase = cn.CourseBase;
+                                    lcf.Add(cf);
+                                } // if
+                            } //------------------------------------------
+                        }//================================================                        
+                    }//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                }//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                
+                return View(lcf);
+            } // if role = student
+            else {
                 return View(rcc.getListOfCancellationFull(currentUser.Id));
-            //}
+            }
             //---------------------------------------------------------
             //return View(dc.Cancellations.Where(cancellation => cancellation.User.Id == currentUser.Id));
             //return View(rcc.getListOfCancellationFull(currentUser.Id));
         }
-
     }
 }
