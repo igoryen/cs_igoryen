@@ -291,14 +291,19 @@ namespace igoryen.Controllers {
                             //------------------------------------------
                             var cns = dc.Cancellations.Count();
                             foreach (var cn in dc.Cancellations.Include("CourseBase")) { // look in dc Cancellations
-                                if ((c_s_c.CourseId == cn.CourseBase.CourseId)) {
-                                    CancellationFull cf = new CancellationFull();
-                                    cf.CancellationId = cn.CancellationId;
-                                    cf.Date = cn.Date;
-                                    cf.Message = cn.Message;
-                                    cf.CourseBase = new CourseBase();
-                                    cf.CourseBase = cn.CourseBase;
-                                    lcf.Add(cf);
+                                if ((c_s_c.CourseId == cn.CourseBase.CourseId)){
+
+                                    foreach (var stt in c_s_c.Students) {//xxxxx
+                                        if (stt.Id == currentUser.Id) {//xxxxxxxx
+                                            CancellationFull cf = new CancellationFull();
+                                            cf.CancellationId = cn.CancellationId;
+                                            cf.Date = cn.Date;
+                                            cf.Message = cn.Message;
+                                            cf.CourseBase = new CourseBase();
+                                            cf.CourseBase = cn.CourseBase;
+                                            lcf.Add(cf);
+                                        }//xxxxxx
+                                    }//xxxxxxxx
                                 } // if
                             } //------------------------------------------
                         }//================================================                        
