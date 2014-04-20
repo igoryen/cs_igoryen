@@ -190,11 +190,7 @@ namespace igoryen.ViewModels {
         //====================================== 
         public IEnumerable<CourseBase> getListOfCourseBaseAM(string currentUserId) {
             var courses = dc.Courses.
-                Where(course =>
-                    course.
-                    User.
-                    Id == 
-                    currentUserId).ToList(); // 38
+                Where(course => course.Users.Any(u => u.Id == currentUserId)); // 38
             if (courses == null) return null;
             return Mapper.Map<IEnumerable<CourseBase>>(courses);
         }

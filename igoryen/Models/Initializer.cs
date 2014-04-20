@@ -247,12 +247,13 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";  
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = new ApplicationUser(); // 36
-                c.User = UserPeter; // 17
+                c.Users = new List<ApplicationUser>(); // 36
+                c.Users.Add(UserPeter); // 17
                 f.Courses.Add(c); // 34
                 c.Students = new List<Student>(); // 37
                 c.Students.Add(bob); // 35
                 bob.Courses.Add(c);
+                c.Users.Add(UserBob);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -265,9 +266,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserPeter;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserPeter);
                 c.Students.Add(mary);
                 mary.Courses.Add(c);
+                c.Users.Add(UserMary);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -280,9 +283,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserPeter;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserPeter);
                 c.Students.Add(wei);
                 wei.Courses.Add(c);
+                c.Users.Add(UserWei);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -295,12 +300,15 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserPeter;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserPeter);
                 c.Students.Add(bob);
                 bob.Courses.Add(c);
                 c.Students.Add(john);
                 john.Courses = new List<Course>();
                 john.Courses.Add(c);
+                c.Users.Add(UserBob);
+                c.Users.Add(UserJohn);
                 dc.Courses.Add(c);
                 c = null;
                 f = null;
@@ -321,12 +329,15 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserAdam;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserAdam);
                 c.Students.Add(mary);
                 mary.Courses.Add(c);
                 c.Students.Add(jack);
                 jack.Courses = new List<Course>();
                 jack.Courses.Add(c);
+                c.Users.Add(UserMary);
+                c.Users.Add(UserJack);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -339,12 +350,15 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserAdam;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserAdam);
                 c.Students.Add(wei);
                 wei.Courses.Add(c);
                 c.Students.Add(jill);
                 jill.Courses = new List<Course>();
                 jill.Courses.Add(c);
+                c.Users.Add(UserWei);
+                c.Users.Add(UserJill);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -357,11 +371,14 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserAdam;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserAdam);
                 c.Students.Add(bob);
                 bob.Courses.Add(c);
                 c.Students.Add(john);
                 john.Courses.Add(c);
+                c.Users.Add(UserBob);
+                c.Users.Add(UserJohn);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -374,11 +391,14 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserAdam;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserAdam);
                 c.Students.Add(mary);
                 mary.Courses.Add(c);
                 c.Students.Add(jack);
                 jack.Courses.Add(c);
+                c.Users.Add(UserMary);
+                c.Users.Add(UserJack);
                 dc.Courses.Add(c);
                 c = null;
                 f = null;
@@ -398,11 +418,14 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserRon;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserRon);
                 c.Students.Add(wei);
                 wei.Courses.Add(c);
                 c.Students.Add(jill);
                 jill.Courses.Add(c);
+                c.Users.Add(UserWei);
+                c.Users.Add(UserJill);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -415,9 +438,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserRon;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserRon);
                 c.Students.Add(jill);
                 jill.Courses.Add(c);
+                c.Users.Add(UserJill);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -430,13 +455,17 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserRon;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserRon);
                 c.Students.Add(bob);
                 bob.Courses.Add(c);
                 c.Students.Add(john);
                 john.Courses.Add(c);
                 c.Students.Add(jack);
                 jack.Courses.Add(c);
+                c.Users.Add(UserBob);
+                c.Users.Add(UserJohn);
+                c.Users.Add(UserJack);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -449,9 +478,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserRon;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserRon);
                 c.Students.Add(bob);
                 bob.Courses.Add(c);
+                c.Users.Add(UserBob);
                 dc.Courses.Add(c);
                 c = null;
                 f = null;
@@ -471,9 +502,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserBill;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserBill);
                 c.Students.Add(mary);
                 mary.Courses.Add(c);
+                c.Users.Add(UserMary);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -486,11 +519,14 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserBill;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserBill);
                 c.Students.Add(mary);
                 mary.Courses.Add(c);
                 c.Students.Add(jack);
                 jack.Courses.Add(c);
+                c.Users.Add(UserMary);
+                c.Users.Add(UserJack);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -503,11 +539,14 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserBill;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserBill);
                 c.Students.Add(wei);
                 wei.Courses.Add(c);
                 c.Students.Add(jill);
                 jill.Courses.Add(c);
+                c.Users.Add(UserWei);
+                c.Users.Add(UserJill);
                 dc.Courses.Add(c);
                 c = null;
                 dc.SaveChanges();
@@ -520,9 +559,11 @@ namespace igoryen.Models {
                 c.RoomNumber = "1000";
                 c.RunTime = "1000";
                 c.Faculty = f;
-                c.User = UserBill;
+                c.Users = new List<ApplicationUser>();
+                c.Users.Add(UserBill);
                 c.Students.Add(john);
                 john.Courses.Add(c);
+                c.Users.Add(UserJohn);
                 dc.Courses.Add(c);
                 //----------------------
                 bob.Courses.Count();

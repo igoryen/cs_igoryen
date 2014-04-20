@@ -240,7 +240,7 @@ namespace igoryen.Controllers {
                 return View("Error");
             }
             
-            return View(dc.Courses.ToList().Where(course => course.User.Id == currentUser.Id));
+            return View(dc.Courses.ToList().Where(course => course.Users.Any(u => u.Id == currentUser.Id)));
 
             //===========================================================
             //List<Course> courses = new List<Course>();

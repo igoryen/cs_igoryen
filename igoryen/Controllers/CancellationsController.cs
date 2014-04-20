@@ -291,10 +291,9 @@ namespace igoryen.Controllers {
                             //------------------------------------------
                             var cns = dc.Cancellations.Count();
                             foreach (var cn in dc.Cancellations.Include("CourseBase")) { // look in dc Cancellations
-                                if ((c_s_c.CourseId == cn.CourseBase.CourseId)){
+                                if ((c_s_c.CourseId == cn.CourseBase.CourseId) &&
+                                    (c_s_c.Users.Any(u => u.Id == currentUser.Id))){
 
-                                    foreach (var stt in c_s_c.Students) {//xxxxx
-                                        if (stt.Id == currentUser.Id) {//xxxxxxxx
                                             CancellationFull cf = new CancellationFull();
                                             cf.CancellationId = cn.CancellationId;
                                             cf.Date = cn.Date;
@@ -302,8 +301,7 @@ namespace igoryen.Controllers {
                                             cf.CourseBase = new CourseBase();
                                             cf.CourseBase = cn.CourseBase;
                                             lcf.Add(cf);
-                                        }//xxxxxx
-                                    }//xxxxxxxx
+
                                 } // if
                             } //------------------------------------------
                         }//================================================                        

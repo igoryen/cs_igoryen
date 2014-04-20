@@ -75,8 +75,8 @@ namespace igoryen.Models {
     public string RunTime { get; set; }
     public Faculty Faculty { get; set; }
     public List<Student> Students { get; set; }
-    public virtual ApplicationUser User { get; set; }
-    //public virtual List<ApplicationUser> Users { get; set; }
+    //public virtual ApplicationUser User { get; set; }
+    public virtual List<ApplicationUser> Users { get; set; }
 
 
 
